@@ -1,0 +1,11 @@
+using UnityEngine;
+
+namespace IslandDefender {
+
+	[CreateAssetMenu(fileName = "fileName", menuName = "menuName")]
+	public class #SCRIPTNAME# : ScriptableObject {
+		
+		
+
+	}
+}
