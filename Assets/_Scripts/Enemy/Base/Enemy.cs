@@ -10,6 +10,8 @@ namespace IslandDefender {
 
         private bool isKnockbackBeingApplied = false;
 
+        [SerializeField] private int startingWave;
+
         #region State Machine Variables
 
         public EnemyStateMachine StateMachine { get; set; }
@@ -32,6 +34,8 @@ namespace IslandDefender {
         #endregion
 
         [field: SerializeField] public Animator Anim { get; private set; }
+
+
 
         private void Awake() {
             EnemyIdleBaseInstance = Instantiate(_enemyIdleBase);
@@ -147,5 +151,9 @@ namespace IslandDefender {
         }
 
         #endregion
+    }
+
+    public enum EnemyType {
+        Frog,
     }
 }
