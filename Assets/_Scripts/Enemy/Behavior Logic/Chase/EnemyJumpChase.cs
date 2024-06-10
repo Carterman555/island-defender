@@ -33,11 +33,29 @@ namespace IslandDefender {
             enemy.CheckForLeftOrRightFacing(enemy.GetMoveSpeed() * direction);
 
             jumpTimer += Time.deltaTime;
-            Debug.Log("Jump counting");
             if (jumpTimer > jumpCooldown) {
-                Debug.Log("Jump");
                 jumpTimer = 0;
                 enemy.RB.AddForce(new Vector2(jumpForce.x * direction, jumpForce.y), ForceMode2D.Impulse);
+            }
+
+            StopOnGrounded();
+        }
+
+        [SerializeField] private LayerMask groundLayer;
+        private bool grounded;
+
+        private void StopOnGrounded() {
+
+            float checkDistance = 0.1f;
+            CapsuleCollider2D col = enemy.GetComponent<CapsuleCollider2D>();
+            bool groundHit = Physics2D.CapsuleCast(col.bounds.center, col.size, col.direction, 0, Vector2.down, checkDistance, groundLayer);
+
+            if (groundHit && !grounded) {
+                grounded = true;
+                enemy.SetEnemyXVel(0);
+            }
+            else if (!groundHit) {
+                grounded = false;
             }
         }
 
@@ -54,7 +72,6 @@ namespace IslandDefender {
         public override void ResetValues() {
             base.ResetValues();
 
-            Debug.Log("Jump Reset");
             jumpTimer = 0;
         }
     }

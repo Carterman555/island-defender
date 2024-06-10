@@ -22,12 +22,12 @@ namespace IslandDefender {
 
         public void AddResource(ResourceType resourceType, int amount) {
             resourceAmounts[resourceType] += amount;
-            OnResourceChanged?.Invoke(resourceType, amount);
+            OnResourceChanged?.Invoke(resourceType, resourceAmounts[resourceType]);
         }
 
         public void RemoveResource(ResourceType resourceType, int amount) {
             resourceAmounts[resourceType] -= amount;
-            OnResourceChanged?.Invoke(resourceType, amount);
+            OnResourceChanged?.Invoke(resourceType, resourceAmounts[resourceType]);
         }
 
 

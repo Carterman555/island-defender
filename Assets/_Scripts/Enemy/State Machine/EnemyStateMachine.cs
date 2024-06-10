@@ -13,7 +13,6 @@ namespace IslandDefender {
             CurrentEnemyState.ExitState();
             CurrentEnemyState = newState;
             CurrentEnemyState.EnterState();
-            Debug.Log("Changed State");
         }
     }
 }

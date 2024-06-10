@@ -1,21 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
+using IslandDefender.Management;
 using UnityEngine;
 
-namespace IslandDefender
-{
-    public class Health : MonoBehaviour
-    {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
+namespace IslandDefender {
+    public class Health : MonoBehaviour, IDamagable {
+
+        [SerializeField] private float maxHealth;
+        private float health;
+
+        private void Awake() {
+            health = maxHealth;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-        
+        public void Damage(float damage, Vector3 attackerPosition) {
+            health -= damage;
+
+            if (health <= 0) {
+                Die();
+            }
+        }
+
+        protected virtual void Die() {
+            ObjectPoolManager.ReturnObjectToPool(gameObject);
         }
     }
 }

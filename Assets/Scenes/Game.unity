@@ -1171,6 +1171,7 @@ GameObject:
   - component: {fileID: 1124871540}
   - component: {fileID: 1124871543}
   - component: {fileID: 1124871544}
+  - component: {fileID: 1124871545}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1300,6 +1301,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cbe6f55a924bda409d18ff27a75d5df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1124871545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124871538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83edac25e69fc12429536d69b25d881b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
 --- !u!1 &1228918385
 GameObject:
   m_ObjectHideFlags: 0
@@ -1520,7 +1534,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1618557163}
   - component: {fileID: 1618557164}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1637,7 +1651,7 @@ GameObject:
   - component: {fileID: 1936051901}
   - component: {fileID: 1936051903}
   - component: {fileID: 1936051902}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2046,6 +2060,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 285063216074448882, guid: 8c71dc6a375ce6c40a2a3796d5605d3e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 522134059670432063, guid: 8c71dc6a375ce6c40a2a3796d5605d3e, type: 3}
       propertyPath: m_Name
       value: FrogEnemy
@@ -2089,6 +2107,18 @@ PrefabInstance:
     - target: {fileID: 2052426047660585117, guid: 8c71dc6a375ce6c40a2a3796d5605d3e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4737339117713384793, guid: 8c71dc6a375ce6c40a2a3796d5605d3e, type: 3}
+      propertyPath: layerFilter.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 7752314981304443906, guid: 8c71dc6a375ce6c40a2a3796d5605d3e, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7752314981304443906, guid: 8c71dc6a375ce6c40a2a3796d5605d3e, type: 3}
+      propertyPath: m_Constraints
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
