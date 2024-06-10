@@ -1,18 +1,16 @@
 using IslandDefender.Management;
 using IslandDefender.Utilities;
-using RoboRiftRush;
 using UnityEngine;
 
 namespace IslandDefender.Environment {
     public class Resource : MonoBehaviour, IDamagable {
 
         [SerializeField] private ResourceType resourceType;
-
         [SerializeField] private RandomInt resourceDropAmount;
 
         private float health = 3;
 
-        public void Damage(float damage) {
+        public void Damage(float damage, Vector3 attackerPosition) {
             health -= damage;
 
             if (health <= 0) {

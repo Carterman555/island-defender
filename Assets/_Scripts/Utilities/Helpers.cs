@@ -1,3 +1,5 @@
+using IslandDefender.Units;
+using IslandDefender;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -34,6 +36,19 @@ public static class Helpers
         Color color = image.color;
         color.a = value;
         image.color = color;
+    }
+
+    public static void RemoveWithCheck<T>(this List<T> list, T item) {
+        if (list.Contains(item)) list.Remove(item);
+    }
+
+    public static T RandomItem<T>(this T[] list) {
+        int randomIndex = UnityEngine.Random.Range(0, list.Length);
+        return list[randomIndex];
+    }
+    public static T RandomItem<T>(this List<T> list) {
+        int randomIndex = UnityEngine.Random.Range(0, list.Count);
+        return list[randomIndex];
     }
 
     public static bool IsMouseOverLayer(int layerMask)
@@ -120,5 +135,28 @@ public static class Helpers
     {
         string original = value.ToString();
         return Regex.Replace(original, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
+    }
+
+    // Game specific
+    public static bool IsCollisionWithFriendly(out IDamagable damagable, Faction faction, GameObject other) {
+
+        if (!other.TryGetComponent(out UnitBase otherUnit)) {
+            damagable = null;
+            return false;
+        }
+
+        if (faction == otherUnit.Faction) {
+            damagable = otherUnit.GetComponent<IDamagable>();
+            return true;
+        }
+        else {
+            damagable = null;
+            return false;
+        }
+    }
+
+    public static bool IsCollisionWithOpposite(out IDamagable damagable, Faction faction, GameObject other) {
+        bool collisionWithOpposite = !IsCollisionWithFriendly(out damagable, faction, other);
+        return collisionWithOpposite;
     }
 }

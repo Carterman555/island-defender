@@ -1,4 +1,3 @@
-using RoboRiftRush;
 using TarodevController;
 using UnityEngine;
 
@@ -37,7 +36,7 @@ namespace IslandDefender {
             RaycastHit2D[] hits = Physics2D.BoxCastAll(center, size, 0, Vector2.right, 0, damagableLayerMask);
 
             foreach (RaycastHit2D hit in hits) {
-                hit.transform.GetComponent<IDamagable>().Damage(damage);
+                hit.transform.GetComponent<IDamagable>().Damage(damage, transform.position);
             }
 
         }
