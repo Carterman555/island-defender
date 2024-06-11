@@ -11,7 +11,7 @@ namespace IslandDefender {
         [SerializeField] private float _stopTime;
         private float _patrolStopTimer;
 
-        public override void DoAnimationTriggerEventLogic(Enemy.AnimationTriggerType triggerType) {
+        public override void DoAnimationTriggerEventLogic(AnimationTriggerType triggerType) {
             base.DoAnimationTriggerEventLogic(triggerType);
         }
 

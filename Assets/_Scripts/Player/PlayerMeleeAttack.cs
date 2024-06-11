@@ -1,8 +1,11 @@
+using System;
 using TarodevController;
 using UnityEngine;
 
 namespace IslandDefender {
-    public class PlayerAttack : MonoBehaviour {
+    public class PlayerMeleeAttack : MonoBehaviour {
+
+        public static event Action OnAttack;
 
         [SerializeField] private LayerMask damagableLayerMask;
 
@@ -14,15 +17,30 @@ namespace IslandDefender {
 
         private float attackTimer = float.MaxValue;
 
+        [SerializeField] private Animator anim;
+        [SerializeField] private PlayerAnimator playerAnimator;
         private PlayerController playerController;
 
         private void Awake() {
             playerController = GetComponent<PlayerController>();
         }
 
+        private void OnEnable() {
+            playerAnimator.OnAnimationTriggered += TryAttack;
+        }
+        private void OnDisable() {
+            playerAnimator.OnAnimationTriggered -= TryAttack;
+        }
+
         private void Update() {
             attackTimer += Time.deltaTime;
             if (attackTimer > cooldown && Input.GetMouseButtonDown(0)) {
+                anim.SetTrigger("meleeAttack");
+            }
+        }
+
+        private void TryAttack(AnimationTriggerType animationTriggerType) {
+            if (animationTriggerType == AnimationTriggerType.MeleeAttack) {
                 Attack();
             }
         }
@@ -39,6 +57,7 @@ namespace IslandDefender {
                 hit.transform.GetComponent<IDamagable>().Damage(damage, transform.position);
             }
 
+            OnAttack?.Invoke();
         }
 
         private float boxWidth => size.x;

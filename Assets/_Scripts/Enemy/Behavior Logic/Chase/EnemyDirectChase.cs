@@ -3,7 +3,7 @@ using UnityEngine;
 namespace IslandDefender {
     [CreateAssetMenu(fileName = "Chase-Direct Chase", menuName = "Enemy Logic/Chase Logic/Direct Chase")]
     public class EnemyDirectChase : EnemyChaseSOBase {
-        public override void DoAnimationTriggerEventLogic(Enemy.AnimationTriggerType triggerType) {
+        public override void DoAnimationTriggerEventLogic(AnimationTriggerType triggerType) {
             base.DoAnimationTriggerEventLogic(triggerType);
         }
 

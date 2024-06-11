@@ -3,8 +3,7 @@ using UnityEngine;
 
 namespace IslandDefender.Units {
 
-    [CreateAssetMenu(fileName = "NewUnit", menuName = "Units/BaseUnit")]
-    public class ScriptableUnit : ScriptableObject {
+    public abstract class ScriptableUnit : ScriptableObject {
         public Faction Faction;
 
         [SerializeField] private Stats _stats;

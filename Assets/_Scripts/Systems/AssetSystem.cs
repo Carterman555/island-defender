@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class AssetSystem : StaticInstance<AssetSystem>
-{
-    [field: SerializeField] public GameObject Example { get; private set; }
+namespace IslandDefender.Systems {
+    public class AssetSystem : StaticInstance<AssetSystem> {
+
+        [SerializeField] private PoisonBallProjectile example;
+        public PoisonBallProjectile Example => example;
+    }
 }

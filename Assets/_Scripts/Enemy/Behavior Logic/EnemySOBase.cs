@@ -20,7 +20,7 @@ namespace IslandDefender {
 
         public virtual void DoPhysicsUpdateLogic() { }
 
-        public virtual void DoAnimationTriggerEventLogic(Enemy.AnimationTriggerType triggerType) { }
+        public virtual void DoAnimationTriggerEventLogic(AnimationTriggerType triggerType) { }
 
         public virtual void ResetValues() { }
     }

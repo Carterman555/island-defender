@@ -16,11 +16,14 @@ namespace IslandDefender {
             if (enemy.ObjectAggroed != null) {
                 enemy.StateMachine.ChangeState(enemy.ChaseState);
             }
+            if (enemy.ObjectWithinStrikingDistance != null) {
+                enemy.StateMachine.ChangeState(enemy.AttackState);
+            }
         }
 
         public override void DoPhysicsUpdateLogic() { }
 
-        public override void DoAnimationTriggerEventLogic(Enemy.AnimationTriggerType triggerType) { }
+        public override void DoAnimationTriggerEventLogic(AnimationTriggerType triggerType) { }
 
         public override void ResetValues() { }
     }

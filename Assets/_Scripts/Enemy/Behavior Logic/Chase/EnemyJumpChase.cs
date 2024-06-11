@@ -12,7 +12,7 @@ namespace IslandDefender {
 
         private Transform player;
 
-        public override void DoAnimationTriggerEventLogic(Enemy.AnimationTriggerType triggerType) {
+        public override void DoAnimationTriggerEventLogic(AnimationTriggerType triggerType) {
             base.DoAnimationTriggerEventLogic(triggerType);
         }
 

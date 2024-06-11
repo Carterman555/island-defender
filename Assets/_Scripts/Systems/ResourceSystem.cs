@@ -1,3 +1,4 @@
+using IslandDefender;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,8 +10,8 @@ using UnityEngine;
 /// </summary>
 public class ResourceSystem : StaticInstance<ResourceSystem>
 {
-    //public List<ScriptableAlly> Allies { get; private set; }
-    //private Dictionary<AllyType, ScriptableAlly> AlliesDict;
+    public List<ScriptableEnemy> Enemies { get; private set; }
+    private Dictionary<EnemyType, ScriptableEnemy> EnemiesDict;
 
     protected override void Awake() {
         base.Awake();
@@ -18,9 +19,9 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
     }
 
     private void AssembleResources() {
-        //Allies = Resources.LoadAll<ScriptableAlly>("Allies").ToList();
-        //AlliesDict = Allies.ToDictionary(r => r.AllyType, r => r);
+        Enemies = Resources.LoadAll<ScriptableEnemy>("").ToList();
+        EnemiesDict = Enemies.ToDictionary(r => r.EnemyType, r => r);
     }
 
-    //public ScriptableAlly GetAlly(AllyType t) => AlliesDict[t];
+    public ScriptableEnemy GetEnemy(EnemyType t) => EnemiesDict[t];
 }   

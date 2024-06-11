@@ -17,6 +17,6 @@ namespace IslandDefender {
 
         public virtual void PhysicsUpdate() { }
 
-        public virtual void AnimationTriggerEvent(Enemy.AnimationTriggerType triggerType) { }
+        public virtual void AnimationTriggerEvent(AnimationTriggerType triggerType) { }
     }
 }

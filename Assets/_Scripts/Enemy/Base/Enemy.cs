@@ -10,8 +10,6 @@ namespace IslandDefender {
 
         private bool isKnockbackBeingApplied = false;
 
-        [SerializeField] private int startingWave;
-
         #region State Machine Variables
 
         public EnemyStateMachine StateMachine { get; set; }
@@ -144,10 +142,6 @@ namespace IslandDefender {
         // played by animation
         private void AnimationTriggerEvent(AnimationTriggerType triggerType) {
             StateMachine.CurrentEnemyState.AnimationTriggerEvent(triggerType);
-        }
-
-        public enum AnimationTriggerType {
-            EnemyAttack
         }
 
         #endregion

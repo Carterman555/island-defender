@@ -3,7 +3,7 @@ using IslandDefender.Utilities;
 using UnityEngine;
 
 namespace IslandDefender.Environment {
-    public class Resource : MonoBehaviour, IDamagable {
+    public class DamagableResource : MonoBehaviour, IDamagable {
 
         [SerializeField] private ResourceType resourceType;
         [SerializeField] private RandomInt resourceDropAmount;
@@ -29,3 +29,5 @@ namespace IslandDefender.Environment {
         Stone,
     }
 }
+
+

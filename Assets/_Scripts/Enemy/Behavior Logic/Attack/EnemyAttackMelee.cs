@@ -5,10 +5,10 @@ namespace IslandDefender {
     public class EnemyAttackMelee : EnemyAttackSOBase {
         private float _timer;
 
-        public override void DoAnimationTriggerEventLogic(Enemy.AnimationTriggerType triggerType) {
+        public override void DoAnimationTriggerEventLogic(AnimationTriggerType triggerType) {
             base.DoAnimationTriggerEventLogic(triggerType);
 
-            if (triggerType.Equals(Enemy.AnimationTriggerType.EnemyAttack)) {
+            if (triggerType.Equals(AnimationTriggerType.MeleeAttack)) {
                 Attack();
             }
         }

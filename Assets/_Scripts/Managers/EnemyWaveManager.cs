@@ -1,4 +1,8 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace IslandDefender {
@@ -9,55 +13,58 @@ namespace IslandDefender {
 	/// </summary>
 	public class EnemyWaveManager : MonoBehaviour {
 
-		[SerializeField] private AnimationCurve spawnIntervalCurve;
+        public static event Action<int> OnNewWave;
 
-		private float currentDifficulty;
+        [SerializeField] private Transform[] spawnPoints;
+
+        private List<EnemyType> availableEnemies = new List<EnemyType>();
+
+        private float currentDifficulty;
 		private int currentWave = 1;
 
+        private float timeBetweenWaves = 10;
+
+        public Vector3 GetRandomSpawnPos() {
+            return spawnPoints.RandomItem().position;
+        }
+
         private void Awake() {
-			float startingDifficulty = 10;
+			float startingDifficulty = 5;
             currentDifficulty = startingDifficulty;
+        }
+
+        private void Start() {
+            UpdateAvailableEnemies();
+
+            new WaveSpawner(this, availableEnemies, currentDifficulty);
+        }
+
+        public IEnumerator FinishedSpawningWave() {
+            yield return new WaitForSeconds(timeBetweenWaves);
+            NextWave();
         }
 
         private void NextWave() {
 			currentWave++;
 
-			float difficultyIncrease = 5;
+			float difficultyIncrease = 3;
 			currentDifficulty += difficultyIncrease;
+
+            UpdateAvailableEnemies();
+
+            new WaveSpawner(this, availableEnemies, currentDifficulty);
+
+            OnNewWave?.Invoke(currentWave);
         }
 
-		private IEnumerator SpawnWave() {
-
-			float difficultyValueRemaining = currentDifficulty;
-
-			while (difficultyValueRemaining > 0) {
-
-				EnemyType enemyToSpawn = ChoseRandomEnemy(currentDifficulty, difficultyValueRemaining);
-				SpawnEnemy(enemyToSpawn);
-				
-				int strengthOfSpawned = -1;
-                difficultyValueRemaining -= strengthOfSpawned;
-
-                float interval = GetSpawnInterval(currentDifficulty);
-                yield return new WaitForSeconds(interval);
-			}
-		}
-
-		private float GetSpawnInterval(float difficulty) {
-            float avgInterval = spawnIntervalCurve.Evaluate(difficulty); // techinically not exactly avg, but close
-            float intervalVariance = 0.3f;
-            float interval = Random.Range(avgInterval * (1 - intervalVariance), avgInterval * (1 + intervalVariance));
-			return interval;
+        // find the enemies that can be spawned depending on wave (harder enemies can only be spawned on later waves)
+        private void UpdateAvailableEnemies() {
+            availableEnemies.Clear();
+            foreach (EnemyType enemyType in Enum.GetValues(typeof(EnemyType))) {
+                if (currentWave >= ResourceSystem.Instance.GetEnemy(enemyType).StartingWave) {
+                    availableEnemies.Add(enemyType);
+                }
+            }
         }
-
-        // chose random enemy weighted based on level difficulty and time in wave (later in wave gets harder)
-        private EnemyType ChoseRandomEnemy(float waveDifficulty, float difficultyValueRemaining) {
-			return EnemyType.Frog;
-		}
-
-		// probably need resource system
-		private void SpawnEnemy(EnemyType enemy) {
-
-		}
     }
 }

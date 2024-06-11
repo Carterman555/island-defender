@@ -3,7 +3,7 @@ namespace IslandDefender {
         public EnemyChaseState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine) {
         }
 
-        public override void AnimationTriggerEvent(Enemy.AnimationTriggerType triggerType) {
+        public override void AnimationTriggerEvent(AnimationTriggerType triggerType) {
             base.AnimationTriggerEvent(triggerType);
 
             _enemy.EnemyChaseBaseInstance.DoAnimationTriggerEventLogic(triggerType);

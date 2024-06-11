@@ -1,14 +1,18 @@
+using IslandDefender;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace IslandDefender {
-    [RequireComponent(typeof(TriggerContactTracker))]
-    public class TouchDamageContinuous : MonoBehaviour {
 
+namespace IslandDefender.Management {
+
+    [RequireComponent(typeof(TriggerContactTracker))]
+    public class TouchDamage : MonoBehaviour {
         [SerializeField] private int damage = 5;
         [SerializeField] private float damageCooldown = 1f; // Damage interval in seconds
 
         private TriggerContactTracker tracker;
+        private Dictionary<GameObject, Coroutine> activeCoroutines = new Dictionary<GameObject, Coroutine>();
 
         private void Awake() {
             tracker = GetComponent<TriggerContactTracker>();
@@ -18,18 +22,24 @@ namespace IslandDefender {
             tracker.OnEnterContact += HandleEnterContact;
             tracker.OnLeaveContact += HandleLeaveContact;
         }
+
         private void OnDisable() {
             tracker.OnEnterContact -= HandleEnterContact;
             tracker.OnLeaveContact -= HandleLeaveContact;
         }
 
         private void HandleEnterContact(GameObject target) {
-            StartCoroutine(DamageOverTime(target));
+            if (!activeCoroutines.ContainsKey(target)) {
+                Coroutine coroutine = StartCoroutine(DamageOverTime(target));
+                activeCoroutines[target] = coroutine;
+            }
         }
 
         private void HandleLeaveContact(GameObject target) {
-            StopCoroutine(DamageOverTime(target));
-
+            if (activeCoroutines.TryGetValue(target, out Coroutine coroutine)) {
+                StopCoroutine(coroutine);
+                activeCoroutines.Remove(target);
+            }
         }
 
         private IEnumerator DamageOverTime(GameObject target) {

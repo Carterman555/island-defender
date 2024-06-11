@@ -22,7 +22,7 @@ namespace IslandDefender {
 
         public override void DoPhysicsUpdateLogic() { }
 
-        public override void DoAnimationTriggerEventLogic(Enemy.AnimationTriggerType triggerType) { }
+        public override void DoAnimationTriggerEventLogic(AnimationTriggerType triggerType) { }
 
         public override void ResetValues() { }
     }
