@@ -26,6 +26,9 @@ namespace IslandDefender {
         private void OnEnable() {
             playerAnimator.OnAnimationTriggered += TryPickup;
         }
+        private void OnDisable() {
+            playerAnimator.OnAnimationTriggered -= TryPickup;
+        }
 
         private void TryPickup(AnimationTriggerType animationTriggerType) {
             if (pickupableTouching != null && animationTriggerType == AnimationTriggerType.Pickup) {

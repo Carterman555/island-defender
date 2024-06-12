@@ -9,7 +9,7 @@ namespace IslandDefender.Environment {
         [SerializeField] private RandomInt resourceDropAmount;
 
         public void Pickup() {
-            PlayerResources.Instance.AddResource(ResourceType.Wood, resourceDropAmount.Randomize());
+            PlayerResources.Instance.AddResource(resourceType, resourceDropAmount.Randomize());
             ObjectPoolManager.ReturnObjectToPool(gameObject);
         }
     }

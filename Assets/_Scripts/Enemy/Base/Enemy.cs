@@ -33,8 +33,6 @@ namespace IslandDefender {
 
         [field: SerializeField] public Animator Anim { get; private set; }
 
-
-
         private void Awake() {
             EnemyIdleBaseInstance = Instantiate(_enemyIdleBase);
             EnemyChaseBaseInstance = Instantiate(_enemyChaseBase);

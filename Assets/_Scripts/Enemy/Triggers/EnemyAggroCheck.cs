@@ -12,8 +12,7 @@ namespace IslandDefender {
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
-
-            if (Helpers.IsCollisionWithOpposite(out IDamagable damagable, _enemy.Faction, collision.gameObject)) {
+            if (collision.gameObject.layer == GameLayers.PlayerLayer) {
                 _objectsInRange.Add(collision.gameObject);
                 _enemy.SetAggroedObject(_objectsInRange[0]);
             }
@@ -21,7 +20,7 @@ namespace IslandDefender {
 
         private void OnTriggerExit2D(Collider2D collision) {
 
-            if (Helpers.IsCollisionWithOpposite(out IDamagable damagable, _enemy.Faction, collision.gameObject)) {
+            if (collision.gameObject.layer == GameLayers.PlayerLayer) {
                 _objectsInRange.RemoveWithCheck(collision.gameObject);
 
                 if (_objectsInRange.Count > 0)

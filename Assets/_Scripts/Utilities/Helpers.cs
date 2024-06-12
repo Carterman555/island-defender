@@ -138,25 +138,31 @@ public static class Helpers
     }
 
     // Game specific
-    public static bool IsCollisionWithFriendly(out IDamagable damagable, Faction faction, GameObject other) {
+    //public static bool IsCollisionWithFriendly(out IDamagable damagable, Faction faction, GameObject other) {
 
-        if (!other.TryGetComponent(out UnitBase otherUnit)) {
-            damagable = null;
-            return false;
-        }
+    //    if (!other.TryGetComponent(out UnitBase otherUnit)) {
+    //        damagable = null;
+    //        return false;
+    //    }
 
-        if (faction == otherUnit.Faction) {
-            damagable = otherUnit.GetComponent<IDamagable>();
-            return true;
-        }
-        else {
-            damagable = null;
-            return false;
-        }
-    }
+    //    if (faction == otherUnit.Faction) {
+    //        damagable = otherUnit.GetComponent<IDamagable>();
+    //        return true;
+    //    }
+    //    else {
+    //        damagable = null;
+    //        return false;
+    //    }
+    //}
 
-    public static bool IsCollisionWithOpposite(out IDamagable damagable, Faction faction, GameObject other) {
-        bool collisionWithOpposite = !IsCollisionWithFriendly(out damagable, faction, other);
-        return collisionWithOpposite;
-    }
+    //public static bool IsCollisionWithOpposite(out IDamagable damagable, Faction faction, GameObject other) {
+
+    //    if (!other.TryGetComponent(out UnitBase otherUnit)) {
+    //        damagable = null;
+    //        return false;
+    //    }
+
+    //    bool collisionWithOpposite = !IsCollisionWithFriendly(out damagable, faction, other);
+    //    return collisionWithOpposite;
+    //}
 }

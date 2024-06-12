@@ -162,4 +162,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poisonAreaPrefab: {fileID: 8669940314918343873, guid: f20dcc6c1191f56489da24b2f13b81ba, type: 3}
-  shootForce: {x: 500, y: 900}
+  shootForce: {x: 300, y: 700}

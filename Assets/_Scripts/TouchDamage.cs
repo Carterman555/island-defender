@@ -8,7 +8,7 @@ namespace IslandDefender.Management {
 
     [RequireComponent(typeof(TriggerContactTracker))]
     public class TouchDamage : MonoBehaviour {
-        [SerializeField] private int damage = 5;
+        [SerializeField] private int damage = 1;
         [SerializeField] private float damageCooldown = 1f; // Damage interval in seconds
 
         private TriggerContactTracker tracker;
@@ -21,11 +21,17 @@ namespace IslandDefender.Management {
         private void OnEnable() {
             tracker.OnEnterContact += HandleEnterContact;
             tracker.OnLeaveContact += HandleLeaveContact;
+
+            ResetValues();
         }
 
         private void OnDisable() {
             tracker.OnEnterContact -= HandleEnterContact;
             tracker.OnLeaveContact -= HandleLeaveContact;
+        }
+
+        private void ResetValues() {
+            activeCoroutines.Clear();
         }
 
         private void HandleEnterContact(GameObject target) {

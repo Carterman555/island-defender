@@ -3,29 +3,29 @@ using UnityEngine;
 
 namespace IslandDefender {
     public class EnemyStrikingDistanceCheck : MonoBehaviour {
-        private Enemy _enemy;
+        private Enemy enemy;
 
-        private List<GameObject> _objectsInRange = new();
+        private List<GameObject> objectsInRange = new();
 
         private void Awake() {
-            _enemy = GetComponentInParent<Enemy>();
+            enemy = GetComponentInParent<Enemy>();
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            if (Helpers.IsCollisionWithOpposite(out IDamagable damagable, _enemy.Faction, collision.gameObject)) {
-                _objectsInRange.Add(collision.gameObject);
-                _enemy.SetStrikingDistanceObject(_objectsInRange[0]);
+            if (collision.gameObject.layer == GameLayers.PlayerLayer) {
+                objectsInRange.Add(collision.gameObject);
+                enemy.SetStrikingDistanceObject(objectsInRange[0]);
             }
         }
 
         private void OnTriggerExit2D(Collider2D collision) {
-            if (Helpers.IsCollisionWithOpposite(out IDamagable damagable, _enemy.Faction, collision.gameObject)) {
-                _objectsInRange.RemoveWithCheck(collision.gameObject);
+            if (collision.gameObject.layer == GameLayers.PlayerLayer) {
+                objectsInRange.RemoveWithCheck(collision.gameObject);
 
-                if (_objectsInRange.Count > 0)
-                    _enemy.SetStrikingDistanceObject(_objectsInRange[0]);
+                if (objectsInRange.Count > 0)
+                    enemy.SetStrikingDistanceObject(objectsInRange[0]);
                 else
-                    _enemy.SetStrikingDistanceObject(null);
+                    enemy.SetStrikingDistanceObject(null);
             }
         }
     }

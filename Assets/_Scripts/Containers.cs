@@ -6,5 +6,6 @@ namespace IslandDefender.Environment {
 		[field: SerializeField] public Transform Enemies { get; private set; }
 		[field: SerializeField] public Transform Resources { get; private set; }
 		[field: SerializeField] public Transform Projectiles { get; private set; }
+		[field: SerializeField] public Transform Buildings { get; private set; }
 	}
 }

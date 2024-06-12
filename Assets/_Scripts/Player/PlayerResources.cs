@@ -30,6 +30,8 @@ namespace IslandDefender {
             OnResourceChanged?.Invoke(resourceType, resourceAmounts[resourceType]);
         }
 
-
+        public int GetResourceAmount(ResourceType resourceType) {
+            return resourceAmounts[resourceType];
+        }
     }
 }

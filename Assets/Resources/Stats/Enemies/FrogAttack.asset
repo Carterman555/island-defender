@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a248299b28598b34586ed24fa92af057, type: 3}
   m_Name: FrogAttack
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 1163468532105051526, guid: 2b94e4324eb7b4643b908900f121895d, type: 3}
+  projectileOffset: {x: 0, y: 0.5}

@@ -1,21 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
+using IslandDefender.Management;
 using UnityEngine;
 
-namespace IslandDefender
-{
-    public class PoisonArea : MonoBehaviour
-    {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
+namespace IslandDefender {
+    public class PoisonArea : MonoBehaviour {
+
+        [SerializeField] private float duration;
+        private float timer;
+
+        private void OnEnable() {
+            ResetValues();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-        
+        private void ResetValues() {
+            timer = 0;
+        }
+
+        private void Update() {
+            timer += Time.deltaTime;
+            if (timer > duration) {
+                ObjectPoolManager.ReturnObjectToPool(gameObject);
+            }
         }
     }
 }

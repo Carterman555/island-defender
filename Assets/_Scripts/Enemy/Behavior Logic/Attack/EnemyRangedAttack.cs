@@ -55,8 +55,6 @@ namespace IslandDefender {
 
             if (enemy.ObjectWithinStrikingDistance == null) return;
 
-            enemy.SetEnemyXVel(0);
-
             timer += Time.deltaTime;
             if (timer > enemy.Stats.AttackCooldown) {
                 // play animation which will play Attack()

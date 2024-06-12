@@ -19,7 +19,7 @@ namespace IslandDefender.Environment {
         }
 
         private void Die() {
-            PlayerResources.Instance.AddResource(ResourceType.Wood, resourceDropAmount.Randomize());
+            PlayerResources.Instance.AddResource(resourceType, resourceDropAmount.Randomize());
             ObjectPoolManager.ReturnObjectToPool(gameObject);
         }
     }
