@@ -18,4 +18,10 @@ namespace IslandDefender {
         [SerializeField] private int spawnWeight;
         public int SpawnWeight => spawnWeight;
     }
+
+    public enum EnemyType {
+        Frog,
+        //Snake,
+        //Snail,
+    }
 }

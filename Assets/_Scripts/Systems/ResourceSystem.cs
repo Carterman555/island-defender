@@ -11,7 +11,10 @@ using UnityEngine;
 public class ResourceSystem : StaticInstance<ResourceSystem>
 {
     public List<ScriptableEnemy> Enemies { get; private set; }
-    private Dictionary<EnemyType, ScriptableEnemy> EnemiesDict;
+    private Dictionary<EnemyType, ScriptableEnemy> enemiesDict;
+
+    public List<ScriptableAlly> Allies { get; private set; }
+    private Dictionary<AllyType, ScriptableAlly> alliesDict;
 
     protected override void Awake() {
         base.Awake();
@@ -20,8 +23,12 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
 
     private void AssembleResources() {
         Enemies = Resources.LoadAll<ScriptableEnemy>("").ToList();
-        EnemiesDict = Enemies.ToDictionary(r => r.EnemyType, r => r);
+        enemiesDict = Enemies.ToDictionary(r => r.EnemyType, r => r);
+
+        Allies = Resources.LoadAll<ScriptableAlly>("").ToList();
+        alliesDict = Allies.ToDictionary(r => r.AllyType, r => r);
     }
 
-    public ScriptableEnemy GetEnemy(EnemyType t) => EnemiesDict[t];
+    public ScriptableEnemy GetEnemy(EnemyType t) => enemiesDict[t];
+    public ScriptableAlly GetAlly(AllyType t) => alliesDict[t];
 }   

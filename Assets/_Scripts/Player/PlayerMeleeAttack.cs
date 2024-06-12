@@ -2,7 +2,9 @@ using System;
 using TarodevController;
 using UnityEngine;
 
-namespace IslandDefender {
+namespace IslandDefender.Units.Player {
+
+    [RequireComponent(typeof(UnitBase))]
     public class PlayerMeleeAttack : MonoBehaviour {
 
         public static event Action OnAttack;
@@ -10,10 +12,8 @@ namespace IslandDefender {
         [SerializeField] private LayerMask damagableLayerMask;
 
         [Header("Stats")]
-        [SerializeField] private float damage;
         [SerializeField] private Vector2 size;
         [SerializeField] private float offset;
-        [SerializeField] private float cooldown;
 
         private float attackTimer = float.MaxValue;
 
@@ -21,8 +21,11 @@ namespace IslandDefender {
         [SerializeField] private PlayerAnimator playerAnimator;
         private PlayerController playerController;
 
+        private Stats playerStats;
+
         private void Awake() {
             playerController = GetComponent<PlayerController>();
+            playerStats = GetComponent<UnitBase>().Stats;
         }
 
         private void OnEnable() {
@@ -34,7 +37,7 @@ namespace IslandDefender {
 
         private void Update() {
             attackTimer += Time.deltaTime;
-            if (attackTimer > cooldown && Input.GetMouseButtonDown(0)) {
+            if (attackTimer > playerStats.AttackCooldown && Input.GetMouseButtonDown(0)) {
                 anim.SetTrigger("meleeAttack");
             }
         }
@@ -54,7 +57,7 @@ namespace IslandDefender {
             RaycastHit2D[] hits = Physics2D.BoxCastAll(center, size, 0, Vector2.right, 0, damagableLayerMask);
 
             foreach (RaycastHit2D hit in hits) {
-                hit.transform.GetComponent<IDamagable>().Damage(damage, transform.position);
+                hit.transform.GetComponent<IDamagable>().Damage(playerStats.Damage, transform.position);
             }
 
             OnAttack?.Invoke();

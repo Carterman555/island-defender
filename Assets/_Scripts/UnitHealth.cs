@@ -1,19 +1,24 @@
 using IslandDefender.Management;
+using System;
 using UnityEngine;
 
 namespace IslandDefender {
-    public class Health : MonoBehaviour, IDamagable {
+
+    [RequireComponent(typeof(UnitBase))]
+    public class UnitHealth : MonoBehaviour, IDamagable {
+
+        public event Action<Vector3> OnDamaged;
+
+        private float health;
+        private bool dead;
 
         [SerializeField] private Animator anim;
-        [SerializeField] private float maxHealth;
-        private float health;
 
         private IAnimationTrigger animationTrigger;
 
-        private bool dead;
+        protected virtual void Awake() {
+            health = GetComponent<UnitBase>().Stats.Health;
 
-        private void Awake() {
-            health = maxHealth;
             if (anim != null) {
                 animationTrigger = anim.GetComponent<IAnimationTrigger>();
             }
@@ -46,6 +51,8 @@ namespace IslandDefender {
                 DieAnimation();
                 dead = true;
             }
+
+            OnDamaged?.Invoke(attackerPosition);
         }
 
         private void DieAnimation() {

@@ -144,8 +144,4 @@ namespace IslandDefender {
 
         #endregion
     }
-
-    public enum EnemyType {
-        Frog,
-    }
 }

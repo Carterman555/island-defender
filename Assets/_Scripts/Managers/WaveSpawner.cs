@@ -1,3 +1,5 @@
+using IslandDefender.Environment;
+using IslandDefender.Management;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -65,7 +67,7 @@ namespace IslandDefender {
         // probably need resource system
         private void SpawnEnemy(EnemyType enemyType) {
             GameObject prefab = ResourceSystem.Instance.GetEnemy(enemyType).Prefab;
-            UnityEngine.Object.Instantiate(prefab, enemyWaveManager.GetRandomSpawnPos(), Quaternion.identity, null);
+            ObjectPoolManager.SpawnObject(prefab, enemyWaveManager.GetRandomSpawnPos(), Quaternion.identity, Containers.Instance.Enemies);
         }
 
         private float GetSpawnInterval(float difficultyValueRemaining) {
