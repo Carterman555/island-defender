@@ -16,9 +16,9 @@ namespace IslandDefender {
 
         public virtual void DoExitLogic() { ResetValues(); }
 
-        public virtual void DoFrameUpdateLogic() { }
+        public virtual void FrameUpdate() { }
 
-        public virtual void DoPhysicsUpdateLogic() { }
+        public virtual void PhysicsUpdate() { }
 
         public virtual void DoAnimationTriggerEventLogic(AnimationTriggerType triggerType) { }
 

@@ -9,6 +9,12 @@ namespace IslandDefender {
         private Rigidbody2D rb;
         private float knockbackable;
 
+        private bool beingKnockedBack;
+
+        public bool BeingKnockedBack() {
+            return beingKnockedBack;
+        }
+
         private void Awake() {
             damagable = GetComponent<IDamagable>();
             rb = GetComponent<Rigidbody2D>();
@@ -27,9 +33,15 @@ namespace IslandDefender {
             int direction = attackerPos.x > transform.position.x ? -1 : 1;
             Vector3 upSideDirection = new Vector3(direction, 1f, 0);
 
-            print("knock back");
-
             rb.AddForce(knockbackable * upSideDirection, ForceMode2D.Impulse);
+
+            beingKnockedBack = true;
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision) {
+            if (collision.gameObject.layer == GameLayers.GroundLayer) {
+                beingKnockedBack = false;
+            }
         }
     }
 }

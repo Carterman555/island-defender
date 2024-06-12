@@ -1,9 +1,8 @@
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace IslandDefender {
-    [CreateAssetMenu(fileName = "Jump Chase", menuName = "Enemy Logic/Chase Logic/Jump Chase")]
-    public class EnemyJumpChase : EnemyIdleSOBase {
+    [CreateAssetMenu(fileName = "Jump Chase", menuName = "Enemy Logic/Jump Chase")]
+    public class EnemyJumpChase : EnemySOBase {
 
         [SerializeField] private Vector2 jumpForce;
         [SerializeField] private float jumpCooldown;
@@ -24,8 +23,8 @@ namespace IslandDefender {
             base.DoExitLogic();
         }
 
-        public override void DoFrameUpdateLogic() {
-            base.DoFrameUpdateLogic();
+        public override void FrameUpdate() {
+            base.FrameUpdate();
 
             // -1 or 1 - left or right
             int direction = _transform.position.x < player.position.x ? 1 : -1;
@@ -59,8 +58,8 @@ namespace IslandDefender {
             }
         }
 
-        public override void DoPhysicsUpdateLogic() {
-            base.DoPhysicsUpdateLogic();
+        public override void PhysicsUpdate() {
+            base.PhysicsUpdate();
         }
 
         public override void Initialize(GameObject gameObject, Enemy enemy) {

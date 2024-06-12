@@ -11,10 +11,22 @@ namespace IslandDefender {
 
         private float health;
         private bool dead;
+        private bool invincible;
 
         [SerializeField] private Animator anim;
 
         private IAnimationTrigger animationTrigger;
+
+        #region Set Methods
+
+        [SerializeField] private SpriteRenderer spriteRenderer;// replace with animation
+
+        public void SetInvincible(bool invincible) {
+            this.invincible = invincible;
+            spriteRenderer.color = invincible ? Color.gray : Color.white; // replace with animation
+        }
+
+        #endregion
 
         protected virtual void Awake() {
             health = GetComponent<UnitBase>().Stats.Health;
@@ -37,7 +49,7 @@ namespace IslandDefender {
 
         public void Damage(float damage, Vector3 attackerPosition) {
 
-            if (dead) {
+            if (dead || invincible) {
                 return;
             }
 

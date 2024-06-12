@@ -4,58 +4,62 @@ namespace IslandDefender {
     public class Enemy : UnitBase, ITriggerCheckable {
 
         public Rigidbody2D RB { get; set; }
+        [field: SerializeField] public Animator Anim { get; private set; }
+        public UnitHealth Health { get; private set; }
+        public Knockback Knockback { get; private set; }
+
         public bool IsFacingRight { get; set; } = false;
-        public GameObject ObjectAggroed { get; set; }
-        public GameObject ObjectWithinStrikingDistance { get; set; }
 
-        private bool isKnockbackBeingApplied = false;
-
-        #region State Machine Variables
+        private GameObject midrangeObject { get; set; }
+        private GameObject closeObject { get; set; }
 
         public EnemyStateMachine StateMachine { get; set; }
-        public EnemyIdleState IdleState { get; set; }
-        public EnemyChaseState ChaseState { get; set; }
-        public EnemyAttackState AttackState { get; set; }
-
-        #endregion
 
         #region ScriptableObject Variables
 
-        [SerializeField] private EnemySOBase _enemyIdleBase;
-        [SerializeField] private EnemySOBase _enemyChaseBase;
-        [SerializeField] private EnemySOBase _enemyAttackBase;
+        [SerializeField] private EnemySOBase scriptableFarState;
+        [SerializeField] private EnemySOBase scriptableMidrangeState;
+        [SerializeField] private EnemySOBase scriptableCloseState;
 
-        public EnemySOBase EnemyIdleBaseInstance { get; set; }
-        public EnemySOBase EnemyChaseBaseInstance { get; set; }
-        public EnemySOBase EnemyAttackBaseInstance { get; set; }
+        public EnemySOBase FarState { get; set; }
+        public EnemySOBase MidrangeState { get; set; }
+        public EnemySOBase CloseState { get; set; }
 
         #endregion
 
-        [field: SerializeField] public Animator Anim { get; private set; }
+        #region Get Methods
+
+        public GameObject GetMidrangeObject() {
+            return midrangeObject;
+        }
+
+        public GameObject GetCloseObject() {
+            return closeObject;
+        }
+
+        #endregion
 
         private void Awake() {
-            EnemyIdleBaseInstance = Instantiate(_enemyIdleBase);
-            EnemyChaseBaseInstance = Instantiate(_enemyChaseBase);
-            EnemyAttackBaseInstance = Instantiate(_enemyAttackBase);
+            FarState = Instantiate(scriptableFarState);
+            MidrangeState = Instantiate(scriptableMidrangeState);
+            CloseState = Instantiate(scriptableCloseState);
 
             StateMachine = new EnemyStateMachine();
 
-            IdleState = new EnemyIdleState(this, StateMachine);
-            ChaseState = new EnemyChaseState(this, StateMachine);
-            AttackState = new EnemyAttackState(this, StateMachine);
-
             RB = GetComponent<Rigidbody2D>();
-
-            //_knockBack = new EnemyKnockBackLogic(this, GetComponent<Health>(), RB);
+            Health = GetComponent<UnitHealth>();
+            Knockback = GetComponent<Knockback>();
 
             InitializeInstances();
         }
 
         private void OnEnable() {
             ResetValues();
-            //_knockBack.ResetValues();
 
-            StateMachine.Initialize(IdleState);
+            StateMachine.Initialize(FarState);
+
+            SetMidrangeObject(null);
+            SetCloseObject(null);
 
             // spawn animation
             Anim.SetTrigger("spawn");
@@ -63,16 +67,12 @@ namespace IslandDefender {
         }
 
         protected virtual void InitializeInstances() {
-            EnemyIdleBaseInstance.Initialize(gameObject, this);
-            EnemyChaseBaseInstance.Initialize(gameObject, this);
-            EnemyAttackBaseInstance.Initialize(gameObject, this);
+            FarState.Initialize(gameObject, this);
+            MidrangeState.Initialize(gameObject, this);
+            CloseState.Initialize(gameObject, this);
         }
 
         private void Update() {
-            //if (IsDead()) return;
-
-            //IsKnockbackBeingApplied = _knockBack.IsApplyingKnockback();
-
             StateMachine.CurrentEnemyState.FrameUpdate();
         }
 
@@ -90,9 +90,6 @@ namespace IslandDefender {
 
             // reset the facing direction
             IsFacingRight = false;
-
-            SetAggroedObject(null);
-            SetStrikingDistanceObject(null);
         }
 
         public float GetMoveSpeed() {
@@ -100,7 +97,7 @@ namespace IslandDefender {
         }
 
         public void SetEnemyXVel(float xVelocity) {
-            if (isKnockbackBeingApplied && Stats.KnockBackable > 0) return;
+            if (Stats.KnockBackable > 0 && Knockback.BeingKnockedBack()) return;
 
             RB.velocity = new Vector3(xVelocity, RB.velocity.y);
             CheckForLeftOrRightFacing(xVelocity);
@@ -125,12 +122,26 @@ namespace IslandDefender {
 
         #region Trigger Functions
 
-        public void SetAggroedObject(GameObject objectAggroed) {
-            ObjectAggroed = objectAggroed;
+        public void SetMidrangeObject(GameObject midrangeObject) {
+            this.midrangeObject = midrangeObject;
+            UpdateState();
         }
 
-        public void SetStrikingDistanceObject(GameObject objectWithinStrikingDistance) {
-            ObjectWithinStrikingDistance = objectWithinStrikingDistance;
+        public void SetCloseObject(GameObject closeObject) {
+            this.closeObject = closeObject;
+            UpdateState();
+        }
+
+        private void UpdateState() {
+            if (closeObject != null) {
+                StateMachine.ChangeState(CloseState);
+            }
+            else if (midrangeObject != null) {
+                StateMachine.ChangeState(MidrangeState);
+            }
+            else {
+                StateMachine.ChangeState(FarState);
+            }
         }
 
         #endregion
@@ -139,7 +150,7 @@ namespace IslandDefender {
 
         // played by animation
         private void AnimationTriggerEvent(AnimationTriggerType triggerType) {
-            StateMachine.CurrentEnemyState.AnimationTriggerEvent(triggerType);
+            StateMachine.CurrentEnemyState.DoAnimationTriggerEventLogic(triggerType);
         }
 
         #endregion

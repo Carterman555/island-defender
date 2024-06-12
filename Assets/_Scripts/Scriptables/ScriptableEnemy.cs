@@ -20,8 +20,10 @@ namespace IslandDefender {
     }
 
     public enum EnemyType {
-        Frog,
-        //Snake,
-        //Snail,
+        Snake = 0,
+        //BabyFrog = 1,
+        Frog = 2,
+        Snail = 3,
+        //Plant = 4,
     }
 }

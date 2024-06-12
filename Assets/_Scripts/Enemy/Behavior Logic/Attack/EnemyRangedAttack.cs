@@ -3,8 +3,8 @@ using IslandDefender.Management;
 using UnityEngine;
 
 namespace IslandDefender {
-    [CreateAssetMenu(fileName = "Attack-Ranged", menuName = "Enemy Logic/Attack Logic/Ranged Attack")]
-    public class EnemyRangedAttack : EnemyAttackSOBase {
+    [CreateAssetMenu(fileName = "RangedAttack", menuName = "Enemy Logic/Ranged Attack")]
+    public class EnemyRangedAttack : EnemySOBase {
 
         [SerializeField] private GameObject projectilePrefab;
         [SerializeField] private Vector2 projectileOffset;
@@ -20,12 +20,12 @@ namespace IslandDefender {
         }
 
         protected virtual void Attack() {
-            if (enemy.ObjectWithinStrikingDistance == null) {
+            if (enemy.GetCloseObject() == null) {
                 return;
             }
 
             // set enemy facing correct direction
-            Vector2 targetPos = enemy.ObjectWithinStrikingDistance.transform.position;
+            Vector2 targetPos = enemy.GetCloseObject().transform.position;
             int direction = _transform.position.x < targetPos.x ? 1 : -1;
             enemy.CheckForLeftOrRightFacing(direction);
 
@@ -50,10 +50,10 @@ namespace IslandDefender {
             base.DoExitLogic();
         }
 
-        public override void DoFrameUpdateLogic() {
-            base.DoFrameUpdateLogic();
+        public override void FrameUpdate() {
+            base.FrameUpdate();
 
-            if (enemy.ObjectWithinStrikingDistance == null) return;
+            if (enemy.GetCloseObject() == null) return;
 
             timer += Time.deltaTime;
             if (timer > enemy.Stats.AttackCooldown) {
@@ -67,8 +67,8 @@ namespace IslandDefender {
 
         }
 
-        public override void DoPhysicsUpdateLogic() {
-            base.DoPhysicsUpdateLogic();
+        public override void PhysicsUpdate() {
+            base.PhysicsUpdate();
         }
 
         public override void Initialize(GameObject gameObject, Enemy enemy) {
