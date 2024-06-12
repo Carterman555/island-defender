@@ -4,35 +4,30 @@ using TarodevController;
 using UnityEngine;
 
 namespace IslandDefender {
-	public class PlayerBuild : MonoBehaviour {
+	public class PlayerBuild : StaticInstance<PlayerBuild> {
 
         [SerializeField] private Vector2 buildOffset;
 
-        [Header("Buildings")]
-        [SerializeField] private ScriptableBuilding scriptableWall;
-
+        private ScriptableBuilding buildingPlacing;
         private GameObject activePlaceVisual;
 
         private PlayerController playerController;
 
-        private bool PlacingBuilding => activePlaceVisual != null;
+        public bool IsPlacingBuilding => activePlaceVisual != null;
 
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
             playerController = GetComponent<PlayerController>();
         }
 
         private void Update() {
             if (Input.GetKeyDown(KeyCode.Q)) {
-                if (!PlacingBuilding && CanAffordBuilding(scriptableWall)) {
-                    ShowPlaceVisual();
-                }
-                else if (PlacingBuilding) {
+                if (IsPlacingBuilding) {
                     HidePlaceVisual();
                 }
             }
 
-
-            if (PlacingBuilding && CanAffordBuilding(scriptableWall)) {
+            if (IsPlacingBuilding && CanAffordBuilding(buildingPlacing.BuildingType)) {
 
                 UpdateVisualPosition();
 
@@ -42,8 +37,11 @@ namespace IslandDefender {
             }
         }
 
-        private void ShowPlaceVisual() {
-            activePlaceVisual = ObjectPoolManager.SpawnObject(scriptableWall.PlaceVisualPrefab,
+        public void ShowPlaceVisual(BuildingType buildingType) {
+
+            buildingPlacing = ResourceSystem.Instance.GetBuilding(buildingType);
+
+            activePlaceVisual = ObjectPoolManager.SpawnObject(buildingPlacing.PlaceVisualPrefab,
                 Vector3.zero, // position will be updated
                 Quaternion.identity,
                 Containers.Instance.Buildings);
@@ -62,26 +60,30 @@ namespace IslandDefender {
         }
 
         private void CreateBuilding() {
-            ObjectPoolManager.SpawnObject(scriptableWall.Prefab,
+            ObjectPoolManager.SpawnObject(buildingPlacing.Prefab,
                 activePlaceVisual.transform.position,
                 Quaternion.identity,
                 Containers.Instance.Buildings);
 
             HidePlaceVisual();
 
-            CostPlayer(scriptableWall);
+            CostPlayer(buildingPlacing);
         }
 
-        private bool CanAffordBuilding(ScriptableBuilding scriptableBuilding) {
+        public bool CanAffordBuilding(BuildingType buildingType) {
+
+            ScriptableBuilding scriptableBuilding = ResourceSystem.Instance.GetBuilding(buildingType);
 
             bool canAffordWood = PlayerResources.Instance.GetResourceAmount(ResourceType.Wood) >= scriptableBuilding.WoodCost;
+            bool canAffordFiber = PlayerResources.Instance.GetResourceAmount(ResourceType.Fiber) >= scriptableBuilding.FiberCost;
             bool canAffordStone = PlayerResources.Instance.GetResourceAmount(ResourceType.Stone) >= scriptableBuilding.StoneCost;
 
-            return canAffordWood && canAffordStone;
+            return canAffordWood && canAffordFiber && canAffordStone;
         }
 
         private void CostPlayer(ScriptableBuilding scriptableBuilding) {
             PlayerResources.Instance.RemoveResource(ResourceType.Wood, scriptableBuilding.WoodCost);
+            PlayerResources.Instance.RemoveResource(ResourceType.Fiber, scriptableBuilding.StoneCost);
             PlayerResources.Instance.RemoveResource(ResourceType.Stone, scriptableBuilding.StoneCost);
         }
     }

@@ -126,7 +126,8 @@ public static class Helpers
 
         for (int i = 0; i < raycastResultList.Count; i++)
         {
-            if (raycastResultList[i].gameObject.layer == 5) return true;
+            int UILayer = 5;
+            if (raycastResultList[i].gameObject.layer == UILayer) return true;
         }
         return false;
     }
@@ -135,6 +136,10 @@ public static class Helpers
     {
         string original = value.ToString();
         return Regex.Replace(original, "(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", " $1");
+    }
+
+    public static bool ContainsLayer(this LayerMask mask, int layer) {
+        return (mask.value & (1 << layer)) != 0;
     }
 
     // Game specific

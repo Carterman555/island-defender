@@ -8,10 +8,8 @@ namespace IslandDefender {
         [SerializeField] private TouchDamage poisonAreaPrefab;
         [SerializeField] private Vector2 shootForce;
 
-        private float damage;
 
         public void Shoot(int direction, float damage) {
-            this.damage = damage;
 
             // add force that lobs projectile
             Vector2 directionalForce = new Vector2(shootForce.x * direction, shootForce.y);
@@ -21,6 +19,9 @@ namespace IslandDefender {
         private void OnTriggerEnter2D(Collider2D collision) {
             if (collision.gameObject.layer == GameLayers.GroundLayer) {
                 SplashPoison();
+                ObjectPoolManager.ReturnObjectToPool(gameObject);
+            }
+            else if (collision.gameObject.layer == GameLayers.BuildingLayer) {
                 ObjectPoolManager.ReturnObjectToPool(gameObject);
             }
         }

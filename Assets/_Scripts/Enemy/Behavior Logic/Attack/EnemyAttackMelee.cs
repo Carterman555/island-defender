@@ -1,3 +1,4 @@
+using System.Data;
 using UnityEngine;
 
 namespace IslandDefender {
@@ -23,8 +24,13 @@ namespace IslandDefender {
             int direction = _transform.position.x < targetPos.x ? 1 : -1;
             enemy.CheckForLeftOrRightFacing(direction);
 
-            //... deal damage
-            enemy.GetCloseObject().GetComponent<IDamagable>().Damage(enemy.Stats.Damage, _transform.position);
+            // deal damage
+            if (enemy.GetCloseObject().TryGetComponent(out IDamagable damagable)) {
+                damagable.Damage(enemy.Stats.Damage, _transform.position);
+            }
+            else {
+                Debug.LogWarning("Could Not Get Damagable Component From " + enemy.GetCloseObject().name);
+            }
         }
 
         public override void DoEnterLogic() {

@@ -15,7 +15,7 @@ MonoBehaviour:
   Faction: 1
   _stats:
     Health: 4
-    Damage: 2
+    Damage: 1
     AttackCooldown: 1
     MoveSpeed: 5
     KnockBackable: 12

@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 977c430e70dc3604aa8e9ef207b10b23, type: 3}
-  m_Name: FrogEnemy
+  m_Name: BabyFrogEnemy
   m_EditorClassIdentifier: 
   Faction: 1
   _stats:
-    Health: 8
-    Damage: 2
-    AttackCooldown: 3
+    Health: 5
+    Damage: 1
+    AttackCooldown: -1
     MoveSpeed: -1
-    KnockBackable: 10
-  Prefab: {fileID: 522134059670432063, guid: 8c71dc6a375ce6c40a2a3796d5605d3e, type: 3}
+    KnockBackable: 12
+  Prefab: {fileID: 522134059670432063, guid: ef8c5cb585624864390f66cc992852d5, type: 3}
   Description: 
   MenuSprite: {fileID: 0}
-  enemyType: 2
-  startingWave: 3
-  strength: 4
-  spawnWeight: 20
+  enemyType: 1
+  startingWave: 1
+  strength: 1
+  spawnWeight: 75

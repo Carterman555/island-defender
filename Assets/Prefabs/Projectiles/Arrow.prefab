@@ -203,4 +203,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3c233b0b1eeaaf44877eb3b7109f427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootForce: {x: 200, y: 20}
+  shootForce: {x: 200, y: 0}

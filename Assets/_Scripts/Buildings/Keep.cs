@@ -1,15 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace IslandDefender.Units.Player {
-	public class PlayerHealth : Health {
-
-        private float maxHealth;
-
-        protected override void Awake() {
-            base.Awake();
-            maxHealth = GetComponent<UnitBase>().Stats.Health;
-        }
+namespace IslandDefender.Environment.Building {
+    public class Keep : Health {
+        [SerializeField] private float maxHealth;
 
         protected override void ResetValues() {
             base.ResetValues();

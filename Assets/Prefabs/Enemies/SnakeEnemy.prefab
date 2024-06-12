@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 2997909095927468459}
   - component: {fileID: 9020489018851353287}
   - component: {fileID: 2929441058086477225}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: SnakeEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,8 +345,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -4.6066084e-10, y: -0.0038643037}
-  m_Size: {x: 1.9800005, y: 0.1580437}
+  m_Offset: {x: -0.004260063, y: 0.0027440647}
+  m_Size: {x: 1.9778914, y: 0.17128316}
   m_Direction: 1
 --- !u!50 &3950792523790485301
 Rigidbody2D:
@@ -389,7 +389,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scriptableUnit: {fileID: 11400000, guid: c7031fb7a7b9a564c918690dd4b308ff, type: 2}
   <Anim>k__BackingField: {fileID: 6427772047714553386}
-  <Health>k__BackingField: {fileID: 9020489018851353287}
   scriptableFarState: {fileID: 11400000, guid: b15b5f4c6a915cb42ad8b65abf5351d9, type: 2}
   scriptableMidrangeState: {fileID: 11400000, guid: b15b5f4c6a915cb42ad8b65abf5351d9, type: 2}
   scriptableCloseState: {fileID: 11400000, guid: f4688c2b0c72e354ab2b4fcfdabf32d2, type: 2}
@@ -509,3 +508,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4bdaeeb72630944e95397323fddd8ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerFilter:
+    serializedVersion: 2
+    m_Bits: 448

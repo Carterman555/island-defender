@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace IslandDefender {
@@ -19,6 +20,8 @@ namespace IslandDefender {
             this.waveDifficulty = difficulty;
 
             enemyWaveManager.StartCoroutine(SpawnWave());
+
+            //testChooser();
         }
 
         private IEnumerator SpawnWave() {
@@ -30,15 +33,34 @@ namespace IslandDefender {
                 EnemyType enemyToSpawn = ChoseRandomEnemy();
                 SpawnEnemy(enemyToSpawn);
 
-                int strengthOfSpawned = ResourceSystem.Instance.GetEnemy(enemyToSpawn).Strength;
+                float strengthOfSpawned = ResourceSystem.Instance.GetEnemy(enemyToSpawn).Strength;
                 difficultyValueRemaining -= strengthOfSpawned;
 
                 float interval = GetSpawnInterval(difficultyValueRemaining);
+
+                Debug.Log("Spawned: " + enemyToSpawn + " with interval " + interval);
 
                 yield return new WaitForSeconds(interval);
             }
 
             enemyWaveManager.StartCoroutine(enemyWaveManager.FinishedSpawningWave());
+        }
+
+        public void testChooser() {
+
+            Dictionary<EnemyType, int> enemyAmount = new();
+
+            foreach (EnemyType enemyType in Enum.GetValues(typeof(EnemyType))) {
+                enemyAmount.Add(enemyType, 0);
+            }
+
+            for (int i = 0; i < 1000; i++) {
+                enemyAmount[ChoseRandomEnemy()]++;
+            }
+
+            foreach (EnemyType enemyType in Enum.GetValues(typeof(EnemyType))) {
+                Debug.Log(enemyType + ": " + enemyAmount[enemyType]);
+            }
         }
 
         // each enemy has a weight, the higher the weight the most likely an enemy is to get picked.
@@ -64,7 +86,6 @@ namespace IslandDefender {
             throw new InvalidOperationException("Failed to pick an enemy based on weights.");
         }
 
-        // probably need resource system
         private void SpawnEnemy(EnemyType enemyType) {
             GameObject prefab = ResourceSystem.Instance.GetEnemy(enemyType).Prefab;
             ObjectPoolManager.SpawnObject(prefab, enemyWaveManager.GetRandomSpawnPos(), Quaternion.identity, Containers.Instance.Enemies);
@@ -79,7 +100,7 @@ namespace IslandDefender {
             float waveProgressDifficultyMult = GetMultDifficultyFromProgress(waveProgress);
 
             float avgInterval = GetAvgInterval(waveDifficulty * waveProgressDifficultyMult); // techinically not exactly avg, but close
-            float intervalVariance = 0.3f;
+            float intervalVariance = 0.15f;
             float interval = UnityEngine.Random.Range(avgInterval * (1 - intervalVariance), avgInterval * (1 + intervalVariance));
             return interval;
         }

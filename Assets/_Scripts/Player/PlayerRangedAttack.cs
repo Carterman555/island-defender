@@ -7,7 +7,6 @@ namespace IslandDefender.Units.Player {
 	public class PlayerRangedAttack : MonoBehaviour {
 
 		[SerializeField] private Arrow arrowPrefab;
-
         [SerializeField] private Vector2 arrowOffset;
 
         private float attackTimer = float.MaxValue;
@@ -32,7 +31,9 @@ namespace IslandDefender.Units.Player {
 
         private void Update() {
             attackTimer += Time.deltaTime;
-            if (attackTimer > playerStats.AttackCooldown && Input.GetMouseButtonDown(1)) {
+
+            bool canAttack = attackTimer > playerStats.AttackCooldown && !PlayerBuild.Instance.IsPlacingBuilding;
+            if (canAttack && Input.GetMouseButtonDown(1)) {
                 anim.SetTrigger("rangedAttack");
             }
         }

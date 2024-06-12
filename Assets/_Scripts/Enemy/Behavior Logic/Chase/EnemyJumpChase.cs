@@ -1,7 +1,8 @@
+using IslandDefender.Environment.Building;
 using UnityEngine;
 
 namespace IslandDefender {
-    [CreateAssetMenu(fileName = "Jump Chase", menuName = "Enemy Logic/Jump Chase")]
+    [CreateAssetMenu(fileName = "Jump Chase", menuName = "Enemy Logic/JumpChaseKeep")]
     public class EnemyJumpChase : EnemySOBase {
 
         [SerializeField] private Vector2 jumpForce;
@@ -9,7 +10,7 @@ namespace IslandDefender {
 
         private float jumpTimer;
 
-        private Transform player;
+        private Transform keep;
 
         public override void DoAnimationTriggerEventLogic(AnimationTriggerType triggerType) {
             base.DoAnimationTriggerEventLogic(triggerType);
@@ -27,7 +28,7 @@ namespace IslandDefender {
             base.FrameUpdate();
 
             // -1 or 1 - left or right
-            int direction = _transform.position.x < player.position.x ? 1 : -1;
+            int direction = _transform.position.x < keep.position.x ? 1 : -1;
 
             enemy.CheckForLeftOrRightFacing(enemy.GetMoveSpeed() * direction);
 
@@ -65,7 +66,7 @@ namespace IslandDefender {
         public override void Initialize(GameObject gameObject, Enemy enemy) {
             base.Initialize(gameObject, enemy);
 
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+            keep = FindObjectOfType<Keep>().transform;
         }
 
         public override void ResetValues() {

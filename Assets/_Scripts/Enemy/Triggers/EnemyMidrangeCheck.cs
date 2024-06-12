@@ -11,8 +11,10 @@ namespace IslandDefender {
             _enemy = GetComponentInParent<Enemy>();
         }
 
+        [SerializeField] private LayerMask layerFilter;
+
         private void OnTriggerEnter2D(Collider2D collision) {
-            if (collision.gameObject.layer == GameLayers.PlayerLayer) {
+            if (layerFilter.ContainsLayer(collision.gameObject.layer)) {
                 _objectsInRange.Add(collision.gameObject);
                 _enemy.SetMidrangeObject(_objectsInRange[0]);
             }
@@ -20,7 +22,7 @@ namespace IslandDefender {
 
         private void OnTriggerExit2D(Collider2D collision) {
 
-            if (collision.gameObject.layer == GameLayers.PlayerLayer) {
+            if (layerFilter.ContainsLayer(collision.gameObject.layer)) {
                 _objectsInRange.RemoveWithCheck(collision.gameObject);
 
                 if (_objectsInRange.Count > 0)

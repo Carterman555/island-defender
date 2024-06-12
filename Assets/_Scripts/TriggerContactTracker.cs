@@ -17,22 +17,17 @@ namespace IslandDefender {
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            if (IsInLayerMask(collision.gameObject.layer, layerFilter)) {
+            if (layerFilter.ContainsLayer(collision.gameObject.layer)) {
                 contacts.Add(collision.gameObject);
                 OnEnterContact?.Invoke(collision.gameObject);
             }
         }
 
         private void OnTriggerExit2D(Collider2D collision) {
-            if (IsInLayerMask(collision.gameObject.layer, layerFilter)) {
+            if (layerFilter.ContainsLayer(collision.gameObject.layer)) {
                 contacts.Remove(collision.gameObject);
                 OnLeaveContact?.Invoke(collision.gameObject);
             }
         }
-
-        private bool IsInLayerMask(int layer, LayerMask mask) {
-            return (mask.value & (1 << layer)) != 0;
-        }
-
     }
 }

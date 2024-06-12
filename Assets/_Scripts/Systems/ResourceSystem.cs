@@ -16,6 +16,9 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
     public List<ScriptableAlly> Allies { get; private set; }
     private Dictionary<AllyType, ScriptableAlly> alliesDict;
 
+    public List<ScriptableBuilding> Buildings { get; private set; }
+    private Dictionary<BuildingType, ScriptableBuilding> buildingsDict;
+
     protected override void Awake() {
         base.Awake();
         AssembleResources();
@@ -27,8 +30,12 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
 
         Allies = Resources.LoadAll<ScriptableAlly>("").ToList();
         alliesDict = Allies.ToDictionary(r => r.AllyType, r => r);
+
+        Buildings = Resources.LoadAll<ScriptableBuilding>("").ToList();
+        buildingsDict = Buildings.ToDictionary(r => r.BuildingType, r => r);
     }
 
     public ScriptableEnemy GetEnemy(EnemyType t) => enemiesDict[t];
     public ScriptableAlly GetAlly(AllyType t) => alliesDict[t];
-}   
+    public ScriptableBuilding GetBuilding(BuildingType t) => buildingsDict[t];
+}

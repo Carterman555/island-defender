@@ -16,6 +16,8 @@ namespace IslandDefender.Environment {
         public void Damage(float damage, Vector3 attackerPosition) {
             health -= damage;
 
+            OnDamaged?.Invoke(attackerPosition);
+
             if (health <= 0) {
                 Die();
             }

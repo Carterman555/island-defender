@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Faction: 1
   _stats:
-    Health: 10
+    Health: 6
     Damage: 2
     AttackCooldown: 1
     MoveSpeed: 2
@@ -23,6 +23,6 @@ MonoBehaviour:
   Description: 
   MenuSprite: {fileID: 0}
   enemyType: 3
-  startingWave: 1
+  startingWave: 2
   strength: 4
   spawnWeight: 20
