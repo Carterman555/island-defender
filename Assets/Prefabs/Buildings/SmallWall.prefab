@@ -175,5 +175,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398e13d490f73a44093bd76940dcb5c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 15
-  spriteRenderer: {fileID: 1033129995016324553}
+  anim: {fileID: 0}
+  maxHealth: 10

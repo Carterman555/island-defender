@@ -19,6 +19,12 @@ namespace IslandDefender {
 
         public int EnemiesLeft => enemyAmounts.Values.Sum();
 
+        private bool completed;
+
+        public bool Completed() {
+            return completed;
+        }
+
         public WaveSpawner(EnemyWaveManager enemyWaveManager, Dictionary<EnemyType, int> enemyAmounts, float difficulty, Vector3 spawnPos) {
             this.enemyWaveManager = enemyWaveManager;
             this.enemyAmounts = enemyAmounts;
@@ -26,6 +32,8 @@ namespace IslandDefender {
             this.spawnPos = spawnPos;
 
             totalEnemiesInWave = EnemiesLeft;
+
+            completed = false;
 
             enemyWaveManager.StartCoroutine(SpawnWave());
 
@@ -46,7 +54,7 @@ namespace IslandDefender {
                 yield return new WaitForSeconds(interval);
             }
 
-            enemyWaveManager.StartCoroutine(enemyWaveManager.BeginDayTime());
+            completed = true;
         }
 
         public void testChooser() {
@@ -120,7 +128,7 @@ namespace IslandDefender {
 
         // the higher the difficulty, the lower the interval - Desmos: y=\frac{100}{x+10}
         private float GetAvgInterval(float difficulty) {
-            return 100 / (difficulty + 10);
+            return 200 / (difficulty + 10);
         }
 
         // value between 0 and 1 depending on how much of the wave is completed

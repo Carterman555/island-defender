@@ -221,7 +221,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 329980499290764143, guid: 3ee1f8265ea10014dbece37426899859, type: 3}
   projectileSpawnPoint: {fileID: 8641572192758018321}
   enemiesInRangeTracker: {fileID: 4421370013208060773}
-  maxHealth: 10
+  maxHealth: 15
   damage: 1
   shootCooldown: 2
 --- !u!1 &6024093709567091637

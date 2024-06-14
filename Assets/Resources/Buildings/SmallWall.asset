@@ -16,6 +16,6 @@ MonoBehaviour:
   prefab: {fileID: 5587154027408025168, guid: 97a1911d373e6f84e94b0b31e59aef85, type: 3}
   placeVisualPrefab: {fileID: 4523781785265616530, guid: 0ef5795a2e70f734e91a17775c7abec8, type: 3}
   buildOffset: {x: 3, y: 0}
-  woodCost: 3
-  fiberCost: 0
+  woodCost: 5
+  fiberCost: 2
   stoneCost: 0

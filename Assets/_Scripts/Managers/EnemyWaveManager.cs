@@ -10,7 +10,7 @@ namespace IslandDefender {
 	/// Spawns in enemies in waves. The waves grow in difficulty and the amount and type of enemies are randomly spawned
 	/// in based on the difficultly.
 	/// </summary>
-	public class EnemyWaveManager : MonoBehaviour {
+	public class EnemyWaveManager : StaticInstance<EnemyWaveManager> {
 
         public static event Action<int> OnNewWave;
 
@@ -20,39 +20,70 @@ namespace IslandDefender {
         [SerializeField] private ScriptableWave[] allWaves;
         private ScriptableWave[] availableWaves;
 
+        [SerializeField] private GameObject previewContainer;
         [SerializeField] private EnemyPreview[] leftSideEnemyPreviews;
         [SerializeField] private EnemyPreview[] rightSideEnemyPreviews;
+
+        private WaveSpawner leftWaveSpawner;
+        private WaveSpawner rightWaveSpawner;
 
         private float currentDifficulty;
 		private int currentWave = 1;
 
         [SerializeField] private float timeBetweenWaves;
+        private float dayTimeTimer;
 
-        private void Awake() {
+        public bool IsDayTime(out float timeLeft) {
+            timeLeft = dayTimeTimer;
+            return dayTimeTimer > 0;
+        }
+
+        protected override void Awake() {
+            base.Awake();
 			float startingDifficulty = 5;
             currentDifficulty = startingDifficulty;
         }
 
         private void Start() {
-            StartCoroutine(BeginDayTime());
+            dayTimeTimer = timeBetweenWaves;
+            SetupCurrentWave();
         }
 
-        public IEnumerator BeginDayTime() {
-            SetupNextWave();
-            yield return new WaitForSeconds(timeBetweenWaves);
-            PlayNextWave();
+        private void Update() {
+            dayTimeTimer -= Time.deltaTime;
+            if (dayTimeTimer < 0) {
+                dayTimeTimer = timeBetweenWaves;
+                PlayCurrentWave();
+            }
+
+            if (leftWaveSpawner == null || rightWaveSpawner == null) {
+                return;
+            }
+
+            if (leftWaveSpawner.Completed() && rightWaveSpawner.Completed()) {
+                ContinueNextWave();
+                SetupCurrentWave();
+            }
         }
 
         Dictionary<EnemyType, int> leftSideEnemyAmounts;
         Dictionary<EnemyType, int> rightSideEnemyAmounts;
 
-        private void SetupNextWave() {
+        private void ContinueNextWave() {
             currentWave++;
 
             float difficultyIncrease = 3;
             currentDifficulty += difficultyIncrease;
 
+            leftWaveSpawner = null;
+            rightWaveSpawner = null;
+        }
+
+        private void SetupCurrentWave() {
+            
             UpdateAvailableWaves();
+
+            ShowPreviews();
 
             // setup left side
             ScriptableWave leftChosenWave = availableWaves.RandomItem();
@@ -65,9 +96,11 @@ namespace IslandDefender {
             UpdatePreviews(rightSideEnemyPreviews, rightSideEnemyAmounts);
         }
 
-        private void PlayNextWave() {
-            new WaveSpawner(this, leftSideEnemyAmounts, currentDifficulty, leftSpawnPoint.position);
-            new WaveSpawner(this, rightSideEnemyAmounts, currentDifficulty, rightSpawnPoint.position);
+        private void PlayCurrentWave() {
+            HidePreviews();
+
+            leftWaveSpawner = new WaveSpawner(this, leftSideEnemyAmounts, currentDifficulty, leftSpawnPoint.position);
+            rightWaveSpawner = new WaveSpawner(this, rightSideEnemyAmounts, currentDifficulty, rightSpawnPoint.position);
 
             OnNewWave?.Invoke(currentWave);
         }
@@ -81,6 +114,14 @@ namespace IslandDefender {
             foreach (EnemyPreview preview in enemyPreviews) {
                 preview.UpdateText(enemyAmounts);
             }
+        }
+
+        private void HidePreviews() {
+            previewContainer.SetActive(false);
+        }
+
+        private void ShowPreviews() {
+            previewContainer.SetActive(true);
         }
 
         private Dictionary<EnemyType, int> CalculateEnemyAmounts(ScriptableWave scriptableWave) {
