@@ -8,8 +8,9 @@ namespace IslandDefender.Management {
 
     [RequireComponent(typeof(TriggerContactTracker))]
     public class TouchDamage : MonoBehaviour {
-        [SerializeField] private int damage = 1;
+        [SerializeField] private float damage = 1;
         [SerializeField] private float damageCooldown = 1f; // Damage interval in seconds
+        [SerializeField] private bool applyKnockback = true;
 
         private TriggerContactTracker tracker;
         private Dictionary<GameObject, Coroutine> activeCoroutines = new Dictionary<GameObject, Coroutine>();
@@ -51,7 +52,12 @@ namespace IslandDefender.Management {
         private IEnumerator DamageOverTime(GameObject target) {
             while (true) {
                 if (target.TryGetComponent(out IDamagable damagable)) {
-                    damagable.Damage(damage, transform.position);
+                    if (applyKnockback) {
+                        damagable.KnockbackDamage(damage, transform.position);
+                    }
+                    else {
+                        damagable.Damage(damage);
+                    }
                 }
                 yield return new WaitForSeconds(damageCooldown);
             }

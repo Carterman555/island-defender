@@ -16,7 +16,7 @@ namespace IslandDefender {
             if (set && collision.gameObject.layer == GameLayers.EnemyLayer) {
                 Close();
 
-                collision.GetComponent<IDamagable>().Damage(damage, transform.position);
+                collision.GetComponent<IDamagable>().KnockbackDamage(damage, transform.position);
             }
         }
 

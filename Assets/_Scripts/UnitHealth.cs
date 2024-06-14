@@ -23,13 +23,13 @@ namespace IslandDefender {
             health = GetComponent<UnitBase>().Stats.Health;
         }
 
-        public override void Damage(float damage, Vector3 attackerPosition) {
+        public override void KnockbackDamage(float damage, Vector3 attackerPosition) {
 
             if (invincible) {
                 return;
             }
 
-            base.Damage(damage, attackerPosition);
+            base.KnockbackDamage(damage, attackerPosition);
         }
     }
 }

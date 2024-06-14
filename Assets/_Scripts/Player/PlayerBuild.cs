@@ -6,8 +6,6 @@ using UnityEngine;
 namespace IslandDefender {
 	public class PlayerBuild : StaticInstance<PlayerBuild> {
 
-        [SerializeField] private Vector2 buildOffset;
-
         private ScriptableBuilding buildingPlacing;
         private GameObject activePlaceVisual;
 
@@ -39,6 +37,11 @@ namespace IslandDefender {
 
         public void ShowPlaceVisual(BuildingType buildingType) {
 
+            // hide previous visual if placing
+            if (IsPlacingBuilding) {
+                HidePlaceVisual();
+            }
+
             buildingPlacing = ResourceSystem.Instance.GetBuilding(buildingType);
 
             activePlaceVisual = ObjectPoolManager.SpawnObject(buildingPlacing.PlaceVisualPrefab,
@@ -54,7 +57,7 @@ namespace IslandDefender {
 
         private void UpdateVisualPosition() {
             int direction = playerController.IsFacingRight ? 1 : -1;
-            Vector2 directionalOffset = new Vector2(buildOffset.x * direction, buildOffset.y);
+            Vector2 directionalOffset = new Vector2(buildingPlacing.BuildOffset.x * direction, buildingPlacing.BuildOffset.y);
 
             activePlaceVisual.transform.position = transform.position + (Vector3)directionalOffset;
         }

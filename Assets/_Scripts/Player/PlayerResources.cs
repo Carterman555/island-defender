@@ -1,7 +1,6 @@
 using IslandDefender.Environment;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace IslandDefender {
     public class PlayerResources : StaticInstance<PlayerResources> {
@@ -18,6 +17,10 @@ namespace IslandDefender {
             foreach (ResourceType type in Enum.GetValues(typeof(ResourceType))) {
                 resourceAmounts.Add(type, 0);
             }
+        }
+
+        private void Start() {
+            AddResource(ResourceType.Wood, 99);
         }
 
         public void AddResource(ResourceType resourceType, int amount) {

@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace IslandDefender {
     public class Health : MonoBehaviour, IDamagable {
-        public event Action<Vector3> OnDamaged;
+        public event Action<Vector3> OnKnockbackDamaged;
+        public event Action OnDamaged;
 
         protected float health;
         private bool dead;
@@ -37,7 +38,18 @@ namespace IslandDefender {
             dead = false;
         }
 
-        public virtual void Damage(float damage, Vector3 attackerPosition) {
+        public virtual void KnockbackDamage(float damage, Vector3 attackerPosition) {
+
+            if (dead) {
+                return;
+            }
+
+            Damage(damage);
+
+            OnKnockbackDamaged?.Invoke(attackerPosition);
+        }
+
+        public void Damage(float damage) {
 
             if (dead) {
                 return;
@@ -45,7 +57,7 @@ namespace IslandDefender {
 
             health -= damage;
 
-            OnDamaged?.Invoke(attackerPosition);
+            OnDamaged?.Invoke();
 
             if (health <= 0) {
                 DieAnimation();
@@ -74,5 +86,7 @@ namespace IslandDefender {
         protected virtual void Die() {
             ObjectPoolManager.ReturnObjectToPool(gameObject);
         }
+
+        
     }
 }

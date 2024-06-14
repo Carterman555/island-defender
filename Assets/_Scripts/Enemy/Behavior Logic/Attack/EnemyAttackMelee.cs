@@ -26,7 +26,7 @@ namespace IslandDefender {
 
             // deal damage
             if (enemy.GetCloseObject().TryGetComponent(out IDamagable damagable)) {
-                damagable.Damage(enemy.Stats.Damage, _transform.position);
+                damagable.KnockbackDamage(enemy.Stats.Damage, _transform.position);
             }
             else {
                 Debug.LogWarning("Could Not Get Damagable Component From " + enemy.GetCloseObject().name);

@@ -1,31 +1,22 @@
-using IslandDefender.Management;
 using IslandDefender.Utilities;
-using System;
 using UnityEngine;
 
 namespace IslandDefender.Environment {
-    public class DamagableResource : MonoBehaviour, IDamagable {
-
-        public event Action<Vector3> OnDamaged;
+    public class DamagableResource : Health {
 
         [SerializeField] private ResourceType resourceType;
         [SerializeField] private RandomInt resourceDropAmount;
 
-        private float health = 3;
+        [SerializeField] private float maxHealth = 5;
 
-        public void Damage(float damage, Vector3 attackerPosition) {
-            health -= damage;
-
-            OnDamaged?.Invoke(attackerPosition);
-
-            if (health <= 0) {
-                Die();
-            }
+        protected override void ResetValues() {
+            base.ResetValues();
+            health = maxHealth;
         }
 
-        private void Die() {
+        protected override void Die() {
             PlayerResources.Instance.AddResource(resourceType, resourceDropAmount.Randomize());
-            ObjectPoolManager.ReturnObjectToPool(gameObject);
+            base.Die();
         }
     }
 

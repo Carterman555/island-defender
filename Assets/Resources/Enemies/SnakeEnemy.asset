@@ -25,4 +25,4 @@ MonoBehaviour:
   enemyType: 0
   startingWave: 1
   strength: 1
-  spawnWeight: 100
+  spawnWeight: 10000

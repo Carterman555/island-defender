@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40bec60484f93d045816cd2537d8f906, type: 3}
-  m_Name: SmallWall
+  m_Name: BearTrap
   m_EditorClassIdentifier: 
-  buildingType: 0
-  prefab: {fileID: 5587154027408025168, guid: 97a1911d373e6f84e94b0b31e59aef85, type: 3}
-  placeVisualPrefab: {fileID: 4523781785265616530, guid: 0ef5795a2e70f734e91a17775c7abec8, type: 3}
-  buildOffset: {x: 3, y: 0}
-  woodCost: 3
+  buildingType: 3
+  prefab: {fileID: 1415141697023457759, guid: 2bc5dad6dcb65764eb97ec472f03cc3a, type: 3}
+  placeVisualPrefab: {fileID: 4376643210107673198, guid: 0300274194872f744a0fcd7b76f62365, type: 3}
+  buildOffset: {x: 3, y: -1.5}
+  woodCost: 6
   fiberCost: 0
   stoneCost: 0

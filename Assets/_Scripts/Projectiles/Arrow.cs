@@ -24,7 +24,7 @@ namespace IslandDefender {
 
         private void OnTriggerEnter2D(Collider2D collision) {
             if (collision.gameObject.layer == GameLayers.EnemyLayer) {
-                collision.GetComponent<IDamagable>().Damage(damage, transform.position);
+                collision.GetComponent<IDamagable>().KnockbackDamage(damage, transform.position);
                 Die();
             }
         }

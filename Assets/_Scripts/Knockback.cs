@@ -22,10 +22,10 @@ namespace IslandDefender {
         }
 
         private void OnEnable() {
-            damagable.OnDamaged += ApplyKnockback;
+            damagable.OnKnockbackDamaged += ApplyKnockback;
         }
         private void OnDisable() {
-            damagable.OnDamaged -= ApplyKnockback;
+            damagable.OnKnockbackDamaged -= ApplyKnockback;
         }
 
         private void ApplyKnockback(Vector3 attackerPos) {

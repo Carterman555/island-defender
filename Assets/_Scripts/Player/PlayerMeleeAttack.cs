@@ -59,7 +59,7 @@ namespace IslandDefender.Units.Player {
             RaycastHit2D[] hits = Physics2D.BoxCastAll(center, size, 0, Vector2.right, 0, damagableLayerMask);
 
             foreach (RaycastHit2D hit in hits) {
-                hit.transform.GetComponent<IDamagable>().Damage(playerStats.Damage, transform.position);
+                hit.transform.GetComponent<IDamagable>().KnockbackDamage(playerStats.Damage, transform.position);
             }
 
             OnAttack?.Invoke();
