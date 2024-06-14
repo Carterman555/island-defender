@@ -14,11 +14,9 @@ namespace IslandDefender {
 
         [SerializeField] private float strength;
         public float Strength => strength;
-
-        [SerializeField] private int spawnWeight;
-        public int SpawnWeight => spawnWeight;
     }
 
+    [System.Serializable]
     public enum EnemyType {
         Snake = 0,
         BabyFrog = 1,

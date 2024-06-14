@@ -6,13 +6,24 @@ namespace IslandDefender {
 	[CreateAssetMenu(fileName = "Wave", menuName = "Wave")]
 	public class ScriptableWave : ScriptableObject {
 
-		[SerializeField] private float difficulty;
-		public float Difficulty => difficulty;
+		[SerializeField] private float minWave;
+		public float MinWave => minWave;
 
-		[SerializeField] private Dictionary<EnemyType, bool> enemiesInWave = new Dictionary<EnemyType, bool>() {
-			{ EnemyType.Frog, true },
-		};
-		public Dictionary<EnemyType, bool> EnemiesInWave => enemiesInWave;
+        [Header("Weights")]
+		[SerializeField] private float snakeWeight;
+		[SerializeField] private float babyFrogWeight;
+		[SerializeField] private float snailWeight;
+		[SerializeField] private float frogWeight;
 
+		public Dictionary<EnemyType, float> GetEnemyWeights() {
+            Dictionary<EnemyType, float> enemyWeights = new() {
+                { EnemyType.Snake, snakeWeight },
+                { EnemyType.BabyFrog, babyFrogWeight },
+                { EnemyType.Snail, snailWeight },
+                { EnemyType.Frog, frogWeight },
+            };
+
+            return enemyWeights;
+        }
     }
 }

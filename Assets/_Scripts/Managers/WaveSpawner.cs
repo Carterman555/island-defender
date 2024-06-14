@@ -11,13 +11,21 @@ namespace IslandDefender {
     public class WaveSpawner {
 
         private EnemyWaveManager enemyWaveManager;
-        private List<EnemyType> availableEnemies;
+        private Dictionary<EnemyType, int> enemyAmounts;
         private float waveDifficulty;
+        private Vector3 spawnPos;
 
-        public WaveSpawner(EnemyWaveManager enemyWaveManager, List<EnemyType> availableEnemies, float difficulty) {
+        private int totalEnemiesInWave;
+
+        public int EnemiesLeft => enemyAmounts.Values.Sum();
+
+        public WaveSpawner(EnemyWaveManager enemyWaveManager, Dictionary<EnemyType, int> enemyAmounts, float difficulty, Vector3 spawnPos) {
             this.enemyWaveManager = enemyWaveManager;
-            this.availableEnemies = availableEnemies;
-            this.waveDifficulty = difficulty;
+            this.enemyAmounts = enemyAmounts;
+            waveDifficulty = difficulty;
+            this.spawnPos = spawnPos;
+
+            totalEnemiesInWave = EnemiesLeft;
 
             enemyWaveManager.StartCoroutine(SpawnWave());
 
@@ -26,24 +34,19 @@ namespace IslandDefender {
 
         private IEnumerator SpawnWave() {
 
-            float difficultyValueRemaining = waveDifficulty;
-
-            while (difficultyValueRemaining > 0) {
+            while (EnemiesLeftToSpawn()) {
 
                 EnemyType enemyToSpawn = ChoseRandomEnemy();
+
+                enemyAmounts[enemyToSpawn]--;
                 SpawnEnemy(enemyToSpawn);
 
-                float strengthOfSpawned = ResourceSystem.Instance.GetEnemy(enemyToSpawn).Strength;
-                difficultyValueRemaining -= strengthOfSpawned;
-
-                float interval = GetSpawnInterval(difficultyValueRemaining);
-
-                Debug.Log("Spawned: " + enemyToSpawn + " with interval " + interval);
+                float interval = GetSpawnInterval();
 
                 yield return new WaitForSeconds(interval);
             }
 
-            enemyWaveManager.StartCoroutine(enemyWaveManager.FinishedSpawningWave());
+            enemyWaveManager.StartCoroutine(enemyWaveManager.BeginDayTime());
         }
 
         public void testChooser() {
@@ -68,13 +71,13 @@ namespace IslandDefender {
         // a 80% chance of getting picked
         private EnemyType ChoseRandomEnemy() {
 
-            float totalWeight = availableEnemies.Sum(enemyType => ResourceSystem.Instance.GetEnemy(enemyType).SpawnWeight);
+            float totalWeight = EnemiesLeft;
 
             float randomValue = UnityEngine.Random.Range(0, totalWeight);
             float cumulativeWeight = 0;
 
-            foreach (EnemyType enemyType in availableEnemies) {
-                float weight = ResourceSystem.Instance.GetEnemy(enemyType).SpawnWeight;
+            foreach (EnemyType enemyType in Enum.GetValues(typeof(EnemyType))) {
+                float weight = enemyAmounts[enemyType];
                 cumulativeWeight += weight;
 
                 if (randomValue <= cumulativeWeight) {
@@ -88,21 +91,27 @@ namespace IslandDefender {
 
         private void SpawnEnemy(EnemyType enemyType) {
             GameObject prefab = ResourceSystem.Instance.GetEnemy(enemyType).Prefab;
-            ObjectPoolManager.SpawnObject(prefab, enemyWaveManager.GetRandomSpawnPos(), Quaternion.identity, Containers.Instance.Enemies);
+            ObjectPoolManager.SpawnObject(prefab, spawnPos, Quaternion.identity, Containers.Instance.Enemies);
         }
 
-        private float GetSpawnInterval(float difficultyValueRemaining) {
+        private float GetSpawnInterval() {
 
             //... value between 0 and 1 depending on how much of the wave is completed
-            float waveProgress = GetWaveProgress(difficultyValueRemaining);
+            float waveProgress = GetWaveProgress();
 
             //... the later in the wave, the higher the waveProgressDifficulty and the more enemies spawn
             float waveProgressDifficultyMult = GetMultDifficultyFromProgress(waveProgress);
 
             float avgInterval = GetAvgInterval(waveDifficulty * waveProgressDifficultyMult); // techinically not exactly avg, but close
-            float intervalVariance = 0.15f;
+            //float intervalVariance = 0.15f;
+            float intervalVariance = 0f;
             float interval = UnityEngine.Random.Range(avgInterval * (1 - intervalVariance), avgInterval * (1 + intervalVariance));
             return interval;
+        }
+
+        private bool EnemiesLeftToSpawn() {
+            int amountOfEnemies = EnemiesLeft;
+            return amountOfEnemies > 0;
         }
 
         private float GetMultDifficultyFromProgress(float progress) {
@@ -115,8 +124,8 @@ namespace IslandDefender {
         }
 
         // value between 0 and 1 depending on how much of the wave is completed
-        public float GetWaveProgress(float difficultyValueRemaining) {
-            return Mathf.InverseLerp(waveDifficulty, 0, difficultyValueRemaining); ;
+        public float GetWaveProgress() {
+            return Mathf.InverseLerp(0, totalEnemiesInWave, EnemiesLeft);
         }
     }
 }
