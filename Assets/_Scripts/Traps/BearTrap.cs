@@ -1,3 +1,4 @@
+using IslandDefender.Management;
 using UnityEngine;
 
 namespace IslandDefender {
@@ -15,6 +16,10 @@ namespace IslandDefender {
         private void OnTriggerEnter2D(Collider2D collision) {
             if (set && collision.gameObject.layer == GameLayers.EnemyLayer) {
                 Close();
+
+                if (collision.TryGetComponent(out BearTrapBreaker bearTrapBreaker)) {
+                    ObjectPoolManager.ReturnObjectToPool(gameObject);
+                }
 
                 collision.GetComponent<IDamagable>().KnockbackDamage(damage, transform.position);
             }

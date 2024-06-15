@@ -67,9 +67,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.19, y: 0}
   serializedVersion: 2
-  m_Radius: 0.69
+  m_Radius: 0.87
 --- !u!50 &7752314981304443906
 Rigidbody2D:
   serializedVersion: 4
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerFilter:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 448
 --- !u!114 &6143377262603329466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +125,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  damageCooldown: 1
+  damageCooldown: 2
+  applyKnockback: 1
 --- !u!1 &522134059670432063
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,7 +257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
-  spriteRenderer: {fileID: 0}
+  _spriteRenderer: {fileID: 8100170019473201375}
 --- !u!114 &-429399862899453730
 MonoBehaviour:
   m_ObjectHideFlags: 0

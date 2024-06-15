@@ -39,6 +39,11 @@ namespace IslandDefender {
 
         #endregion
 
+        private bool move = true;
+        public void SetMove(bool move) {
+            this.move = move;
+        }
+
         private void Awake() {
             FarState = Instantiate(scriptableFarState);
             MidrangeState = Instantiate(scriptableMidrangeState);
@@ -97,6 +102,8 @@ namespace IslandDefender {
         }
 
         public void SetEnemyXVel(float xVelocity) {
+
+            if (!move) return;
             if (Stats.KnockBackable > 0 && Knockback.BeingKnockedBack()) return;
 
             RB.velocity = new Vector3(xVelocity, RB.velocity.y);

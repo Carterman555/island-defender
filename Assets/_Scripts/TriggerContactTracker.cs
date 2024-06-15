@@ -16,6 +16,19 @@ namespace IslandDefender {
             return contacts;
         }
 
+        private void Update() {
+            RemoveDisabled();
+        }
+
+        private void RemoveDisabled() {
+            for (int i = contacts.Count - 1; i >= 0; i--) {
+                if (!contacts[i].activeSelf) {
+                    OnLeaveContact?.Invoke(contacts[i]);
+                    contacts.RemoveAt(i);
+                }
+            }
+        }
+
         private void OnTriggerEnter2D(Collider2D collision) {
             if (layerFilter.ContainsLayer(collision.gameObject.layer)) {
                 contacts.Add(collision.gameObject);

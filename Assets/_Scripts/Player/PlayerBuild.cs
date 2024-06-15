@@ -86,7 +86,7 @@ namespace IslandDefender {
 
         private void CostPlayer(ScriptableBuilding scriptableBuilding) {
             PlayerResources.Instance.RemoveResource(ResourceType.Wood, scriptableBuilding.WoodCost);
-            PlayerResources.Instance.RemoveResource(ResourceType.Fiber, scriptableBuilding.StoneCost);
+            PlayerResources.Instance.RemoveResource(ResourceType.Fiber, scriptableBuilding.FiberCost);
             PlayerResources.Instance.RemoveResource(ResourceType.Stone, scriptableBuilding.StoneCost);
         }
     }

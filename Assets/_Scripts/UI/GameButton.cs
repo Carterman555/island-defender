@@ -10,10 +10,10 @@ namespace IslandDefender.UI {
             button = GetComponent<Button>();
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             button.onClick.AddListener(OnClicked);
         }
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             button.onClick.RemoveListener(OnClicked);
         }
 

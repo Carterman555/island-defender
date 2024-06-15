@@ -10,9 +10,8 @@ using UnityEngine;
 namespace IslandDefender {
     public class WaveSpawner {
 
-        private EnemyWaveManager enemyWaveManager;
         private Dictionary<EnemyType, int> enemyAmounts;
-        private float waveDifficulty;
+        private float spawnInterval;
         private Vector3 spawnPos;
 
         private int totalEnemiesInWave;
@@ -25,10 +24,9 @@ namespace IslandDefender {
             return completed;
         }
 
-        public WaveSpawner(EnemyWaveManager enemyWaveManager, Dictionary<EnemyType, int> enemyAmounts, float difficulty, Vector3 spawnPos) {
-            this.enemyWaveManager = enemyWaveManager;
+        public WaveSpawner(EnemyWaveManager enemyWaveManager, Dictionary<EnemyType, int> enemyAmounts, float spawnInterval, Vector3 spawnPos) {
             this.enemyAmounts = enemyAmounts;
-            waveDifficulty = difficulty;
+            this.spawnInterval = spawnInterval;
             this.spawnPos = spawnPos;
 
             totalEnemiesInWave = EnemiesLeft;
@@ -50,7 +48,7 @@ namespace IslandDefender {
                 SpawnEnemy(enemyToSpawn);
 
                 float interval = GetSpawnInterval();
-
+                Debug.Log("Actual interval: " + interval);
                 yield return new WaitForSeconds(interval);
             }
 
@@ -110,7 +108,7 @@ namespace IslandDefender {
             //... the later in the wave, the higher the waveProgressDifficulty and the more enemies spawn
             float waveProgressDifficultyMult = GetMultDifficultyFromProgress(waveProgress);
 
-            float avgInterval = GetAvgInterval(waveDifficulty * waveProgressDifficultyMult); // techinically not exactly avg, but close
+            float avgInterval = spawnInterval * waveProgressDifficultyMult; // techinically not exactly avg, but close
             //float intervalVariance = 0.15f;
             float intervalVariance = 0f;
             float interval = UnityEngine.Random.Range(avgInterval * (1 - intervalVariance), avgInterval * (1 + intervalVariance));
@@ -124,11 +122,6 @@ namespace IslandDefender {
 
         private float GetMultDifficultyFromProgress(float progress) {
             return (progress * 0.5f) + 0.5f;
-        }
-
-        // the higher the difficulty, the lower the interval - Desmos: y=\frac{100}{x+10}
-        private float GetAvgInterval(float difficulty) {
-            return 200 / (difficulty + 10);
         }
 
         // value between 0 and 1 depending on how much of the wave is completed

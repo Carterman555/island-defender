@@ -11,10 +11,10 @@ namespace IslandDefender {
         }
 
         private void OnEnable() {
-            EnemyWaveManager.OnNewWave += UpdateText;
+            EnemyWaveManager.OnNextWave += UpdateText;
         }
         private void OnDisable() {
-            EnemyWaveManager.OnNewWave -= UpdateText;
+            EnemyWaveManager.OnNextWave -= UpdateText;
         }
 
         private void UpdateText(int waveNum) {

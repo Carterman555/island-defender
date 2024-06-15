@@ -40,7 +40,8 @@ namespace IslandDefender.Buildings {
 		}
 
 		private bool EnemyInRange(out Vector3 position) {
-			GameObject closestEnemy = enemiesInRangeTracker.GetContacts()
+
+            GameObject closestEnemy = enemiesInRangeTracker.GetContacts()
                 .OrderBy(go => Vector2.Distance(go.transform.position, transform.position))
 				.FirstOrDefault();
 

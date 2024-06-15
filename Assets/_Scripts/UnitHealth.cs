@@ -9,8 +9,6 @@ namespace IslandDefender {
 
         #region Set Methods
 
-        [SerializeField] private SpriteRenderer spriteRenderer;// replace with animation
-
         public void SetInvincible(bool invincible) {
             this.invincible = invincible;
             spriteRenderer.color = invincible ? Color.gray : Color.white; // replace with animation

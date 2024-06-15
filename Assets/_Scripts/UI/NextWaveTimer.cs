@@ -11,12 +11,12 @@ namespace IslandDefender {
         }
 
         private void Update() {
-            if (EnemyWaveManager.Instance.IsDayTime(out float timeLeft)) {
-                text.text = "Time Until Next Wave: " + ((int)timeLeft).ToString();
-            }
-            else {
-                text.text = "";
-            }
+            //if (EnemyWaveManager.Instance.IsDayTime(out float timeLeft)) {
+            //    text.text = "Time Until Next Wave: " + ((int)timeLeft).ToString();
+            //}
+            //else {
+            //    text.text = "";
+            //}
         }
     }
 }

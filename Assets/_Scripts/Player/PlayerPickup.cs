@@ -7,21 +7,10 @@ namespace IslandDefender {
 
 		public static event Action OnPickup;
 
-        private IPickupable pickupableTouching;
-
         [SerializeField] private PlayerAnimator playerAnimator;
         [SerializeField] private Animator anim;
 
-        private void OnTriggerEnter2D(Collider2D collision) {
-            if (collision.TryGetComponent(out IPickupable pickupable)) {
-                pickupableTouching = pickupable;
-            }
-        }
-        private void OnTriggerExit2D(Collider2D collision) {
-            if (collision.TryGetComponent(out IPickupable pickupable)) {
-                pickupableTouching = null;
-            }
-        }
+        [SerializeField] private TriggerContactTracker resourceContactTracker;
 
         private void OnEnable() {
             playerAnimator.OnAnimationTriggered += TryPickup;
@@ -31,21 +20,18 @@ namespace IslandDefender {
         }
 
         private void TryPickup(AnimationTriggerType animationTriggerType) {
-            if (pickupableTouching != null && animationTriggerType == AnimationTriggerType.Pickup) {
+            if (resourceContactTracker.GetContacts().Count > 0 && animationTriggerType == AnimationTriggerType.Pickup) {
 
-                pickupableTouching.Pickup();
-                inPickupAnimation = false;
-
+                IPickupable pickupable = resourceContactTracker.GetContacts()[0].GetComponent<IPickupable>();
+                pickupable.Pickup();
                 OnPickup?.Invoke();
             }
         }
 
-        private bool inPickupAnimation = false;
 
         private void Update() {
-            if (!inPickupAnimation && pickupableTouching != null && Input.GetKeyDown(KeyCode.E)) {
+            if (resourceContactTracker.GetContacts().Count > 0 && Input.GetKeyDown(KeyCode.E)) {
                 anim.SetTrigger("gather");
-                inPickupAnimation = true;
             }
         }
     }

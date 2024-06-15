@@ -328,6 +328,7 @@ GameObject:
   - component: {fileID: 6526849290593183029}
   - component: {fileID: 5271083492145613194}
   - component: {fileID: 1197236977227903466}
+  - component: {fileID: -3990844324282830534}
   m_Layer: 9
   m_Name: SnailEnemy
   m_TagString: Untagged
@@ -470,6 +471,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allyContactTracker: {fileID: 3538972655643564533}
+--- !u!114 &-3990844324282830534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2897293304499297277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89437700bf7e8a64b84c98bffcac6100, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4619464812302589822
 GameObject:
   m_ObjectHideFlags: 0

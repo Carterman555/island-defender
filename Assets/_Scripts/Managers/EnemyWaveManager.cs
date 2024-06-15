@@ -1,5 +1,5 @@
+using IslandDefender.Environment;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,7 +12,8 @@ namespace IslandDefender {
 	/// </summary>
 	public class EnemyWaveManager : StaticInstance<EnemyWaveManager> {
 
-        public static event Action<int> OnNewWave;
+        public static event Action<int> OnStartWave;
+        public static event Action<int> OnNextWave;
 
         [SerializeField] private Transform leftSpawnPoint;
         [SerializeField] private Transform rightSpawnPoint;
@@ -27,16 +28,9 @@ namespace IslandDefender {
         private WaveSpawner leftWaveSpawner;
         private WaveSpawner rightWaveSpawner;
 
+        [SerializeField] private float[] spawnIntervals;
         private float currentDifficulty;
 		private int currentWave = 1;
-
-        [SerializeField] private float timeBetweenWaves;
-        private float dayTimeTimer;
-
-        public bool IsDayTime(out float timeLeft) {
-            timeLeft = dayTimeTimer;
-            return dayTimeTimer > 0;
-        }
 
         protected override void Awake() {
             base.Awake();
@@ -45,22 +39,16 @@ namespace IslandDefender {
         }
 
         private void Start() {
-            dayTimeTimer = timeBetweenWaves;
             SetupCurrentWave();
         }
 
         private void Update() {
-            dayTimeTimer -= Time.deltaTime;
-            if (dayTimeTimer < 0) {
-                dayTimeTimer = timeBetweenWaves;
-                PlayCurrentWave();
-            }
 
             if (leftWaveSpawner == null || rightWaveSpawner == null) {
                 return;
             }
 
-            if (leftWaveSpawner.Completed() && rightWaveSpawner.Completed()) {
+            if (leftWaveSpawner.Completed() && rightWaveSpawner.Completed() && !AnyEnemiesAlive()) {
                 ContinueNextWave();
                 SetupCurrentWave();
             }
@@ -77,6 +65,8 @@ namespace IslandDefender {
 
             leftWaveSpawner = null;
             rightWaveSpawner = null;
+
+            OnNextWave?.Invoke(currentWave);
         }
 
         private void SetupCurrentWave() {
@@ -96,13 +86,15 @@ namespace IslandDefender {
             UpdatePreviews(rightSideEnemyPreviews, rightSideEnemyAmounts);
         }
 
-        private void PlayCurrentWave() {
+        public void PlayCurrentWave() {
             HidePreviews();
 
-            leftWaveSpawner = new WaveSpawner(this, leftSideEnemyAmounts, currentDifficulty, leftSpawnPoint.position);
-            rightWaveSpawner = new WaveSpawner(this, rightSideEnemyAmounts, currentDifficulty, rightSpawnPoint.position);
+            float currentInterval = spawnIntervals[currentWave - 1];
+            print("currentInterval: " + currentInterval);
+            leftWaveSpawner = new WaveSpawner(this, leftSideEnemyAmounts, currentInterval, leftSpawnPoint.position);
+            rightWaveSpawner = new WaveSpawner(this, rightSideEnemyAmounts, currentInterval, rightSpawnPoint.position);
 
-            OnNewWave?.Invoke(currentWave);
+            OnStartWave?.Invoke(currentWave);
         }
 
         // find the wave that can be spawned depending on day (harder enemies can only be spawned on later waves)
@@ -165,6 +157,15 @@ namespace IslandDefender {
 
             // Should never reach here if weights are properly assigned
             throw new InvalidOperationException("Failed to pick an enemy based on weights.");
+        }
+
+        private bool AnyEnemiesAlive() {
+            foreach(Transform enemy in Containers.Instance.Enemies) {
+                if (enemy.gameObject.activeSelf) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

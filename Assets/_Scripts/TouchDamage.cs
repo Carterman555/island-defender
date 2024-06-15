@@ -1,4 +1,5 @@
 using IslandDefender;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,9 @@ namespace IslandDefender.Management {
 
     [RequireComponent(typeof(TriggerContactTracker))]
     public class TouchDamage : MonoBehaviour {
+
+        public event Action OnDamage;
+
         [SerializeField] private float damage = 1;
         [SerializeField] private float damageCooldown = 1f; // Damage interval in seconds
         [SerializeField] private bool applyKnockback = true;
@@ -51,6 +55,14 @@ namespace IslandDefender.Management {
 
         private IEnumerator DamageOverTime(GameObject target) {
             while (true) {
+
+                if (!target.activeSelf) {
+                    if (activeCoroutines.TryGetValue(target, out Coroutine coroutine)) {
+                        StopCoroutine(coroutine);
+                        activeCoroutines.Remove(target);
+                    }
+                }
+
                 if (target.TryGetComponent(out IDamagable damagable)) {
                     if (applyKnockback) {
                         damagable.KnockbackDamage(damage, transform.position);
@@ -58,6 +70,8 @@ namespace IslandDefender.Management {
                     else {
                         damagable.Damage(damage);
                     }
+
+                    OnDamage?.Invoke();
                 }
                 yield return new WaitForSeconds(damageCooldown);
             }

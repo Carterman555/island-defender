@@ -15,6 +15,9 @@ namespace IslandDefender.Units.Player {
         [SerializeField] private PlayerAnimator playerAnimator;
         private PlayerController playerController;
 
+        [SerializeField] private float cooldown;
+        [SerializeField] private float damage;
+
         private Stats playerStats;
 
         private void Awake() {
@@ -32,8 +35,9 @@ namespace IslandDefender.Units.Player {
         private void Update() {
             attackTimer += Time.deltaTime;
 
-            bool canAttack = attackTimer > playerStats.AttackCooldown && !PlayerBuild.Instance.IsPlacingBuilding;
+            bool canAttack = attackTimer > cooldown && !PlayerBuild.Instance.IsPlacingBuilding;
             if (canAttack && Input.GetMouseButtonDown(1)) {
+                attackTimer = 0;
                 anim.SetTrigger("rangedAttack");
             }
         }
@@ -54,7 +58,7 @@ namespace IslandDefender.Units.Player {
                 Quaternion.identity,
                 Containers.Instance.Projectiles);
 
-            arrow.Shoot(direction, playerStats.Damage);
+            arrow.Shoot(direction, damage);
         }
     }
 }

@@ -41,6 +41,7 @@ namespace IslandDefender.Units.Player {
             bool canAttack = attackTimer > playerStats.AttackCooldown && !Helpers.IsMouseOverUI();
             if (canAttack && Input.GetMouseButtonDown(0)) {
                 anim.SetTrigger("meleeAttack");
+                attackTimer = 0;
             }
         }
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Faction: 1
   _stats:
-    Health: 4
+    Health: 2
     Damage: 1
     AttackCooldown: 1
     MoveSpeed: 5
@@ -25,4 +25,3 @@ MonoBehaviour:
   enemyType: 0
   startingWave: 1
   strength: 1
-  spawnWeight: 10000

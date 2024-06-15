@@ -11,6 +11,19 @@ namespace IslandDefender.Units.Player {
             maxHealth = GetComponent<UnitBase>().Stats.Health;
         }
 
+        protected override void OnEnable() {
+            base.OnEnable();
+            EnemyWaveManager.OnNextWave += Heal;
+        }
+        protected override void OnDisable() {
+            base.OnDisable();
+            EnemyWaveManager.OnNextWave -= Heal;
+        }
+
+        private void Heal(int n) {
+            health = maxHealth;
+        }
+
         protected override void ResetValues() {
             base.ResetValues();
             health = maxHealth;

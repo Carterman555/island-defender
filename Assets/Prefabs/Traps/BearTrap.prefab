@@ -133,7 +133,7 @@ MonoBehaviour:
   openVisual: {fileID: 1126423764972255399}
   closeVisual: {fileID: 7463991980225989706}
   damage: 5
-  resetCooldown: 5
+  resetCooldown: 10
 --- !u!1 &2883920966154569296
 GameObject:
   m_ObjectHideFlags: 0

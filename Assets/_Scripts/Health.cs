@@ -16,10 +16,10 @@ namespace IslandDefender {
         private IAnimationTrigger animationTrigger;
 
         // prototyping
-        private SpriteRenderer spriteRenderer;
-        private float maxHealth; 
+        protected SpriteRenderer spriteRenderer;
+        private float _maxHealth;
         private void Start() {
-            maxHealth = health;
+            _maxHealth = health;
         }
         // prototyping /\
 
@@ -32,14 +32,14 @@ namespace IslandDefender {
             }
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             if (anim != null) {
                 animationTrigger.OnAnimationTriggered += OnAnimationTriggered;
             }
 
             ResetValues();
         }
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             if (anim != null) {
                 animationTrigger.OnAnimationTriggered -= OnAnimationTriggered;
             }
@@ -47,6 +47,7 @@ namespace IslandDefender {
 
         protected virtual void ResetValues() {
             dead = false;
+            spriteRenderer.Fade(1); // prototyping
         }
 
         public virtual void KnockbackDamage(float damage, Vector3 attackerPosition) {
@@ -69,7 +70,7 @@ namespace IslandDefender {
 
             health -= damage;
 
-            spriteRenderer.Fade(Mathf.InverseLerp(0, maxHealth, health));
+            spriteRenderer.Fade(Mathf.InverseLerp(0, _maxHealth, health));
 
             OnDamaged?.Invoke();
 
