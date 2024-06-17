@@ -33,6 +33,10 @@ namespace IslandDefender {
             }
             else if (collision.gameObject.layer == GameLayers.EnemyLayer) {
 
+                if (collision.TryGetComponent(out ProjectileImmunity projectileImmunity)) {
+                    return;
+                }
+
                 if (collision.TryGetComponent(out IDamagable damagable)) {
                     damagable.KnockbackDamage(damage, transform.position);
                 }

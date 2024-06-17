@@ -1,4 +1,5 @@
 using IslandDefender.Environment.Building;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace IslandDefender {
@@ -35,10 +36,12 @@ namespace IslandDefender {
             jumpTimer += Time.deltaTime;
             if (jumpTimer > jumpCooldown) {
                 jumpTimer = 0;
+                enemy.RB.velocity = Vector2.zero;
                 enemy.RB.AddForce(new Vector2(jumpForce.x * direction, jumpForce.y), ForceMode2D.Impulse);
             }
 
             StopOnGrounded();
+            JumpOnSpikeContact();
         }
 
         [SerializeField] private LayerMask groundLayer;
@@ -56,6 +59,23 @@ namespace IslandDefender {
             }
             else if (!groundHit) {
                 grounded = false;
+            }
+        }
+
+        private bool touchingTrap;
+
+        private void JumpOnSpikeContact() {
+
+            float checkDistance = 0.1f;
+            CapsuleCollider2D col = enemy.GetComponent<CapsuleCollider2D>();
+            RaycastHit2D trapHit = Physics2D.CapsuleCast(col.bounds.center, col.size * 1.3f, col.direction, 0, Vector2.down, checkDistance);
+
+            if (!touchingTrap && trapHit.transform.TryGetComponent(out Spikes spikes)) {
+                jumpTimer = float.MaxValue;
+                touchingTrap = true;
+            }
+            else if (!trapHit.transform.TryGetComponent(out Spikes _spikes)) {
+                touchingTrap = false;
             }
         }
 

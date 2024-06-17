@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40bec60484f93d045816cd2537d8f906, type: 3}
-  m_Name: SmallWall
+  m_Name: Garden
   m_EditorClassIdentifier: 
-  buildingType: 0
-  prefab: {fileID: 5587154027408025168, guid: 97a1911d373e6f84e94b0b31e59aef85, type: 3}
-  placeVisualPrefab: {fileID: 4523781785265616530, guid: 0ef5795a2e70f734e91a17775c7abec8, type: 3}
-  buildOffset: {x: 3, y: 0}
+  buildingType: 5
+  prefab: {fileID: 6296064580323104915, guid: 776f89dbc94be1d4c852e581a08bb48a, type: 3}
+  placeVisualPrefab: {fileID: 6296064580323104915, guid: 099c87a107a977c47985227b57ba8cab, type: 3}
+  buildOffset: {x: 4, y: -0.55}
   woodCost: 5
-  fiberCost: 0
+  fiberCost: 3
   stoneCost: 0

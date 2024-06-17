@@ -146,4 +146,4 @@ MonoBehaviour:
   resourceType: 2
   resourceDropAmount:
     MinValue: 1
-    MaxValue: 1
+    MaxValue: 2

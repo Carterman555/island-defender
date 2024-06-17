@@ -34,7 +34,7 @@ namespace IslandDefender {
 
         protected override void Awake() {
             base.Awake();
-			float startingDifficulty = 5;
+			float startingDifficulty = 10;
             currentDifficulty = startingDifficulty;
         }
 
@@ -60,7 +60,7 @@ namespace IslandDefender {
         private void ContinueNextWave() {
             currentWave++;
 
-            float difficultyIncrease = 3;
+            float difficultyIncrease = 5;
             currentDifficulty += difficultyIncrease;
 
             leftWaveSpawner = null;
@@ -77,11 +77,13 @@ namespace IslandDefender {
 
             // setup left side
             ScriptableWave leftChosenWave = availableWaves.RandomItem();
+            print("Left Wave: " + leftChosenWave.name);
             leftSideEnemyAmounts = CalculateEnemyAmounts(leftChosenWave);
             UpdatePreviews(leftSideEnemyPreviews, leftSideEnemyAmounts);
 
             // setup right side
             ScriptableWave rightChosenWave = availableWaves.RandomItem();
+            print("Right Wave: " + rightChosenWave.name);
             rightSideEnemyAmounts = CalculateEnemyAmounts(rightChosenWave);
             UpdatePreviews(rightSideEnemyPreviews, rightSideEnemyAmounts);
         }
@@ -90,9 +92,8 @@ namespace IslandDefender {
             HidePreviews();
 
             float currentInterval = spawnIntervals[currentWave - 1];
-            print("currentInterval: " + currentInterval);
-            leftWaveSpawner = new WaveSpawner(this, leftSideEnemyAmounts, currentInterval, leftSpawnPoint.position);
-            rightWaveSpawner = new WaveSpawner(this, rightSideEnemyAmounts, currentInterval, rightSpawnPoint.position);
+            leftWaveSpawner = new WaveSpawner(this, leftSideEnemyAmounts, currentInterval, leftSpawnPoint.position, false);
+            rightWaveSpawner = new WaveSpawner(this, rightSideEnemyAmounts, currentInterval, rightSpawnPoint.position, true);
 
             OnStartWave?.Invoke(currentWave);
         }

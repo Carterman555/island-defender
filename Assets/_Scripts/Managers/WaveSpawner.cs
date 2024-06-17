@@ -24,7 +24,7 @@ namespace IslandDefender {
             return completed;
         }
 
-        public WaveSpawner(EnemyWaveManager enemyWaveManager, Dictionary<EnemyType, int> enemyAmounts, float spawnInterval, Vector3 spawnPos) {
+        public WaveSpawner(EnemyWaveManager enemyWaveManager, Dictionary<EnemyType, int> enemyAmounts, float spawnInterval, Vector3 spawnPos, bool delaySpawning) {
             this.enemyAmounts = enemyAmounts;
             this.spawnInterval = spawnInterval;
             this.spawnPos = spawnPos;
@@ -33,12 +33,16 @@ namespace IslandDefender {
 
             completed = false;
 
-            enemyWaveManager.StartCoroutine(SpawnWave());
+            enemyWaveManager.StartCoroutine(SpawnWave(delaySpawning));
 
             //testChooser();
         }
 
-        private IEnumerator SpawnWave() {
+        private IEnumerator SpawnWave(bool delaySpawning) {
+
+            if (delaySpawning) {
+                yield return new WaitForSeconds(spawnInterval * 0.5f);
+            }
 
             while (EnemiesLeftToSpawn()) {
 
@@ -108,7 +112,7 @@ namespace IslandDefender {
             //... the later in the wave, the higher the waveProgressDifficulty and the more enemies spawn
             float waveProgressDifficultyMult = GetMultDifficultyFromProgress(waveProgress);
 
-            float avgInterval = spawnInterval * waveProgressDifficultyMult; // techinically not exactly avg, but close
+            float avgInterval = spawnInterval / waveProgressDifficultyMult; // techinically not exactly avg, but close
             //float intervalVariance = 0.15f;
             float intervalVariance = 0f;
             float interval = UnityEngine.Random.Range(avgInterval * (1 - intervalVariance), avgInterval * (1 + intervalVariance));
@@ -121,12 +125,12 @@ namespace IslandDefender {
         }
 
         private float GetMultDifficultyFromProgress(float progress) {
-            return (progress * 0.5f) + 0.5f;
+            return (progress * 0.3f) + 0.7f;
         }
 
         // value between 0 and 1 depending on how much of the wave is completed
         public float GetWaveProgress() {
-            return Mathf.InverseLerp(0, totalEnemiesInWave, EnemiesLeft);
+            return Mathf.InverseLerp(totalEnemiesInWave, 0, EnemiesLeft);
         }
     }
 }

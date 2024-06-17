@@ -21,9 +21,6 @@ namespace IslandDefender {
                 SplashPoison();
                 ObjectPoolManager.ReturnObjectToPool(gameObject);
             }
-            else if (collision.gameObject.layer == GameLayers.BuildingLayer) {
-                ObjectPoolManager.ReturnObjectToPool(gameObject);
-            }
         }
 
         private void SplashPoison() {

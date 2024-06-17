@@ -712,7 +712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
-  uses: 20
+  uses: 40
   touchDamage: {fileID: 5106162772631787414}
 --- !u!1 &6836258842177228058
 GameObject:

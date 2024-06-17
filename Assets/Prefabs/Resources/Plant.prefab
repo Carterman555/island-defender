@@ -177,5 +177,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceType: 1
   resourceDropAmount:
-    MinValue: 1
-    MaxValue: 1
+    MinValue: 2
+    MaxValue: 3

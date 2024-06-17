@@ -34,6 +34,7 @@ namespace IslandDefender {
 		Wall = 1,
 		Spikes = 2,
 		BearTrap = 3,
-		BasicTower = 4
+		BasicTower = 4,
+		Garden = 5
 	}
 }

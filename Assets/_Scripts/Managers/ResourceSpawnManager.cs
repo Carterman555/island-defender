@@ -1,17 +1,28 @@
 using IslandDefender.Environment;
 using IslandDefender.Management;
+using IslandDefender.Utilities;
 using UnityEngine;
 
 namespace IslandDefender {
-	public class ResourceSpawnManager : MonoBehaviour {
+    public class ResourceSpawnManager : StaticInstance<ResourceSpawnManager> {
 
-		[SerializeField] private GameObject treePrefab;
-		[SerializeField] private GameObject plantPrefab;
-		[SerializeField] private GameObject rockPrefab;
+        [SerializeField] private GameObject treePrefab;
+        [SerializeField] private GameObject plantPrefab;
+        [SerializeField] private GameObject rockPrefab;
 
-		[SerializeField] private int treeAmount;
-		[SerializeField] private int plantAmount;
-		[SerializeField] private int rockAmount;
+        [SerializeField] private RandomInt treeAmount;
+        [SerializeField] private RandomInt plantAmount;
+        [SerializeField] private RandomInt rockAmount;
+
+        private int gardenAmount;
+
+        public void AddGarden() {
+            gardenAmount++;
+        }
+
+        public void RemoveGarden() {
+            gardenAmount--;
+        }
 
         private void Start() {
             SpawnResources(-1);
@@ -25,17 +36,26 @@ namespace IslandDefender {
         }
 
         private void SpawnResources(int n) {
-			float treeY = 2.77f;
-			SpawnOneType(treePrefab, treeAmount, treeY);
+            float treeY = 2.77f;
+            SpawnOneType(treePrefab, ApplyGardenBoost(treeAmount.Randomize()), treeY);
 
             float plantY = -1.5f;
-            SpawnOneType(plantPrefab, plantAmount, plantY);
+            SpawnOneType(plantPrefab, ApplyGardenBoost(plantAmount.Randomize()), plantY);
 
             float rockY = -1.45f;
-            SpawnOneType(rockPrefab, rockAmount, rockY);
+            SpawnOneType(rockPrefab, ApplyGardenBoost(rockAmount.Randomize()), rockY);
         }
 
-		private void SpawnOneType(GameObject prefab, int amount, float yPos) {
+        //private int ApplyGardenBoost(int amount) {
+        //    float gardenSpawnBoost = 0.3f;
+        //    return Mathf.RoundToInt(amount * (1 + (gardenAmount * gardenSpawnBoost)));
+        //}
+
+        private int ApplyGardenBoost(int amount) {
+            return amount + gardenAmount;
+        }
+
+        private void SpawnOneType(GameObject prefab, int amount, float yPos) {
             float minX = -30f;
             float maxX = 30f;
             for (int i = 0; i < amount; i++) {
