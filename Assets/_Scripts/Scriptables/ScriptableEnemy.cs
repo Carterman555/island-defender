@@ -22,6 +22,6 @@ namespace IslandDefender {
         BabyFrog = 1,
         Frog = 2,
         Snail = 3,
-        //Plant = 4,
+        FlyTrap = 4,
     }
 }

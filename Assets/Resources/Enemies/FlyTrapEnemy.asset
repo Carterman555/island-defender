@@ -9,17 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ce95598e91bcb045ba583f24f01a0e8, type: 3}
-  m_Name: Player
+  m_Script: {fileID: 11500000, guid: 977c430e70dc3604aa8e9ef207b10b23, type: 3}
+  m_Name: FlyTrapEnemy
   m_EditorClassIdentifier: 
-  Faction: 0
+  Faction: 1
   _stats:
-    Health: 15
+    Health: 6
     Damage: 2
-    AttackCooldown: 0.5
-    MoveSpeed: -1
-    KnockBackable: 10
-  Prefab: {fileID: 0}
+    AttackCooldown: 2
+    MoveSpeed: 0
+    KnockBackable: 0
+  Prefab: {fileID: 72915285974750444, guid: e3466eecdec604e4081d6ebc87afcc70, type: 3}
   Description: 
   MenuSprite: {fileID: 0}
-  allyType: 0
+  enemyType: 4
+  startingWave: 4
+  strength: 5

@@ -32,6 +32,10 @@ namespace IslandDefender {
         private float currentDifficulty;
 		private int currentWave = 1;
 
+        public int GetCurrentWave() {
+            return currentWave;
+        }
+
         protected override void Awake() {
             base.Awake();
 			float startingDifficulty = 10;
@@ -77,13 +81,11 @@ namespace IslandDefender {
 
             // setup left side
             ScriptableWave leftChosenWave = availableWaves.RandomItem();
-            print("Left Wave: " + leftChosenWave.name);
             leftSideEnemyAmounts = CalculateEnemyAmounts(leftChosenWave);
             UpdatePreviews(leftSideEnemyPreviews, leftSideEnemyAmounts);
 
             // setup right side
             ScriptableWave rightChosenWave = availableWaves.RandomItem();
-            print("Right Wave: " + rightChosenWave.name);
             rightSideEnemyAmounts = CalculateEnemyAmounts(rightChosenWave);
             UpdatePreviews(rightSideEnemyPreviews, rightSideEnemyAmounts);
         }

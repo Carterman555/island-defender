@@ -36,6 +36,9 @@ namespace IslandDefender {
         }
 
         private void SpawnResources(int n) {
+
+            print("Garden amount: " + gardenAmount);
+
             float treeY = 2.77f;
             SpawnOneType(treePrefab, ApplyGardenBoost(treeAmount.Randomize()), treeY);
 
@@ -52,7 +55,13 @@ namespace IslandDefender {
         //}
 
         private int ApplyGardenBoost(int amount) {
-            return amount + gardenAmount;
+
+            if (Random.value > 0.5f) {
+                return amount + gardenAmount;
+            }
+            else {
+                return amount;
+            }
         }
 
         private void SpawnOneType(GameObject prefab, int amount, float yPos) {

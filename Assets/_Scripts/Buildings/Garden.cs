@@ -14,6 +14,11 @@ namespace IslandDefender {
             EnemyWaveManager.OnNextWave += IncreaseWaves;
         }
 
+        protected override void OnDisable() {
+            base.OnDisable();
+            EnemyWaveManager.OnNextWave -= IncreaseWaves;
+        }
+
         protected override void Die() {
             base.Die();
             ResourceSpawnManager.Instance.RemoveGarden();
@@ -22,9 +27,14 @@ namespace IslandDefender {
         protected override void ResetValues() {
             base.ResetValues();
             health = maxHealth;
+            wavesAlive = 0;
         }
 
         private void IncreaseWaves(int n) {
+            if (!enabled) {
+                return;
+            }
+
             wavesAlive++;
 
             // can only last 3 waves

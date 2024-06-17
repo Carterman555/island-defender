@@ -4,12 +4,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace IslandDefender {
     public class WaveSpawner {
 
+        private EnemyWaveManager enemyWaveManager;
         private Dictionary<EnemyType, int> enemyAmounts;
         private float spawnInterval;
         private Vector3 spawnPos;
@@ -25,6 +25,7 @@ namespace IslandDefender {
         }
 
         public WaveSpawner(EnemyWaveManager enemyWaveManager, Dictionary<EnemyType, int> enemyAmounts, float spawnInterval, Vector3 spawnPos, bool delaySpawning) {
+            this.enemyWaveManager = enemyWaveManager;
             this.enemyAmounts = enemyAmounts;
             this.spawnInterval = spawnInterval;
             this.spawnPos = spawnPos;
@@ -34,8 +35,6 @@ namespace IslandDefender {
             completed = false;
 
             enemyWaveManager.StartCoroutine(SpawnWave(delaySpawning));
-
-            //testChooser();
         }
 
         private IEnumerator SpawnWave(bool delaySpawning) {
@@ -48,31 +47,38 @@ namespace IslandDefender {
 
                 EnemyType enemyToSpawn = ChoseRandomEnemy();
 
-                enemyAmounts[enemyToSpawn]--;
-                SpawnEnemy(enemyToSpawn);
+                float strength = ResourceSystem.Instance.GetEnemy(enemyToSpawn).Strength;
+                if (strength < 8) {
+                    enemyWaveManager.StartCoroutine(SpawnEnemyGroup(enemyToSpawn, enemyAmounts[enemyToSpawn]));
+                }
+                else {
+                    enemyAmounts[enemyToSpawn]--;
+                    SpawnEnemy(enemyToSpawn);
+                }
 
                 float interval = GetSpawnInterval();
-                Debug.Log("Actual interval: " + interval);
                 yield return new WaitForSeconds(interval);
             }
 
             completed = true;
         }
 
-        public void testChooser() {
+        private IEnumerator SpawnEnemyGroup(EnemyType enemyType, int maxAmount) {
 
-            Dictionary<EnemyType, int> enemyAmount = new();
+            int amount = GetGroupSize();
+            amount = Mathf.Min(amount, maxAmount);
 
-            foreach (EnemyType enemyType in Enum.GetValues(typeof(EnemyType))) {
-                enemyAmount.Add(enemyType, 0);
-            }
+            for (int i = 0; i < amount; i++) {
 
-            for (int i = 0; i < 1000; i++) {
-                enemyAmount[ChoseRandomEnemy()]++;
-            }
+                if (!EnemiesLeftToSpawn()) {
+                    break;
+                }
 
-            foreach (EnemyType enemyType in Enum.GetValues(typeof(EnemyType))) {
-                Debug.Log(enemyType + ": " + enemyAmount[enemyType]);
+                enemyAmounts[enemyType]--;
+                SpawnEnemy(enemyType);
+
+                float interval = 0.2f;
+                yield return new WaitForSeconds(interval);
             }
         }
 
@@ -101,7 +107,10 @@ namespace IslandDefender {
 
         private void SpawnEnemy(EnemyType enemyType) {
             GameObject prefab = ResourceSystem.Instance.GetEnemy(enemyType).Prefab;
-            ObjectPoolManager.SpawnObject(prefab, spawnPos, Quaternion.identity, Containers.Instance.Enemies);
+
+            float posVariance = 1.5f;
+            Vector2 newSpawnPos = new Vector2(spawnPos.x + UnityEngine.Random.Range(-posVariance, posVariance), spawnPos.y);
+            ObjectPoolManager.SpawnObject(prefab, newSpawnPos, Quaternion.identity, Containers.Instance.Enemies);
         }
 
         private float GetSpawnInterval() {
@@ -131,6 +140,12 @@ namespace IslandDefender {
         // value between 0 and 1 depending on how much of the wave is completed
         public float GetWaveProgress() {
             return Mathf.InverseLerp(totalEnemiesInWave, 0, EnemiesLeft);
+        }
+
+        private int GetGroupSize() {
+            int avgGroupSize = Mathf.RoundToInt(1 + (EnemyWaveManager.Instance.GetCurrentWave() * 0.5f));
+            int randomSize = UnityEngine.Random.Range(avgGroupSize - 1, avgGroupSize + 2);
+            return randomSize;
         }
     }
 }

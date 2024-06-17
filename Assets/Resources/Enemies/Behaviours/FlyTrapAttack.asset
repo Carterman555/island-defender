@@ -9,17 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ce95598e91bcb045ba583f24f01a0e8, type: 3}
-  m_Name: Player
+  m_Script: {fileID: 11500000, guid: a248299b28598b34586ed24fa92af057, type: 3}
+  m_Name: FlyTrapAttack
   m_EditorClassIdentifier: 
-  Faction: 0
-  _stats:
-    Health: 15
-    Damage: 2
-    AttackCooldown: 0.5
-    MoveSpeed: -1
-    KnockBackable: 10
-  Prefab: {fileID: 0}
-  Description: 
-  MenuSprite: {fileID: 0}
-  allyType: 0
+  projectilePrefab: {fileID: 1163468532105051526, guid: 2b94e4324eb7b4643b908900f121895d, type: 3}
+  projectileOffset: {x: 0, y: 0.5}

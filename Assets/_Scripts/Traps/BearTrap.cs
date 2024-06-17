@@ -13,6 +13,11 @@ namespace IslandDefender {
 
 		private bool set = true;
 
+        private void OnEnable() {
+            resetTimer = 0;
+            Open();
+        }
+
         private void OnTriggerEnter2D(Collider2D collision) {
             if (set && collision.gameObject.layer == GameLayers.EnemyLayer) {
                 Close();
