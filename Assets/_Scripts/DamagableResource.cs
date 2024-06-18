@@ -24,6 +24,7 @@ namespace IslandDefender.Environment {
         Wood,
         Fiber,
         Stone,
+        Gold,
     }
 }
 

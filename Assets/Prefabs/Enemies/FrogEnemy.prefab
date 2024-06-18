@@ -141,6 +141,8 @@ GameObject:
   - component: {fileID: 6936250782541098667}
   - component: {fileID: 7285675772027898562}
   - component: {fileID: -429399862899453730}
+  - component: {fileID: 5421167045662086883}
+  - component: {fileID: 6851646472469243775}
   m_Layer: 9
   m_Name: FrogEnemy
   m_TagString: Untagged
@@ -257,7 +259,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
-  spriteRenderer: {fileID: 0}
 --- !u!114 &-429399862899453730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +271,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472326ef607f5884490f7311d64ec5ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5421167045662086883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522134059670432063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ae03b1e12158c4cb794f282e744277, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropAmount:
+    MinValue: 1
+    MaxValue: 2
+  goldPrefab: {fileID: 2325552439596734322, guid: 643ad76e7cd41cb4d90d8d843629320b, type: 3}
+--- !u!114 &6851646472469243775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522134059670432063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ae03b1e12158c4cb794f282e744277, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropAmount:
+    MinValue: 0
+    MaxValue: 0
+  goldPrefab: {fileID: 0}
 --- !u!1 &2258155926512761502
 GameObject:
   m_ObjectHideFlags: 0

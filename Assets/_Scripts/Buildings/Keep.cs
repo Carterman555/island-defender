@@ -15,6 +15,7 @@ namespace IslandDefender.Environment.Building {
         protected override void ResetValues() {
             base.ResetValues();
             health = maxHealth;
+            transform.localScale = Vector3.one * 0.6f;
         }
 
         protected override void OnEnable() {
@@ -51,6 +52,10 @@ namespace IslandDefender.Environment.Building {
 
         private void LevelUp() {
             level++;
+
+            float startingScale = 0.6f;
+            float scaleIncrease = 0.1f;
+            transform.localScale = Vector3.one * (startingScale + (level * scaleIncrease));
         }
 
         protected override void Die() {

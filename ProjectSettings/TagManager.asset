@@ -56,6 +56,9 @@ TagManager:
   - name: Units
     uniqueID: 4008218897
     locked: 0
+  - name: Drops
+    uniqueID: 3723333433
+    locked: 0
   - name: GameUI
     uniqueID: 1781984117
     locked: 0

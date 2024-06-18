@@ -6,6 +6,9 @@ using UnityEngine;
 namespace IslandDefender {
     public class ResourceSpawnManager : StaticInstance<ResourceSpawnManager> {
 
+        [SerializeField] private float minX = -100f;
+        [SerializeField] private float maxX = 100f;
+
         [SerializeField] private GameObject treePrefab;
         [SerializeField] private GameObject plantPrefab;
         [SerializeField] private GameObject rockPrefab;
@@ -65,8 +68,6 @@ namespace IslandDefender {
         }
 
         private void SpawnOneType(GameObject prefab, int amount, float yPos) {
-            float minX = -30f;
-            float maxX = 30f;
             for (int i = 0; i < amount; i++) {
                 Vector2 pos = new Vector2(Random.Range(minX, maxX), yPos);
                 ObjectPoolManager.SpawnObject(prefab, pos, Quaternion.identity, Containers.Instance.Resources);

@@ -27,6 +27,9 @@ namespace IslandDefender {
 
         [SerializeField] private int stoneCost;
         public int StoneCost => stoneCost;
+
+        [SerializeField] private int goldCost;
+        public int GoldCost => goldCost;
     }
 
 	public enum BuildingType {

@@ -80,14 +80,16 @@ namespace IslandDefender {
             bool canAffordWood = PlayerResources.Instance.GetResourceAmount(ResourceType.Wood) >= scriptableBuilding.WoodCost;
             bool canAffordFiber = PlayerResources.Instance.GetResourceAmount(ResourceType.Fiber) >= scriptableBuilding.FiberCost;
             bool canAffordStone = PlayerResources.Instance.GetResourceAmount(ResourceType.Stone) >= scriptableBuilding.StoneCost;
+            bool canAffordGold = PlayerResources.Instance.GetResourceAmount(ResourceType.Gold) >= scriptableBuilding.GoldCost;
 
-            return canAffordWood && canAffordFiber && canAffordStone;
+            return canAffordWood && canAffordFiber && canAffordStone && canAffordGold;
         }
 
         private void CostPlayer(ScriptableBuilding scriptableBuilding) {
             PlayerResources.Instance.RemoveResource(ResourceType.Wood, scriptableBuilding.WoodCost);
             PlayerResources.Instance.RemoveResource(ResourceType.Fiber, scriptableBuilding.FiberCost);
             PlayerResources.Instance.RemoveResource(ResourceType.Stone, scriptableBuilding.StoneCost);
+            PlayerResources.Instance.RemoveResource(ResourceType.Gold, scriptableBuilding.StoneCost);
         }
     }
 }

@@ -8,6 +8,8 @@ namespace IslandDefender {
         public event Action<Vector3> OnKnockbackDamaged;
         public event Action OnDamaged;
 
+        public event Action OnDeath;
+
         protected float health;
         private bool dead;
 
@@ -84,6 +86,9 @@ namespace IslandDefender {
         }
 
         private void DieAnimation() {
+
+            OnDeath?.Invoke();
+
             if (anim != null) {
                 anim.SetTrigger("die");
             }

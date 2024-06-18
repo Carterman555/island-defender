@@ -8,7 +8,9 @@ namespace IslandDefender {
 		public event Action<Vector3> OnKnockbackDamaged;
 		public event Action OnDamaged;
 
-		void Damage(float damage);
+        public event Action OnDeath;
+
+        void Damage(float damage);
 		void KnockbackDamage(float damage, Vector3 attackerPosition);
 	}
 }

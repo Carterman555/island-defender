@@ -42,6 +42,13 @@ namespace IslandDefender {
             currentDifficulty = startingDifficulty;
         }
 
+        private void OnEnable() {
+            DayNightCycle.OnNightTime += PlayCurrentWave;
+        }
+        private void OnDisable() {
+            DayNightCycle.OnNightTime -= PlayCurrentWave;
+        }
+
         private void Start() {
             SetupCurrentWave();
         }
@@ -91,6 +98,9 @@ namespace IslandDefender {
         }
 
         public void PlayCurrentWave() {
+
+            print("Play wave");
+
             HidePreviews();
 
             float currentInterval = spawnIntervals[currentWave - 1];
