@@ -1,5 +1,6 @@
 using IslandDefender.Environment;
 using IslandDefender.Management;
+using System.Collections.Generic;
 using TarodevController;
 using UnityEngine;
 
@@ -7,11 +8,13 @@ namespace IslandDefender {
 	public class PlayerBuild : StaticInstance<PlayerBuild> {
 
         private ScriptableBuilding buildingPlacing;
-        private GameObject activePlaceVisual;
+        private SpriteRenderer activePlaceVisual;
 
         private PlayerController playerController;
 
         public bool IsPlacingBuilding => activePlaceVisual != null;
+
+        private List<int> takenXPositions = new List<int>();
 
         protected override void Awake() {
             base.Awake();
@@ -47,19 +50,42 @@ namespace IslandDefender {
             activePlaceVisual = ObjectPoolManager.SpawnObject(buildingPlacing.PlaceVisualPrefab,
                 Vector3.zero, // position will be updated
                 Quaternion.identity,
-                Containers.Instance.Buildings);
+                Containers.Instance.Buildings).GetComponent<SpriteRenderer>();
         }
 
         private void HidePlaceVisual() {
-            ObjectPoolManager.ReturnObjectToPool(activePlaceVisual);
+            ObjectPoolManager.ReturnObjectToPool(activePlaceVisual.gameObject);
             activePlaceVisual = null;
         }
 
         private void UpdateVisualPosition() {
             int direction = playerController.IsFacingRight ? 1 : -1;
-            Vector2 directionalOffset = new Vector2(buildingPlacing.BuildOffset.x * direction, buildingPlacing.BuildOffset.y);
 
-            activePlaceVisual.transform.position = transform.position + (Vector3)directionalOffset;
+
+            float directionalXOffset = buildingPlacing.BuildOffset.x * direction;
+            float xPos = directionalXOffset + transform.position.x;
+
+            if (IsAvailableGridPos(xPos, out int gridXPos)) {
+                activePlaceVisual.color = Color.white;
+            }
+            else {
+                activePlaceVisual.color = Color.red;
+            }
+
+            activePlaceVisual.transform.position = new Vector3(gridXPos, transform.position.y + buildingPlacing.BuildOffset.y);
+        }
+
+
+        private bool IsAvailableGridPos(float xPos, out int gridXPos) {
+
+            print("in: " + xPos);
+
+            int spacing = 3;
+            gridXPos = Mathf.RoundToInt(xPos / spacing) * spacing;
+
+            print("out: " + gridXPos);
+
+            return !takenXPositions.Contains(gridXPos);
         }
 
         private void CreateBuilding() {

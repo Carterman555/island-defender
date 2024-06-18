@@ -98,9 +98,6 @@ namespace IslandDefender {
         }
 
         public void PlayCurrentWave() {
-
-            print("Play wave");
-
             HidePreviews();
 
             float currentInterval = spawnIntervals[currentWave - 1];

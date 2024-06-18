@@ -20,7 +20,7 @@ namespace IslandDefender {
         }
 
         private void Start() {
-            //AddResource(ResourceType.Wood, 99);
+            AddResource(ResourceType.Wood, 99);
         }
 
         public void AddResource(ResourceType resourceType, int amount) {

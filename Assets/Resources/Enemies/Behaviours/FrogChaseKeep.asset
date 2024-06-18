@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5344ce472e4f3c749835fb91b10501b4, type: 3}
   m_Name: FrogChaseKeep
   m_EditorClassIdentifier: 
-  jumpForce: {x: 12, y: 24}
-  jumpCooldown: 3
+  jumpForce: {x: 10, y: 20}
+  jumpCooldown: 4
   groundLayer:
     serializedVersion: 2
     m_Bits: 8

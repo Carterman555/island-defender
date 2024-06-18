@@ -223,7 +223,7 @@ MonoBehaviour:
   enemiesInRangeTracker: {fileID: 4421370013208060773}
   maxHealth: 25
   damage: 1
-  shootCooldown: 1
+  shootCooldown: 2
 --- !u!1 &6024093709567091637
 GameObject:
   m_ObjectHideFlags: 0

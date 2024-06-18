@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 1197236977227903466}
   - component: {fileID: -3990844324282830534}
   - component: {fileID: 1280879130022628186}
-  - component: {fileID: 336831479241799486}
+  - component: {fileID: -4252589338930023496}
   m_Layer: 9
   m_Name: SnailEnemy
   m_TagString: Untagged
@@ -500,7 +500,7 @@ MonoBehaviour:
     MinValue: 0
     MaxValue: 1
   goldPrefab: {fileID: 2325552439596734322, guid: 643ad76e7cd41cb4d90d8d843629320b, type: 3}
---- !u!114 &336831479241799486
+--- !u!114 &-4252589338930023496
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -509,13 +509,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2897293304499297277}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8ae03b1e12158c4cb794f282e744277, type: 3}
+  m_Script: {fileID: 11500000, guid: 338161fea034cbd4db312517411ec877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropAmount:
-    MinValue: 0
-    MaxValue: 0
-  goldPrefab: {fileID: 0}
 --- !u!1 &4619464812302589822
 GameObject:
   m_ObjectHideFlags: 0

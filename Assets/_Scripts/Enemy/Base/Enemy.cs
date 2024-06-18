@@ -37,6 +37,7 @@ namespace IslandDefender {
             return closeObject;
         }
 
+
         #endregion
 
         private bool move = true;

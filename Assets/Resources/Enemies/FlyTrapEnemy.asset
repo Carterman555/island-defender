@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Faction: 1
   _stats:
-    Health: 6
+    Health: 12
     Damage: 2
     AttackCooldown: 2
     MoveSpeed: 0

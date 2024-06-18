@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Faction: 1
   _stats:
-    Health: 8
+    Health: 16
     Damage: 2
     AttackCooldown: 1
-    MoveSpeed: 2
-    KnockBackable: 8
+    MoveSpeed: 1.5
+    KnockBackable: 6
   Prefab: {fileID: 2897293304499297277, guid: 5bd6031226f4dd5409c159a1397c6952, type: 3}
   Description: 
   MenuSprite: {fileID: 0}
