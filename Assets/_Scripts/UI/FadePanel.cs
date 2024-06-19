@@ -1,0 +1,31 @@
+using DG.Tweening;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace IslandDefender {
+	public class FadePanel : StaticInstance<FadePanel> {
+
+		private Image image;
+
+        protected override void Awake() {
+            base.Awake();
+            image = GetComponent<Image>();
+        }
+
+        private float duration = 1.5f;
+
+        public void FadeIn() {
+            image.enabled = true;
+            image.Fade(1);
+            image.DOFade(0, duration).SetEase(Ease.InSine).OnComplete(() => {
+                image.enabled = false;
+            });
+        }
+
+        public void FadeOut() {
+            image.enabled = true;
+            image.Fade(0);
+            image.DOFade(1, duration).SetEase(Ease.OutSine);
+        }
+    }
+}

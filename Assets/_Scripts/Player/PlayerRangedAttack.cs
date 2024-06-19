@@ -35,7 +35,7 @@ namespace IslandDefender.Units.Player {
         private void Update() {
             attackTimer += Time.deltaTime;
 
-            bool canAttack = attackTimer > cooldown && !PlayerBuild.Instance.IsPlacingBuilding;
+            bool canAttack = attackTimer > cooldown && !PlayerBuild.Instance.BuildingVisualActive;
             if (canAttack && Input.GetMouseButtonDown(1)) {
                 attackTimer = 0;
                 anim.SetTrigger("rangedAttack");

@@ -8,6 +8,8 @@ namespace IslandDefender {
         public event Action<Vector3> OnKnockbackDamaged;
         public event Action OnDamaged;
 
+        public static event Action<GameObject> OnAnyDeath;
+
         public event Action OnDeath;
 
         protected float health;
@@ -75,6 +77,7 @@ namespace IslandDefender {
             spriteRenderer.Fade(Mathf.InverseLerp(0, _maxHealth, health));
 
             OnDamaged?.Invoke();
+            OnAnyDeath?.Invoke(gameObject);
 
             if (health <= 0) {
                 DieAnimation();

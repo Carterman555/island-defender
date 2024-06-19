@@ -1,6 +1,8 @@
 using IslandDefender.Environment;
 using IslandDefender.Management;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using TarodevController;
 using UnityEngine;
 
@@ -9,39 +11,80 @@ namespace IslandDefender {
 
         private ScriptableBuilding buildingPlacing;
         private SpriteRenderer activePlaceVisual;
+        private Color originalPlaceVisualColor;
 
         private PlayerController playerController;
 
-        public bool IsPlacingBuilding => activePlaceVisual != null;
+        public bool BuildingVisualActive => activePlaceVisual != null;
 
         private List<int> takenXPositions = new List<int>();
+
+        [SerializeField] private float buildDuration;
+        private float buildTimer;
+
+        private bool building;
 
         protected override void Awake() {
             base.Awake();
             playerController = GetComponent<PlayerController>();
         }
 
+        private void OnEnable() {
+            IDamagable.OnAnyDeath += TryUpdateTakenList;
+        }
+        private void OnDisable() {
+            IDamagable.OnAnyDeath -= TryUpdateTakenList;
+        }
+
+        private void TryUpdateTakenList(GameObject objectDestroyed) {
+            if (objectDestroyed.layer == GameLayers.BuildingLayer) {
+
+                int buildingXPos = Mathf.RoundToInt(objectDestroyed.transform.position.x);
+                if (takenXPositions.Contains(buildingXPos)) {
+                    takenXPositions.Remove(buildingXPos);
+                }
+                else {
+                    Debug.LogWarning("Building X Pos Not Found in List!");
+                }
+            }
+        }
+
         private void Update() {
             if (Input.GetKeyDown(KeyCode.Q)) {
-                if (IsPlacingBuilding) {
+                if (BuildingVisualActive) {
                     HidePlaceVisual();
                 }
             }
 
-            if (IsPlacingBuilding && CanAffordBuilding(buildingPlacing.BuildingType)) {
+            if (BuildingVisualActive && CanAffordBuilding(buildingPlacing.BuildingType)) {
 
                 UpdateVisualPosition();
 
                 if (Input.GetMouseButtonDown(1)) {
-                    CreateBuilding();
+                    StartBuilding();
                 }
+            }
+
+            if (building) {
+                buildTimer += Time.deltaTime;
+                if (buildTimer > buildDuration) {
+                    buildTimer = 0;
+                    building = false;
+
+                    CreateBuilding();
+
+                    playerController.EnableMovement();
+                }
+            }
+            else {
+                buildTimer = 0;
             }
         }
 
         public void ShowPlaceVisual(BuildingType buildingType) {
 
             // hide previous visual if placing
-            if (IsPlacingBuilding) {
+            if (BuildingVisualActive) {
                 HidePlaceVisual();
             }
 
@@ -51,6 +94,7 @@ namespace IslandDefender {
                 Vector3.zero, // position will be updated
                 Quaternion.identity,
                 Containers.Instance.Buildings).GetComponent<SpriteRenderer>();
+            originalPlaceVisualColor = activePlaceVisual.color;
         }
 
         private void HidePlaceVisual() {
@@ -61,38 +105,44 @@ namespace IslandDefender {
         private void UpdateVisualPosition() {
             int direction = playerController.IsFacingRight ? 1 : -1;
 
-
             float directionalXOffset = buildingPlacing.BuildOffset.x * direction;
             float xPos = directionalXOffset + transform.position.x;
 
-            if (IsAvailableGridPos(xPos, out int gridXPos)) {
-                activePlaceVisual.color = Color.white;
-            }
-            else {
-                activePlaceVisual.color = Color.red;
+            activePlaceVisual.color = originalPlaceVisualColor;
+
+            if (!IsAvailableGridPos(xPos, out int gridXPos)) {
+                float hueShiftIntensity = 0.5f;
+                activePlaceVisual.ChangeHue(Color.red, hueShiftIntensity);
             }
 
             activePlaceVisual.transform.position = new Vector3(gridXPos, transform.position.y + buildingPlacing.BuildOffset.y);
         }
 
-
         private bool IsAvailableGridPos(float xPos, out int gridXPos) {
-
-            print("in: " + xPos);
-
-            int spacing = 3;
+            int spacing = 4;
             gridXPos = Mathf.RoundToInt(xPos / spacing) * spacing;
-
-            print("out: " + gridXPos);
 
             return !takenXPositions.Contains(gridXPos);
         }
 
+        private void StartBuilding() {
+            building = true;
+            playerController.DisableMovement();
+        }
+
         private void CreateBuilding() {
+
+            if (!IsAvailableGridPos(activePlaceVisual.transform.position.x, out int gridXPos)) {
+                return;
+            }
+
             ObjectPoolManager.SpawnObject(buildingPlacing.Prefab,
                 activePlaceVisual.transform.position,
                 Quaternion.identity,
                 Containers.Instance.Buildings);
+
+            int buildingXPos = Mathf.RoundToInt(activePlaceVisual.transform.position.x);
+            takenXPositions.Add(buildingXPos);
 
             HidePlaceVisual();
 

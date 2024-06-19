@@ -1,5 +1,5 @@
+using IslandDefender.Management;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace IslandDefender.Units.Player {
 	public class PlayerHealth : Health {
@@ -30,7 +30,7 @@ namespace IslandDefender.Units.Player {
         }
 
         protected override void Die() {
-            SceneManager.LoadScene("Game");
+            GameManager.Instance.StartGame();
         }
     }
 }

@@ -38,6 +38,28 @@ public static class Helpers
         image.color = color;
     }
 
+    public static void ChangeHue(this SpriteRenderer spriteRenderer, Color targetColor, float amount) {
+
+        float alpha = spriteRenderer.color.a;
+
+        // Convert the original color and target color to HSV
+        Color.RGBToHSV(spriteRenderer.color, out float h1, out float s1, out float v1);
+        Color.RGBToHSV(targetColor, out float h2, out float s2, out float v2);
+
+        // Calculate the shortest direction towards the target hue
+        float diff = Mathf.DeltaAngle(h1 * 360f, h2 * 360f) / 360f;
+
+        // Adjust the hue by the specified amount towards the target hue
+        float newHue = h1 + diff * amount;
+        if (newHue < 0) newHue += 1;
+        if (newHue > 1) newHue -= 1;
+
+        // Convert the new HSV color back to RGB
+        Color newColor = Color.HSVToRGB(newHue, s1, v1);
+        newColor.a = alpha;
+        spriteRenderer.color = newColor;
+    }
+
     public static void RemoveWithCheck<T>(this List<T> list, T item) {
         if (list.Contains(item)) list.Remove(item);
     }
