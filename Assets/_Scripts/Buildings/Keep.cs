@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 namespace IslandDefender.Environment.Building {
     public class Keep : Health {
 
+        public static event Action<int> OnUpgrade;
+
         [SerializeField] private TriggerContactTracker playerContactTracker;
 
         [SerializeField] private float maxHealth;
@@ -56,6 +58,8 @@ namespace IslandDefender.Environment.Building {
             float startingScale = 0.6f;
             float scaleIncrease = 0.1f;
             transform.localScale = Vector3.one * (startingScale + (level * scaleIncrease));
+
+            OnUpgrade?.Invoke(level);
         }
 
         protected override void Die() {

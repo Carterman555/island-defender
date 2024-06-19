@@ -8,6 +8,9 @@ namespace IslandDefender {
 		[SerializeField] private BuildingType buildingType;
 		public BuildingType BuildingType => buildingType;
 
+        [SerializeField] private int keepLevelToUnlock;
+        public int KeepLevelToUnlock => keepLevelToUnlock;
+
         [Header("Prefabs")]
         [SerializeField] private GameObject prefab;
 		public GameObject Prefab => prefab;
