@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 namespace IslandDefender.Management {
 	public class GameManager : Singleton<GameManager> {
 
-		private bool playIntroAndTutorial = true;
+		[SerializeField] private bool playIntroAndTutorial = false;
 
         public bool PlayIntroAndTutorial() {
             return playIntroAndTutorial;

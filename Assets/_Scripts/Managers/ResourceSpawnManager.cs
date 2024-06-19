@@ -1,6 +1,7 @@
 using IslandDefender.Environment;
 using IslandDefender.Management;
 using IslandDefender.Utilities;
+using System.Collections;
 using UnityEngine;
 
 namespace IslandDefender {
@@ -13,9 +14,13 @@ namespace IslandDefender {
         [SerializeField] private GameObject plantPrefab;
         [SerializeField] private GameObject rockPrefab;
 
-        [SerializeField] private RandomInt treeAmount;
-        [SerializeField] private RandomInt plantAmount;
-        [SerializeField] private RandomInt rockAmount;
+        [SerializeField] private RandomFloat treeSpawnInterval;
+        [SerializeField] private RandomFloat plantSpawnInterval;
+        [SerializeField] private RandomFloat rockSpawnInterval;
+
+        [SerializeField] private int startingTreeAmount;
+        [SerializeField] private int startingPlantAmount;
+        [SerializeField] private int startingRockAmount;
 
         private int gardenAmount;
 
@@ -27,44 +32,52 @@ namespace IslandDefender {
             gardenAmount--;
         }
 
+        private float treeY = 2.77f;
+        private float plantY = -1.5f;
+        private float rockY = -1.45f;
+
         private void Start() {
-            SpawnResources(-1);
-        }
+            StartCoroutine(SpawnResource(treePrefab, treeSpawnInterval, treeY));
+            StartCoroutine(SpawnResource(plantPrefab, plantSpawnInterval, plantY));
+            StartCoroutine(SpawnResource(rockPrefab, rockSpawnInterval, rockY));
 
-        private void OnEnable() {
-            EnemyWaveManager.OnNextWave += SpawnResources;
-        }
-        private void OnDisable() {
-            EnemyWaveManager.OnNextWave -= SpawnResources;
-        }
+            SpawnStartingResources();
 
-        private void SpawnResources(int n) {
-
-            print("Garden amount: " + gardenAmount);
-
-            float treeY = 2.77f;
-            SpawnOneType(treePrefab, ApplyGardenBoost(treeAmount.Randomize()), treeY);
-
-            float plantY = -1.5f;
-            SpawnOneType(plantPrefab, ApplyGardenBoost(plantAmount.Randomize()), plantY);
-
-            float rockY = -1.45f;
-            SpawnOneType(rockPrefab, ApplyGardenBoost(rockAmount.Randomize()), rockY);
-        }
-
-        //private int ApplyGardenBoost(int amount) {
-        //    float gardenSpawnBoost = 0.3f;
-        //    return Mathf.RoundToInt(amount * (1 + (gardenAmount * gardenSpawnBoost)));
-        //}
-
-        private int ApplyGardenBoost(int amount) {
-
-            if (Random.value > 0.5f) {
-                return amount + gardenAmount;
+            for (int i = 0; i < 10; i++) {
+                print(ApplyGardenBoost(20, i));
             }
-            else {
-                return amount;
+        }
+
+        private void SpawnStartingResources() {
+            SpawnOneType(treePrefab, startingTreeAmount, treeY);
+            SpawnOneType(plantPrefab, startingPlantAmount, plantY);
+            SpawnOneType(rockPrefab, startingRockAmount, rockY);
+        }
+
+        private IEnumerator SpawnResource(GameObject prefab, RandomFloat interval, float yPos) {
+            while (true) {
+                interval.Randomize();
+                float newInterval = ApplyGardenBoost(interval.Value, gardenAmount);
+                yield return new WaitForSeconds(ApplyGardenBoost(newInterval, gardenAmount));
+
+                SpawnOneType(prefab, 1, yPos);
             }
+        }
+
+        private float ApplyGardenBoost(float interval, int gardenAmount) {
+            // the closer to 1, the less gardens have effect
+            float decayFactor = 0.9f; 
+
+            // Calculate the new interval using exponential decay
+            float newInterval = interval * Mathf.Pow(decayFactor, gardenAmount);
+
+            // Ensure the interval doesn't go below a certain minimum threshold
+            float minimumInterval = 8f; // This is the minimum time interval in seconds
+            if (newInterval < minimumInterval) {
+                newInterval = minimumInterval;
+            }
+
+            return newInterval;
         }
 
         private void SpawnOneType(GameObject prefab, int amount, float yPos) {

@@ -2932,6 +2932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4bece44b118f3c408bd36272fed1199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playIntroAndTutorial: 0
 --- !u!1 &919003918
 GameObject:
   m_ObjectHideFlags: 0
@@ -3997,15 +3998,18 @@ MonoBehaviour:
   treePrefab: {fileID: 8206115059866976067, guid: 9bfc5065cef62ab4783f073dbfca2c1d, type: 3}
   plantPrefab: {fileID: 9133961429867710506, guid: 01cce1be4e1c3a14084e340ff33ecee9, type: 3}
   rockPrefab: {fileID: 8255113477439153927, guid: ef07b6fed0d33664fb8a2187ead6728e, type: 3}
-  treeAmount:
-    MinValue: 8
-    MaxValue: 10
-  plantAmount:
-    MinValue: 10
-    MaxValue: 12
-  rockAmount:
-    MinValue: 5
-    MaxValue: 7
+  treeSpawnInterval:
+    MinValue: 15
+    MaxValue: 20
+  plantSpawnInterval:
+    MinValue: 15
+    MaxValue: 20
+  rockSpawnInterval:
+    MinValue: 20
+    MaxValue: 25
+  startingTreeAmount: 10
+  startingPlantAmount: 10
+  startingRockAmount: 6
 --- !u!1 &1228918385
 GameObject:
   m_ObjectHideFlags: 0

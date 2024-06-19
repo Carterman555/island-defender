@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: BasicTower
   m_EditorClassIdentifier: 
   buildingType: 4
+  keepLevelToUnlock: 3
   prefab: {fileID: 4147169225635130141, guid: 9c6d79eb7c0ee584b9dd5e2b8bb6c96c, type: 3}
   placeVisualPrefab: {fileID: 1711344842916729504, guid: 0b79f5c324807ec41a69754d4ce0321f, type: 3}
   buildOffset: {x: 5, y: 4}
   woodCost: 15
   fiberCost: 5
   stoneCost: 3
+  goldCost: 0
