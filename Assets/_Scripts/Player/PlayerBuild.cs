@@ -2,12 +2,13 @@ using IslandDefender.Environment;
 using IslandDefender.Management;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TarodevController;
 using UnityEngine;
 
 namespace IslandDefender {
 	public class PlayerBuild : StaticInstance<PlayerBuild> {
+
+        public static event Action<BuildingType> OnBuild;
 
         private ScriptableBuilding buildingPlacing;
         private SpriteRenderer activePlaceVisual;
@@ -147,6 +148,8 @@ namespace IslandDefender {
             HidePlaceVisual();
 
             CostPlayer(buildingPlacing);
+
+            OnBuild?.Invoke(buildingPlacing.BuildingType);
         }
 
         public bool CanAffordBuilding(BuildingType buildingType) {

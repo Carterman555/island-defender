@@ -14,10 +14,6 @@ namespace IslandDefender.Management {
             this.playIntroAndTutorial = playIntroAndTutorial;
         }
 
-        private void Start() {
-            FadePanel.Instance.FadeIn();
-        }
-
         public void StartGame() {
             SceneManager.LoadScene("Game");
         }
