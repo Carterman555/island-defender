@@ -31,10 +31,10 @@ namespace IslandDefender {
         }
 
         private void OnEnable() {
-            IDamagable.OnAnyDeath += TryUpdateTakenList;
+            IDamagable.OnAnyDespawn += TryUpdateTakenList;
         }
         private void OnDisable() {
-            IDamagable.OnAnyDeath -= TryUpdateTakenList;
+            IDamagable.OnAnyDespawn -= TryUpdateTakenList;
         }
 
         private void TryUpdateTakenList(GameObject objectDestroyed) {

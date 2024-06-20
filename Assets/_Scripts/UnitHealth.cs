@@ -11,7 +11,6 @@ namespace IslandDefender {
 
         public void SetInvincible(bool invincible) {
             this.invincible = invincible;
-            //spriteRenderer.color = invincible ? Color.gray : Color.white; // replace with animation
         }
 
         #endregion

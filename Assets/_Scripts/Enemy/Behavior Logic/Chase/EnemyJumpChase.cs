@@ -1,4 +1,5 @@
 using IslandDefender.Environment.Building;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace IslandDefender {
@@ -25,9 +26,8 @@ namespace IslandDefender {
             base.FrameUpdate();
 
             // -1 or 1 - left or right
-            int direction = _transform.position.x < keep.position.x ? 1 : -1;
-
-            enemy.CheckForLeftOrRightFacing(enemy.GetMoveSpeed() * direction);
+            int direction = _transform.position.x > keep.position.x ? -1 : 1;
+            enemy.CheckForLeftOrRightFacing(direction);
 
             jumpTimer += Time.deltaTime;
             if (jumpTimer > jumpCooldown) {

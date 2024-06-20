@@ -10,20 +10,24 @@ namespace IslandDefender {
 
 		private Health healthComponent;
 
-        private bool FacingRight => healthComponent.transform.eulerAngles.y == 0;
-
         private void Awake() {
             healthComponent = GetComponentInParent<Health>();
 
-            backgroundImage.enabled = false;
-            fillImage.enabled = false;
+            Hide();
         }
 
         private void OnEnable() {
             healthComponent.OnDamaged += UpdateHealth;
+            healthComponent.OnDeath += Hide;
         }
         private void OnDisable() {
             healthComponent.OnDamaged -= UpdateHealth;
+            healthComponent.OnDeath -= Hide;
+        }
+
+        private void Hide() {
+            backgroundImage.enabled = false;
+            fillImage.enabled = false;
         }
 
         private void UpdateHealth(float health) {
@@ -35,8 +39,9 @@ namespace IslandDefender {
 
         private void Update() {
 
-            // to face correct direction when enemy changes facd
-            float direction = FacingRight ? 1 : -1;
+            // to face correct direction when unit changes facing
+            bool facingRight = healthComponent.transform.eulerAngles.y == 0;
+            float direction = facingRight ? 1 : -1;
             transform.localScale = new Vector3(direction, 1);
         }
     }

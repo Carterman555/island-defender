@@ -1,6 +1,5 @@
-using IslandDefender.Environment.Building;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 namespace IslandDefender.UI {
@@ -9,40 +8,14 @@ namespace IslandDefender.UI {
         [SerializeField] private BuildingType buildingType;
         private ScriptableBuilding scriptableBuilding;
 
-        private bool unlocked;
+        [SerializeField] private Image image;
+
+        public int GetLevelToUnlock() {
+            return ResourceSystem.Instance.GetBuilding(buildingType).KeepLevelToUnlock;
+        }
 
         private void Start() {
             scriptableBuilding = ResourceSystem.Instance.GetBuilding(buildingType);
-
-            if (scriptableBuilding.KeepLevelToUnlock == 1) {
-                Unlock();
-            }
-            else {
-                Lock();
-            }
-        }
-
-        protected override void OnEnable() {
-            base.OnEnable();
-            Keep.OnUpgrade += TryUnlock;
-        }
-        protected override void OnDisable() {
-            base.OnDisable();
-            Keep.OnUpgrade -= TryUnlock;
-        }
-
-        private void TryUnlock(int keepLevel) {
-            if (!unlocked && keepLevel >= scriptableBuilding.KeepLevelToUnlock) {
-                Unlock();
-            }
-        }
-
-        private void Lock() {
-            unlocked = false;
-        }
-
-        private void Unlock() {
-            unlocked = true;
         }
 
         public void OnPointerEnter(PointerEventData eventData) {
@@ -64,6 +37,15 @@ namespace IslandDefender.UI {
 
             if (PlayerBuild.Instance.CanAffordBuilding(buildingType)) {
                 PlayerBuild.Instance.ShowPlaceVisual(buildingType);
+            }
+        }
+
+        private void Update() {
+            if (PlayerBuild.Instance.CanAffordBuilding(buildingType)) {
+                image.color = Color.white;
+            }
+            else {
+                image.color = Color.gray;
             }
         }
     }

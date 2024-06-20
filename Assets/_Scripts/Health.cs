@@ -7,9 +7,10 @@ namespace IslandDefender {
         public event Action<Vector3> OnKnockbackDamaged;
         public event Action<float> OnDamaged;
 
-        public static event Action<GameObject> OnAnyDeath;
+        public static event Action<GameObject> OnAnyDespawn;
 
         public event Action OnDeath;
+        public event Action OnDespawn;
 
         [SerializeField] private float maxHealth;
         protected float health;
@@ -25,6 +26,10 @@ namespace IslandDefender {
 
         public float GetMaxHealth() {
             return maxHealth;
+        }
+
+        public bool IsDead() {
+            return dead;
         }
 
         protected virtual void Awake() {
@@ -74,7 +79,6 @@ namespace IslandDefender {
             //spriteRenderer.Fade(Mathf.InverseLerp(0, _maxHealth, health));
 
             OnDamaged?.Invoke(health);
-            OnAnyDeath?.Invoke(gameObject);
 
             if (health <= 0) {
                 DieAnimation();
@@ -105,6 +109,8 @@ namespace IslandDefender {
         }
 
         public virtual void Die() {
+            OnDespawn?.Invoke();
+            OnAnyDespawn?.Invoke(gameObject);
             ObjectPoolManager.ReturnObjectToPool(gameObject);
         }
 

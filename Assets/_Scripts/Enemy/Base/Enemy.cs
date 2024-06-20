@@ -10,7 +10,7 @@ namespace IslandDefender {
 
         [SerializeField] private bool jumpEnemy;
 
-        public bool IsFacingRight { get; set; } = false;
+        public bool IsFacingRight { get; set; } = true;
 
         private GameObject midrangeObject { get; set; }
         private GameObject closeObject { get; set; }
@@ -76,10 +76,18 @@ namespace IslandDefender {
         }
 
         private void Update() {
+            if (Health.IsDead()) {
+                return;
+            }
+
             StateMachine.CurrentEnemyState.FrameUpdate();
         }
 
         private void FixedUpdate() {
+            if (Health.IsDead()) {
+                return;
+            }
+
             StateMachine.CurrentEnemyState.PhysicsUpdate();
         }
 
@@ -92,7 +100,7 @@ namespace IslandDefender {
             _speedVariance = Random.Range(-0.2f, 0.2f);
 
             // reset the facing direction
-            IsFacingRight = false;
+            IsFacingRight = true;
         }
 
         public float GetMoveSpeed() {
@@ -101,7 +109,7 @@ namespace IslandDefender {
 
         public void SetEnemyXVel(float xVelocity) {
 
-            if (!move) return;
+            if (!move || Health.IsDead()) return;
             if (Stats.KnockBackable > 0 && Knockback.BeingKnockedBack()) return;
 
             RB.velocity = new Vector3(xVelocity, RB.velocity.y);
