@@ -11,6 +11,7 @@ namespace IslandDefender.Environment.Building {
 
         [SerializeField] private TriggerContactTracker playerContactTracker;
 
+        private int maxLevel = 9;
         private int level = 1;
         private bool playerTouching;
 
@@ -30,10 +31,13 @@ namespace IslandDefender.Environment.Building {
         [SerializeField] private float shootCooldown;
         private float shootTimer;
 
+        [Header("Visual")]
+        [SerializeField] private SpriteRenderer visual;
+        [SerializeField] private Sprite[] keepSprites;
+
         protected override void ResetValues() {
             base.ResetValues();
             health = maxHealth;
-            transform.localScale = Vector3.one * 0.6f;
         }
 
         protected override void OnEnable() {
@@ -77,11 +81,11 @@ namespace IslandDefender.Environment.Building {
         }
 
         private void LevelUp() {
-            level++;
+            if (level >= maxLevel) {
+                return;
+            }
 
-            float startingScale = 0.6f;
-            float scaleIncrease = 0.1f;
-            transform.localScale = Vector3.one * (startingScale + (level * scaleIncrease));
+            level++;
 
             if (level >= 6) {
                 currentProjectilePrefab = strongProjectilePrefab;
@@ -92,6 +96,8 @@ namespace IslandDefender.Environment.Building {
 
             maxHealth += levelHealthIncrease;
             health += levelHealthIncrease;
+
+            visual.sprite = keepSprites[level - 1];
 
             OnUpgrade?.Invoke(level);
         }

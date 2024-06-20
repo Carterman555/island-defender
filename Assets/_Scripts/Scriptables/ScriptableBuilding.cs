@@ -18,9 +18,6 @@ namespace IslandDefender {
 		[SerializeField] private GameObject placeVisualPrefab;
         public GameObject PlaceVisualPrefab => placeVisualPrefab;
 
-		[SerializeField] private Vector2 buildOffset;
-		public Vector2 BuildOffset => buildOffset;
-
         [Header ("Cost")]
 		[SerializeField] private int woodCost;
 		public int WoodCost => woodCost;

@@ -7,6 +7,7 @@ namespace IslandDefender {
     public class DayNightCycle : StaticInstance<DayNightCycle> {
 
         public static event Action OnNightTime;
+        public static event Action OnDayTime;
         public static event Action OnTurningNightTime;
 
         [SerializeField] private Volume dayVolume;
@@ -59,6 +60,7 @@ namespace IslandDefender {
                 if (cycleTimer >= transitionDuration) {
                     cycleTimer = 0f;
                     currentStage = CycleStage.Day;
+                    OnDayTime?.Invoke();
                 }
             }
         }

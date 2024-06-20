@@ -2,7 +2,7 @@ using IslandDefender.Management;
 using UnityEngine;
 
 namespace IslandDefender {
-    public class TowerProjectile : MonoBehaviour, IProjectile {
+    public class TowerProjectile : MonoBehaviour, IDirectionProjectile {
 
         [SerializeField] private float speed;
 

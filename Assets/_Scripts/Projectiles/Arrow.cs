@@ -4,7 +4,7 @@ using UnityEngine;
 namespace IslandDefender {
 
     [RequireComponent(typeof(Rigidbody2D))]
-	public class Arrow : MonoBehaviour, IProjectile {
+	public class Arrow : MonoBehaviour, IDirectionProjectile {
 
 
 		private float damage;

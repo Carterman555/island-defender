@@ -6,8 +6,6 @@ using UnityEngine.EventSystems;
 namespace IslandDefender.UI {
     public class BuildingButton : GameButton, IPointerEnterHandler, IPointerExitHandler {
 
-        [SerializeField] private TextMeshProUGUI text;
-
         [SerializeField] private BuildingType buildingType;
         private ScriptableBuilding scriptableBuilding;
 
@@ -41,12 +39,10 @@ namespace IslandDefender.UI {
 
         private void Lock() {
             unlocked = false;
-            text.text = "Locked";
         }
 
         private void Unlock() {
             unlocked = true;
-            text.text = buildingType.ToString();
         }
 
         public void OnPointerEnter(PointerEventData eventData) {

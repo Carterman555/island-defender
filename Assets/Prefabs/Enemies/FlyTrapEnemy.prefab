@@ -136,21 +136,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 72915285974750444}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd662cfc22d401c4d9918fd85531415e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftObstacleContactTracker: {fileID: 5568847795711654392}
-  rightObstacleContactTracker: {fileID: 7475682033262341954}
   flyTrapSaplingPrefab: {fileID: 8582177190143632381, guid: ffe037d26d49c474792f595e93869f08, type: 3}
   spawnTime:
     MinValue: 2
     MaxValue: 2
+  obstacleDetectionDistance: 0
   spawnDistance:
     MinValue: 1
     MaxValue: 2
   ySpawnOffset: 0
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &4100135672475482732
 GameObject:
   m_ObjectHideFlags: 0

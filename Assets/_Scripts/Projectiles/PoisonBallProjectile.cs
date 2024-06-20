@@ -3,7 +3,7 @@ using IslandDefender.Environment;
 using UnityEngine;
 
 namespace IslandDefender {
-    public class PoisonBallProjectile : MonoBehaviour, IProjectile {
+    public class PoisonBallProjectile : MonoBehaviour, IDirectionProjectile {
 
         [SerializeField] private TouchDamage poisonAreaPrefab;
         [SerializeField] private Vector2 shootForce;

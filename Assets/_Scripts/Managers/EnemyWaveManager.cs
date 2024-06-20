@@ -50,6 +50,10 @@ namespace IslandDefender {
         }
 
         private void Start() {
+
+            //for (int i = 0; i < 6; i++) {
+            //    ContinueNextWave();
+            //}
             SetupCurrentWave();
         }
 
@@ -146,6 +150,8 @@ namespace IslandDefender {
                 difficultyValueRemaining -= strengthOfSpawned;
             }
 
+            print(enemyAmounts[EnemyType.FlyTrap]);
+
             return enemyAmounts;
         }
 
@@ -159,7 +165,7 @@ namespace IslandDefender {
             float randomValue = UnityEngine.Random.Range(0, totalWeight);
             float cumulativeWeight = 0;
 
-            foreach (EnemyType enemyType in Enum.GetValues(typeof(EnemyType))) {
+            foreach (EnemyType enemyType in scriptableWave.GetEnemyWeights().Keys) {
                 float weight = scriptableWave.GetEnemyWeights()[enemyType];
                 cumulativeWeight += weight;
 

@@ -2,18 +2,33 @@ using IslandDefender.Management;
 using UnityEngine;
 
 namespace IslandDefender {
-    public class FlyTrapProjectile : MonoBehaviour, IProjectile {
+    public class FlyTrapProjectile : MonoBehaviour, IPositionProjectile {
 
-        [SerializeField] private float speed;
-        [SerializeField] private float maxDistance;
-        private float distance;
+        [SerializeField] private float gravity = 9.8f;
 
-        private int direction;
         private float damage;
 
-        public void Shoot(int direction, float damage) {
-            this.direction = direction;
+        private Rigidbody2D rb;
+
+        private void Awake() {
+            rb = GetComponent<Rigidbody2D>();
+        }
+
+        public void Shoot(Vector2 targetPos, float damage) {
             this.damage = damage;
+
+            float targetDistance = Mathf.Abs(transform.position.x - targetPos.x);
+
+            // Calculate the required initial velocity
+            float initialVelocity = Mathf.Sqrt(targetDistance * gravity);
+
+            // Calculate the velocity components
+            float velocityX = initialVelocity * Mathf.Cos(45 * Mathf.Deg2Rad);
+            float velocityY = initialVelocity * Mathf.Sin(45 * Mathf.Deg2Rad);
+
+            // Apply the force to the projectile
+            Vector2 force = new Vector2(velocityX, velocityY) * rb.mass;
+            rb.AddForce(force, ForceMode2D.Impulse);
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
@@ -28,18 +43,6 @@ namespace IslandDefender {
                     Debug.LogWarning("Could not find damagable component!");
                 }
 
-                ObjectPoolManager.ReturnObjectToPool(gameObject);
-            }
-        }
-
-        private void Update() {
-
-            float xDelta = direction * speed * Time.deltaTime;
-            transform.position += new Vector3(xDelta, 0);
-
-            distance += xDelta;
-
-            if (distance > maxDistance) {
                 ObjectPoolManager.ReturnObjectToPool(gameObject);
             }
         }

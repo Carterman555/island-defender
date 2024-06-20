@@ -104,9 +104,9 @@ namespace IslandDefender {
         }
 
         private void UpdateVisualPosition() {
-            int direction = playerController.IsFacingRight ? 1 : -1;
 
-            float directionalXOffset = buildingPlacing.BuildOffset.x * direction;
+            float buildingXOffset = 4f;
+            float directionalXOffset = playerController.IsFacingRight ? buildingXOffset : -buildingXOffset;
             float xPos = directionalXOffset + transform.position.x;
 
             activePlaceVisual.color = originalPlaceVisualColor;
@@ -116,7 +116,8 @@ namespace IslandDefender {
                 activePlaceVisual.ChangeHue(Color.red, hueShiftIntensity);
             }
 
-            activePlaceVisual.transform.position = new Vector3(gridXPos, transform.position.y + buildingPlacing.BuildOffset.y);
+            float buildingYPos = 0.75f;
+            activePlaceVisual.transform.position = new Vector3(gridXPos, buildingYPos);
         }
 
         private bool IsAvailableGridPos(float xPos, out int gridXPos) {

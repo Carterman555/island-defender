@@ -106,6 +106,12 @@ namespace IslandDefender {
         }
 
         private void SpawnEnemy(EnemyType enemyType) {
+
+            if (enemyType == EnemyType.FlyTrap) {
+                RoamingEnemyManager.Instance.SpawnFlyTrapInWave();
+                return;
+            }
+
             GameObject prefab = ResourceSystem.Instance.GetEnemy(enemyType).Prefab;
 
             float posVariance = 20f;
@@ -122,8 +128,7 @@ namespace IslandDefender {
             float waveProgressDifficultyMult = GetMultDifficultyFromProgress(waveProgress);
 
             float avgInterval = spawnInterval / waveProgressDifficultyMult; // techinically not exactly avg, but close
-            //float intervalVariance = 0.15f;
-            float intervalVariance = 0f;
+            float intervalVariance = 0.15f;
             float interval = UnityEngine.Random.Range(avgInterval * (1 - intervalVariance), avgInterval * (1 + intervalVariance));
             return interval;
         }

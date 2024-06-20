@@ -14,6 +14,7 @@ namespace IslandDefender {
 		[SerializeField] private float babyFrogWeight;
 		[SerializeField] private float snailWeight;
 		[SerializeField] private float frogWeight;
+		[SerializeField] private float flyTrapWeight;
 
 		public Dictionary<EnemyType, float> GetEnemyWeights() {
             Dictionary<EnemyType, float> enemyWeights = new() {
@@ -21,6 +22,7 @@ namespace IslandDefender {
                 { EnemyType.BabyFrog, babyFrogWeight },
                 { EnemyType.Snail, snailWeight },
                 { EnemyType.Frog, frogWeight },
+                { EnemyType.FlyTrap, flyTrapWeight },
             };
 
             return enemyWeights;

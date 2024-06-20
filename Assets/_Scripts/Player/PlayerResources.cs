@@ -21,6 +21,9 @@ namespace IslandDefender {
 
         private void Start() {
             AddResource(ResourceType.Wood, 99);
+            AddResource(ResourceType.Fiber, 99);
+            AddResource(ResourceType.Stone, 99);
+            AddResource(ResourceType.Gold, 99);
         }
 
         public void AddResource(ResourceType resourceType, int amount) {

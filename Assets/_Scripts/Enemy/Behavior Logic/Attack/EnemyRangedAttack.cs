@@ -33,9 +33,12 @@ namespace IslandDefender {
                 enemy.transform.position + (Vector3)projectileOffset,
                 Quaternion.identity,
                 Containers.Instance.Projectiles);
-            
-            if (poisonBall.TryGetComponent(out IProjectile projectile)) {
-                projectile.Shoot(direction, enemy.Stats.Damage);
+
+            if (poisonBall.TryGetComponent(out IDirectionProjectile dDrojectile)) {
+                dDrojectile.Shoot(direction, enemy.Stats.Damage);
+            }
+            else if (poisonBall.TryGetComponent(out IPositionProjectile pProjectile)) {
+                pProjectile.Shoot(targetPos, enemy.Stats.Damage);
             }
             else {
                 Debug.LogError("Projectile Prefab Does Not Have IProjectile Component!");
