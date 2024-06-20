@@ -242,7 +242,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scriptableUnit: {fileID: 11400000, guid: b4bb9d4a084a0844e87e12732b46f044, type: 2}
-  <Anim>k__BackingField: {fileID: 7431726072749399341}
+  <Anim>k__BackingField: {fileID: 3324058703307629309}
+  jumpEnemy: 1
   scriptableFarState: {fileID: 11400000, guid: 10e5afe2bd73008428381f42de0160ad, type: 2}
   scriptableMidrangeState: {fileID: 11400000, guid: 10e5afe2bd73008428381f42de0160ad, type: 2}
   scriptableCloseState: {fileID: 11400000, guid: 10e5afe2bd73008428381f42de0160ad, type: 2}
@@ -258,7 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83edac25e69fc12429536d69b25d881b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
+  anim: {fileID: 3324058703307629309}
 --- !u!114 &-429399862899453730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,7 +342,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6880869997729327612}
   - component: {fileID: 8100170019473201375}
-  - component: {fileID: 7431726072749399341}
+  - component: {fileID: 3324058703307629309}
+  - component: {fileID: 3752707725880155959}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -416,7 +418,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &7431726072749399341
+--- !u!95 &3324058703307629309
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -437,3 +439,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3752707725880155959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6006534012113366209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37068d5d58b0aba44a300fc870cbfe3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 6936250782541098667}

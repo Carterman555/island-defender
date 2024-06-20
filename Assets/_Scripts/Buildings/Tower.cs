@@ -11,15 +11,9 @@ namespace IslandDefender.Buildings {
         [SerializeField] private TriggerContactTracker enemiesInRangeTracker;
 
         [Header("Stats")]
-		[SerializeField] private float maxHealth;
 		[SerializeField] private float damage;
 		[SerializeField] private float shootCooldown;
 		private float shootTimer;
-
-        protected override void ResetValues() {
-            base.ResetValues();
-            health = maxHealth;
-        }
 
         private void Update() {
 			shootTimer += Time.deltaTime;

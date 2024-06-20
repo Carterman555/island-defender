@@ -1,5 +1,4 @@
 using IslandDefender.Environment.Building;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace IslandDefender {
@@ -14,15 +13,12 @@ namespace IslandDefender {
         private Transform keep;
 
         public override void DoAnimationTriggerEventLogic(AnimationTriggerType triggerType) {
-            base.DoAnimationTriggerEventLogic(triggerType);
-        }
+            if (triggerType == AnimationTriggerType.Jump) {
+                enemy.RB.velocity = Vector2.zero;
 
-        public override void DoEnterLogic() {
-            base.DoEnterLogic();
-        }
-
-        public override void DoExitLogic() {
-            base.DoExitLogic();
+                int direction = _transform.position.x < keep.position.x ? 1 : -1;
+                enemy.RB.AddForce(new Vector2(jumpForce.x * direction, jumpForce.y), ForceMode2D.Impulse);
+            }
         }
 
         public override void FrameUpdate() {
@@ -36,8 +32,8 @@ namespace IslandDefender {
             jumpTimer += Time.deltaTime;
             if (jumpTimer > jumpCooldown) {
                 jumpTimer = 0;
-                enemy.RB.velocity = Vector2.zero;
-                enemy.RB.AddForce(new Vector2(jumpForce.x * direction, jumpForce.y), ForceMode2D.Impulse);
+
+                enemy.Anim.SetTrigger("jump");
             }
 
             StopOnGrounded();

@@ -12,5 +12,6 @@ namespace IslandDefender {
         MeleeAttack,
         RangedAttack,
         Pickup,
+        Jump,
     }
 }

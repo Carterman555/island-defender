@@ -7,14 +7,7 @@ namespace IslandDefender.Environment {
         [SerializeField] private ResourceType resourceType;
         [SerializeField] private RandomInt resourceDropAmount;
 
-        [SerializeField] private float maxHealth = 5;
-
-        protected override void ResetValues() {
-            base.ResetValues();
-            health = maxHealth;
-        }
-
-        protected override void Die() {
+        public override void Die() {
             PlayerResources.Instance.AddResource(resourceType, resourceDropAmount.Randomize());
             base.Die();
         }

@@ -6,7 +6,7 @@ namespace IslandDefender {
 	public interface IDamagable {
 
 		public event Action<Vector3> OnKnockbackDamaged;
-		public event Action OnDamaged;
+		public event Action<float> OnDamaged;
 
 		public static event Action<GameObject> OnAnyDeath;
         public event Action OnDeath;

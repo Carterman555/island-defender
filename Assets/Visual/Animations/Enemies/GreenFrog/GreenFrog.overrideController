@@ -7,7 +7,7 @@ AnimatorOverrideController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: GreenFrog
-  m_Controller: {fileID: 9100000, guid: d4da3d738cdc44946ac5636ec04bb9b5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0875293abc3a7814cb93732d39ecdbaf, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 471a0c98f86626748a150f61f5c865c2, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 471a0c98f86626748a150f61f5c865c2, type: 2}

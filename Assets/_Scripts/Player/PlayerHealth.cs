@@ -4,11 +4,9 @@ using UnityEngine;
 namespace IslandDefender.Units.Player {
 	public class PlayerHealth : Health {
 
-        private float maxHealth;
-
         protected override void Awake() {
             base.Awake();
-            maxHealth = GetComponent<UnitBase>().Stats.Health;
+            SetMaxHealth(GetComponent<UnitBase>().Stats.Health);
         }
 
         protected override void OnEnable() {
@@ -21,15 +19,10 @@ namespace IslandDefender.Units.Player {
         }
 
         private void Heal(int n) {
-            health = maxHealth;
+            health = GetMaxHealth();
         }
 
-        protected override void ResetValues() {
-            base.ResetValues();
-            health = maxHealth;
-        }
-
-        protected override void Die() {
+        public override void Die() {
             GameManager.Instance.GameOver();
         }
     }

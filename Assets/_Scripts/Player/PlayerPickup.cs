@@ -1,5 +1,6 @@
 using IslandDefender.Environment;
 using System;
+using TarodevController;
 using UnityEngine;
 
 namespace IslandDefender {
@@ -7,10 +8,15 @@ namespace IslandDefender {
 
 		public static event Action OnPickup;
 
+        private PlayerController playerController;
         [SerializeField] private PlayerAnimator playerAnimator;
         [SerializeField] private Animator anim;
 
         [SerializeField] private TriggerContactTracker resourceContactTracker;
+
+        private void Awake() {
+            playerController = GetComponent<PlayerController>();
+        }
 
         private void OnEnable() {
             playerAnimator.OnAnimationTriggered += TryPickup;
@@ -25,6 +31,8 @@ namespace IslandDefender {
                 IPickupable pickupable = resourceContactTracker.GetContacts()[0].GetComponent<IPickupable>();
                 pickupable.Pickup();
                 OnPickup?.Invoke();
+
+                playerController.EnableMovement();
             }
         }
 
@@ -32,6 +40,8 @@ namespace IslandDefender {
         private void Update() {
             if (resourceContactTracker.GetContacts().Count > 0 && Input.GetKeyDown(KeyCode.E)) {
                 anim.SetTrigger("gather");
+
+                playerController.DisableMovement();
             }
         }
     }

@@ -6,8 +6,6 @@ using UnityEngine;
 namespace IslandDefender {
 	public class FlyTrapSapling : Health {
 
-        [SerializeField] private float maxHealth;
-
 		[SerializeField] private RandomFloat growTime;
 		private float growTimer;
 
@@ -15,7 +13,6 @@ namespace IslandDefender {
 
         protected override void ResetValues() {
             base.ResetValues();
-            health = maxHealth;
 
             growTime.Randomize();
             growTimer = 0;

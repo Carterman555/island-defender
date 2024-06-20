@@ -3,8 +3,6 @@ using UnityEngine;
 namespace IslandDefender {
 	public class Garden : Health {
 
-		[SerializeField] private float maxHealth;
-
         private int wavesAlive;
 
         protected override void OnEnable() {
@@ -19,14 +17,13 @@ namespace IslandDefender {
             EnemyWaveManager.OnNextWave -= IncreaseWaves;
         }
 
-        protected override void Die() {
+        public override void Die() {
             base.Die();
             ResourceSpawnManager.Instance.RemoveGarden();
         }
 
         protected override void ResetValues() {
             base.ResetValues();
-            health = maxHealth;
             wavesAlive = 0;
         }
 

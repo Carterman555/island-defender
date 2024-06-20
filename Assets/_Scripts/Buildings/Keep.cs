@@ -24,7 +24,6 @@ namespace IslandDefender.Environment.Building {
         private TowerProjectile currentProjectilePrefab;
 
         [Header("Stats")]
-        [SerializeField] private float maxHealth;
         [SerializeField] private float baseDamage;
         [SerializeField] private float levelDamageIncrease;
         [SerializeField] private float levelHealthIncrease;
@@ -34,11 +33,6 @@ namespace IslandDefender.Environment.Building {
         [Header("Visual")]
         [SerializeField] private SpriteRenderer visual;
         [SerializeField] private Sprite[] keepSprites;
-
-        protected override void ResetValues() {
-            base.ResetValues();
-            health = maxHealth;
-        }
 
         protected override void OnEnable() {
             base.OnEnable();
@@ -94,7 +88,7 @@ namespace IslandDefender.Environment.Building {
                 currentProjectilePrefab = weakProjectilePrefab;
             }
 
-            maxHealth += levelHealthIncrease;
+            SetMaxHealth(GetMaxHealth() + levelHealthIncrease);
             health += levelHealthIncrease;
 
             visual.sprite = keepSprites[level - 1];
@@ -128,7 +122,7 @@ namespace IslandDefender.Environment.Building {
             }
         }
 
-        protected override void Die() {
+        public override void Die() {
             GameManager.Instance.GameOver();
         }
     }

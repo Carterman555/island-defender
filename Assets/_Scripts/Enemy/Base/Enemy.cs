@@ -8,6 +8,8 @@ namespace IslandDefender {
         public UnitHealth Health { get; private set; }
         public Knockback Knockback { get; private set; }
 
+        [SerializeField] private bool jumpEnemy;
+
         public bool IsFacingRight { get; set; } = false;
 
         private GameObject midrangeObject { get; set; }
@@ -37,7 +39,6 @@ namespace IslandDefender {
             return closeObject;
         }
 
-
         #endregion
 
         private bool move = true;
@@ -66,10 +67,6 @@ namespace IslandDefender {
 
             SetMidrangeObject(null);
             SetCloseObject(null);
-
-            // spawn animation
-            Anim.SetTrigger("spawn");
-            Anim.SetBool("isGrounded", true);
         }
 
         protected virtual void InitializeInstances() {
@@ -110,17 +107,19 @@ namespace IslandDefender {
             RB.velocity = new Vector3(xVelocity, RB.velocity.y);
             CheckForLeftOrRightFacing(xVelocity);
 
-            Anim.SetBool("isMoving", xVelocity != 0);
+            if (!jumpEnemy) {
+                Anim.SetBool("isMoving", xVelocity != 0);
+            }
         }
 
         public void CheckForLeftOrRightFacing(float xVelocity) {
             if (IsFacingRight && xVelocity < 0f) {
-                Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
+                Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
                 transform.rotation = Quaternion.Euler(rotator);
                 IsFacingRight = !IsFacingRight;
             }
             else if (!IsFacingRight && xVelocity > 0f) {
-                Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
+                Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
                 transform.rotation = Quaternion.Euler(rotator);
                 IsFacingRight = !IsFacingRight;
             }
@@ -157,7 +156,7 @@ namespace IslandDefender {
         #region Animation Triggers
 
         // played by animation
-        private void AnimationTriggerEvent(AnimationTriggerType triggerType) {
+        public void AnimationTriggerEvent(AnimationTriggerType triggerType) {
             StateMachine.CurrentEnemyState.DoAnimationTriggerEventLogic(triggerType);
         }
 

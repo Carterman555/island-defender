@@ -1,17 +1,17 @@
 using IslandDefender.Management;
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace IslandDefender {
     public class Health : MonoBehaviour, IDamagable {
         public event Action<Vector3> OnKnockbackDamaged;
-        public event Action OnDamaged;
+        public event Action<float> OnDamaged;
 
         public static event Action<GameObject> OnAnyDeath;
 
         public event Action OnDeath;
 
+        [SerializeField] private float maxHealth;
         protected float health;
         private bool dead;
 
@@ -19,18 +19,15 @@ namespace IslandDefender {
 
         private IAnimationTrigger animationTrigger;
 
-        // prototyping
-        protected SpriteRenderer spriteRenderer;
-        private float _maxHealth;
-        private void Start() {
-            _maxHealth = health;
+        protected void SetMaxHealth(float maxHealth) {
+            this.maxHealth = maxHealth;
         }
-        // prototyping /\
+
+        public float GetMaxHealth() {
+            return maxHealth;
+        }
 
         protected virtual void Awake() {
-
-            spriteRenderer = GetComponentInChildren<SpriteRenderer>(); // prototyping
-
             if (anim != null) {
                 animationTrigger = anim.GetComponent<IAnimationTrigger>();
             }
@@ -51,7 +48,7 @@ namespace IslandDefender {
 
         protected virtual void ResetValues() {
             dead = false;
-            spriteRenderer.Fade(1); // prototyping
+            health = maxHealth;
         }
 
         public virtual void KnockbackDamage(float damage, Vector3 attackerPosition) {
@@ -74,9 +71,9 @@ namespace IslandDefender {
 
             health -= damage;
 
-            spriteRenderer.Fade(Mathf.InverseLerp(0, _maxHealth, health));
+            //spriteRenderer.Fade(Mathf.InverseLerp(0, _maxHealth, health));
 
-            OnDamaged?.Invoke();
+            OnDamaged?.Invoke(health);
             OnAnyDeath?.Invoke(gameObject);
 
             if (health <= 0) {
@@ -84,6 +81,7 @@ namespace IslandDefender {
                 dead = true;
             }
             else if (anim != null) {
+                print("hurt");
                 anim.SetTrigger("hurt");
             }
         }
@@ -106,7 +104,7 @@ namespace IslandDefender {
             }
         }
 
-        protected virtual void Die() {
+        public virtual void Die() {
             ObjectPoolManager.ReturnObjectToPool(gameObject);
         }
 
