@@ -5,10 +5,10 @@ namespace IslandDefender {
 	public class NightTimeWarning : MonoBehaviour {
 
         private void OnEnable() {
-			DayNightCycle.OnNightTime += ShowText;
+			DayNightCycle.OnTurningNightTime += ShowText;
         }
 		private void OnDisable() {
-            DayNightCycle.OnNightTime -= ShowText;
+            DayNightCycle.OnTurningNightTime -= ShowText;
         }
 
         private void ShowText() {

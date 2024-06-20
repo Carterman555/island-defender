@@ -30,7 +30,7 @@ namespace IslandDefender.Units.Player {
         }
 
         protected override void Die() {
-            GameManager.Instance.StartGame();
+            GameManager.Instance.GameOver();
         }
     }
 }

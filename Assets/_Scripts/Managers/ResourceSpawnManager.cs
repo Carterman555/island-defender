@@ -42,10 +42,6 @@ namespace IslandDefender {
             StartCoroutine(SpawnResource(rockPrefab, rockSpawnInterval, rockY));
 
             SpawnStartingResources();
-
-            for (int i = 0; i < 10; i++) {
-                print(ApplyGardenBoost(20, i));
-            }
         }
 
         private void SpawnStartingResources() {

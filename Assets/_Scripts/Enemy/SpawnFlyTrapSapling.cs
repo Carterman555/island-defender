@@ -6,29 +6,18 @@ using UnityEngine;
 namespace IslandDefender {
     public class SpawnFlyTrapSapling : MonoBehaviour {
 
-        [SerializeField] private TriggerContactTracker leftObstacleContactTracker;
-        [SerializeField] private TriggerContactTracker rightObstacleContactTracker;
-
         [SerializeField] private FlyTrapSapling flyTrapSaplingPrefab;
 
         [SerializeField] private RandomFloat spawnTime;
         private float spawnTimer;
 
+        [SerializeField] private float obstacleDetectionDistance;
         [SerializeField] private RandomFloat spawnDistance;
         [SerializeField] private float ySpawnOffset;
 
+        [SerializeField] private LayerMask obstacleLayerMask;
+
         private Enemy enemy;
-
-        private TriggerContactTracker GetLeftContactTracker() {
-            TriggerContactTracker leftTracker = !enemy.IsFacingRight ? rightObstacleContactTracker : leftObstacleContactTracker;
-            return leftTracker;
-        }
-
-        private TriggerContactTracker GetRightContactTracker() {
-            TriggerContactTracker rightTracker = enemy.IsFacingRight ? rightObstacleContactTracker : leftObstacleContactTracker;
-            return rightTracker;
-        }
-
 
         private void Awake() {
             enemy = GetComponent<Enemy>();
@@ -38,8 +27,6 @@ namespace IslandDefender {
             spawnTime.Randomize();
             spawnTimer = 0;
         }
-
-        private int left, right;
 
         private void Update() {
             spawnTimer += Time.deltaTime;
@@ -51,9 +38,6 @@ namespace IslandDefender {
                     SpawnSapling(direction);
                 }
             }
-
-            left = GetLeftContactTracker().GetContacts().Count;
-            right = GetRightContactTracker().GetContacts().Count;
         }
 
         private void SpawnSapling(int direction) {
@@ -62,10 +46,22 @@ namespace IslandDefender {
         }
 
         private bool IsSpawnClear(out int direction) {
-            bool leftClear = GetLeftContactTracker().GetContacts().Count <= 1;
-            bool rightClear = GetRightContactTracker().GetContacts().Count <= 1;
+
+            float height = 4;
+            float offset = 2f;
+            Vector2 leftOrigin = new Vector2(transform.position.x - offset, transform.position.y);
+            Vector2 rightOrigin = new Vector2(transform.position.x + offset, transform.position.y);
+            RaycastHit2D rightHit = Physics2D.BoxCast(leftOrigin, new Vector2(obstacleDetectionDistance, height), 0, Vector2.right, obstacleDetectionDistance, obstacleLayerMask);
+            RaycastHit2D leftHit = Physics2D.BoxCast(rightOrigin, new Vector2(obstacleDetectionDistance, height), 0, Vector2.left, obstacleDetectionDistance, obstacleLayerMask);
+
+            bool leftClear = leftHit.collider == null;
+            bool rightClear = rightHit.collider == null;
 
             print("Tried spawn: " + leftClear + ", " + rightClear);
+
+            if (!leftClear) {
+                print(leftHit.collider.name);
+            }
 
             if (leftClear && rightClear) {
                 direction = Random.value > 0.5f ? 1 : -1;
@@ -81,6 +77,18 @@ namespace IslandDefender {
             }
 
             return leftClear || rightClear;
+        }
+
+        private void OnDrawGizmos() {
+            // Draw a box in the Scene view for visualization
+
+            float height = 4;
+            float offset = 2f;
+            Vector3 leftOrigin = new Vector2(transform.position.x - offset, transform.position.y);
+            Vector3 rightOrigin = new Vector2(transform.position.x + offset, transform.position.y);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(leftOrigin + Vector3.left * obstacleDetectionDistance / 2, new Vector3(obstacleDetectionDistance, height, 0));
+            Gizmos.DrawWireCube(rightOrigin + Vector3.right * obstacleDetectionDistance / 2, new Vector3(obstacleDetectionDistance, height, 0));
         }
     }
 }

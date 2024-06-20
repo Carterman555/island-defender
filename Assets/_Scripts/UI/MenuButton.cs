@@ -1,10 +1,10 @@
 using IslandDefender.Management;
-using IslandDefender.UI;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace IslandDefender {
-	public class PlayButton : GameButton {
+namespace IslandDefender.UI {
+	public class MenuButton : GameButton {
 
         protected override void OnClicked() {
             base.OnClicked();
@@ -18,7 +18,7 @@ namespace IslandDefender {
             float fadeDuration = 1.5f;
             yield return new WaitForSecondsRealtime(fadeDuration);
 
-            GameManager.Instance.StartGame();
+            SceneManager.LoadScene("Menu");
         }
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2339645309030130318}
   - component: {fileID: 329980499290764143}
   m_Layer: 0
-  m_Name: TowerArrow
+  m_Name: WeakKeepProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

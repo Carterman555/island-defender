@@ -17,7 +17,7 @@ namespace IslandDefender {
         public void FadeIn() {
             image.enabled = true;
             image.Fade(1);
-            image.DOFade(0, duration).SetEase(Ease.InSine).OnComplete(() => {
+            image.DOFade(0, duration).SetEase(Ease.InSine).SetUpdate(true).OnComplete(() => {
                 image.enabled = false;
             });
         }
@@ -25,7 +25,7 @@ namespace IslandDefender {
         public void FadeOut() {
             image.enabled = true;
             image.Fade(0);
-            image.DOFade(1, duration).SetEase(Ease.OutSine);
+            image.DOFade(1, duration).SetUpdate(true).SetEase(Ease.OutSine);
         }
 
         public void StayFadedOut() {

@@ -16,7 +16,6 @@ namespace IslandDefender.Buildings {
 		[SerializeField] private float shootCooldown;
 		private float shootTimer;
 
-
         protected override void ResetValues() {
             base.ResetValues();
             health = maxHealth;

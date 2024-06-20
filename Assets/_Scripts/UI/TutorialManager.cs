@@ -83,7 +83,6 @@ namespace IslandDefender {
             currentStepIndex = 0;
             tutorialSteps[currentStepIndex].Initialize();
             tutorialInProgress = true;
-            print("Started");
         }
 
         private bool currentStepIsActive;
@@ -115,8 +114,6 @@ namespace IslandDefender {
         /// Go to the next step, check if all steps are complete, and move the panel off screen.
         /// </summary>
         private void CompleteCurrentStep() {
-            print("CompleteCurrentStep");
-
             tutorialSteps[currentStepIndex].Deinitialize();
 
             currentStepIndex++;
@@ -142,8 +139,6 @@ namespace IslandDefender {
         /// Setup the current panel's text and move it on screen
         /// </summary>
         private IEnumerator ActivateCurrentStep() {
-
-            print("ActivateCurrentStep");
 
             int stepIndexBefore = currentStepIndex;
 

@@ -62,6 +62,9 @@ namespace IslandDefender {
             if (leftWaveSpawner.Completed() && rightWaveSpawner.Completed() && !AnyEnemiesAlive()) {
                 ContinueNextWave();
                 SetupCurrentWave();
+
+                DayNightCycle.Instance.EndNightTime();
+                print("Wave Completed");
             }
         }
 

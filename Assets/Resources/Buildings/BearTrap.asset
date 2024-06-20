@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BearTrap
   m_EditorClassIdentifier: 
   buildingType: 3
-  keepLevelToUnlock: 2
+  keepLevelToUnlock: 3
   prefab: {fileID: 1415141697023457759, guid: 2bc5dad6dcb65764eb97ec472f03cc3a, type: 3}
   placeVisualPrefab: {fileID: 4376643210107673198, guid: 0300274194872f744a0fcd7b76f62365, type: 3}
   buildOffset: {x: 3, y: -1.5}
