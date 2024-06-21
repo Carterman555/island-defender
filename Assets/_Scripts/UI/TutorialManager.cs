@@ -245,13 +245,13 @@ namespace IslandDefender {
 
             pickedUpResource = false;
 
-            PlayerResources.OnResourceChanged += CheckIfPickedUp;
+            PlayerResources.OnResourceAdded += CheckIfPickedUp;
         }
 
         public override void Deinitialize() {
             base.Deinitialize();
 
-            PlayerResources.OnResourceChanged -= CheckIfPickedUp;
+            PlayerResources.OnResourceAdded -= CheckIfPickedUp;
         }
 
         private void CheckIfPickedUp(ResourceType type, int amount) {
@@ -281,13 +281,13 @@ namespace IslandDefender {
 
             gatheredWood = false;
 
-            PlayerResources.OnResourceChanged += CheckIfGatheredWood;
+            PlayerResources.OnResourceAdded += CheckIfGatheredWood;
         }
 
         public override void Deinitialize() {
             base.Deinitialize();
 
-            PlayerResources.OnResourceChanged -= CheckIfGatheredWood;
+            PlayerResources.OnResourceAdded -= CheckIfGatheredWood;
         }
 
         private void CheckIfGatheredWood(ResourceType type, int amount) {

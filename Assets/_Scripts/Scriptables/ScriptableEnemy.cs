@@ -23,5 +23,6 @@ namespace IslandDefender {
         Frog = 2,
         Snail = 3,
         FlyTrap = 4,
+        FrogWizard = 5
     }
 }

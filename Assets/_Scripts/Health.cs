@@ -85,7 +85,6 @@ namespace IslandDefender {
                 dead = true;
             }
             else if (anim != null) {
-                print("hurt");
                 anim.SetTrigger("hurt");
             }
         }

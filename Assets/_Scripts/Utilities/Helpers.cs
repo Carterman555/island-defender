@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
 /// A static class for general helpful methods
@@ -37,6 +38,12 @@ public static class Helpers
         color.a = value;
         image.color = color;
     }
+    public static void Fade(this TextMeshPro text, float value) {
+        Color color = text.color;
+        color.a = value;
+        text.color = color;
+    }
+
 
     public static void ChangeHue(this SpriteRenderer spriteRenderer, Color targetColor, float amount) {
 

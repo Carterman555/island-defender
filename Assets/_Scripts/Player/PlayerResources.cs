@@ -5,7 +5,8 @@ using System.Collections.Generic;
 namespace IslandDefender {
     public class PlayerResources : StaticInstance<PlayerResources> {
 
-        public static event Action<ResourceType, int> OnResourceChanged;
+        public static event Action<ResourceType, int> OnResourceAdded;
+        public static event Action<ResourceType, int> OnResourceRemoved;
 
         private Dictionary<ResourceType, int> resourceAmounts;
 
@@ -28,12 +29,12 @@ namespace IslandDefender {
 
         public void AddResource(ResourceType resourceType, int amount) {
             resourceAmounts[resourceType] += amount;
-            OnResourceChanged?.Invoke(resourceType, resourceAmounts[resourceType]);
+            OnResourceAdded?.Invoke(resourceType, resourceAmounts[resourceType]);
         }
 
         public void RemoveResource(ResourceType resourceType, int amount) {
             resourceAmounts[resourceType] -= amount;
-            OnResourceChanged?.Invoke(resourceType, resourceAmounts[resourceType]);
+            OnResourceRemoved?.Invoke(resourceType, resourceAmounts[resourceType]);
         }
 
         public int GetResourceAmount(ResourceType resourceType) {

@@ -18,9 +18,6 @@ namespace IslandDefender {
         [SerializeField] private Transform leftSpawnPoint;
         [SerializeField] private Transform rightSpawnPoint;
 
-        [SerializeField] private ScriptableWave[] allWaves;
-        private ScriptableWave[] availableWaves;
-
         [SerializeField] private GameObject previewContainer;
         [SerializeField] private EnemyPreview[] leftSideEnemyPreviews;
         [SerializeField] private EnemyPreview[] rightSideEnemyPreviews;
@@ -68,7 +65,6 @@ namespace IslandDefender {
                 SetupCurrentWave();
 
                 DayNightCycle.Instance.EndNightTime();
-                print("Wave Completed");
             }
         }
 
@@ -89,18 +85,14 @@ namespace IslandDefender {
 
         private void SetupCurrentWave() {
             
-            UpdateAvailableWaves();
-
             ShowPreviews();
 
             // setup left side
-            ScriptableWave leftChosenWave = availableWaves.RandomItem();
-            leftSideEnemyAmounts = CalculateEnemyAmounts(leftChosenWave);
+            leftSideEnemyAmounts = CalculateEnemyAmounts(ChooseEnemyWeights());
             UpdatePreviews(leftSideEnemyPreviews, leftSideEnemyAmounts);
 
             // setup right side
-            ScriptableWave rightChosenWave = availableWaves.RandomItem();
-            rightSideEnemyAmounts = CalculateEnemyAmounts(rightChosenWave);
+            rightSideEnemyAmounts = CalculateEnemyAmounts(ChooseEnemyWeights());
             UpdatePreviews(rightSideEnemyPreviews, rightSideEnemyAmounts);
         }
 
@@ -114,9 +106,22 @@ namespace IslandDefender {
             OnStartWave?.Invoke(currentWave);
         }
 
-        // find the wave that can be spawned depending on day (harder enemies can only be spawned on later waves)
-        private void UpdateAvailableWaves() {
-            availableWaves = allWaves.Where(wave => currentWave >= wave.MinWave).ToArray();
+        // give each available enemy a weight for the wave, so waves are unique
+        private Dictionary<EnemyType, float> ChooseEnemyWeights() {
+
+            Dictionary<EnemyType, float> enemyWeights = new();
+            foreach (EnemyType enemyType in Enum.GetValues(typeof(EnemyType))) {
+                int startingWave = ResourceSystem.Instance.GetEnemy(enemyType).StartingWave;
+                if (currentWave >= startingWave) {
+
+                    int randomWeight = 1;
+                    if (UnityEngine.Random.value < 0.25f) { // 25% chance
+                        randomWeight = 4;
+                    }
+                    enemyWeights.Add(enemyType, randomWeight);
+                }
+            }
+            return enemyWeights;
         }
 
         private void UpdatePreviews(EnemyPreview[] enemyPreviews, Dictionary<EnemyType, int> enemyAmounts) {
@@ -133,7 +138,7 @@ namespace IslandDefender {
             previewContainer.SetActive(true);
         }
 
-        private Dictionary<EnemyType, int> CalculateEnemyAmounts(ScriptableWave scriptableWave) {
+        private Dictionary<EnemyType, int> CalculateEnemyAmounts(Dictionary<EnemyType, float> enemyWeights) {
 
             Dictionary<EnemyType, int> enemyAmounts = new();
             foreach (EnemyType enemyType in Enum.GetValues(typeof(EnemyType))) {
@@ -143,7 +148,7 @@ namespace IslandDefender {
             float difficultyValueRemaining = currentDifficulty;
 
             while (difficultyValueRemaining > 0) {
-                EnemyType enemyToSpawn = ChoseRandomEnemy(scriptableWave);
+                EnemyType enemyToSpawn = ChoseRandomEnemy(enemyWeights);
                 enemyAmounts[enemyToSpawn]++;
 
                 float strengthOfSpawned = ResourceSystem.Instance.GetEnemy(enemyToSpawn).Strength;
@@ -158,15 +163,15 @@ namespace IslandDefender {
         // each enemy has a weight, the higher the weight the most likely an enemy is to get picked.
         // if deciding between two where one has weight of 80 and the other of 20, the one with 80 has
         // a 80% chance of getting picked
-        private EnemyType ChoseRandomEnemy(ScriptableWave scriptableWave) {
+        private EnemyType ChoseRandomEnemy(Dictionary<EnemyType, float> enemyWeights) {
 
-            float totalWeight = scriptableWave.GetEnemyWeights().Values.Sum();
+            float totalWeight = enemyWeights.Values.Sum();
 
             float randomValue = UnityEngine.Random.Range(0, totalWeight);
             float cumulativeWeight = 0;
 
-            foreach (EnemyType enemyType in scriptableWave.GetEnemyWeights().Keys) {
-                float weight = scriptableWave.GetEnemyWeights()[enemyType];
+            foreach (EnemyType enemyType in enemyWeights.Keys) {
+                float weight = enemyWeights[enemyType];
                 cumulativeWeight += weight;
 
                 if (randomValue <= cumulativeWeight) {

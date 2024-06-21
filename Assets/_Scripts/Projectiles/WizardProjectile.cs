@@ -2,29 +2,27 @@ using IslandDefender.Management;
 using UnityEngine;
 
 namespace IslandDefender {
-    public class TowerProjectile : MonoBehaviour, IPositionProjectile {
+    public class WizardProjectile : MonoBehaviour, IDirectionProjectile {
 
         [SerializeField] private float speed;
 
-        private float damage;
-        private Vector2 directionToEnemy;
+        [SerializeField] private LayerMask allyLayerMask;
 
-        public void Shoot(Vector2 targetPos, float damage) {
-            directionToEnemy = (targetPos - (Vector2)transform.position).normalized;
-            transform.right = directionToEnemy;
+        private float direction;
+        private float damage;
+
+        public void Shoot(int direction, float damage) {
+            this.direction = direction;
+            this.damage = damage;
         }
 
         private void Update() {
-            transform.position += (Vector3)directionToEnemy * speed * Time.deltaTime;
+            transform.position += new Vector3(direction * speed * Time.deltaTime, 0);
         }
 
         // destroy when hit ground, damage and destroy when hit enemy
         private void OnTriggerEnter2D(Collider2D collision) {
-            if (collision.gameObject.layer == GameLayers.GroundLayer) {
-                ObjectPoolManager.ReturnObjectToPool(gameObject);
-            }
-            else if (collision.gameObject.layer == GameLayers.EnemyLayer) {
-
+            if (allyLayerMask.ContainsLayer(collision.gameObject.layer)) {
                 if (collision.TryGetComponent(out ProjectileImmunity projectileImmunity)) {
                     return;
                 }
@@ -33,7 +31,7 @@ namespace IslandDefender {
                     damagable.KnockbackDamage(damage, transform.position);
                 }
                 else {
-                    Debug.LogWarning("Enemy Layer Does Not Have IDamagable");
+                    Debug.LogWarning("Ally Layer Does Not Have IDamagable!");
                 }
 
                 ObjectPoolManager.ReturnObjectToPool(gameObject);

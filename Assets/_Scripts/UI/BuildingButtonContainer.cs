@@ -2,18 +2,19 @@ using DG.Tweening;
 using UnityEngine;
 using IslandDefender.Environment.Building;
 using System.Collections;
+using System;
 
 namespace IslandDefender.UI {
 	public class BuildingButtonContainer : MonoBehaviour {
 
+        public static event Action OnNewBuildingUnlocked;
 
-        private BuildingButton[] buildingButtons;
+        [SerializeField] private BuildingButton[] buildingButtons;
 
         private bool showing;
 
         private void Awake() {
-            buildingButtons = GetComponentsInChildren<BuildingButton>(true);
-
+            Keep.OnUpgrade += TryUnlock;
             Keep.OnUpgrade += TryUnlock;
         }
 
@@ -30,9 +31,13 @@ namespace IslandDefender.UI {
         }
 
         private void TryUnlock(int keepLevel) {
-            buildingButtons = GetComponentsInChildren<BuildingButton>(true); // they become null for some reason, so need to reassign
             foreach (var button in buildingButtons) {
                 if (keepLevel >= button.GetLevelToUnlock()) {
+
+                    if (!button.gameObject.activeSelf && keepLevel > 1) {
+                        OnNewBuildingUnlocked?.Invoke();
+                    }
+
                     button.gameObject.SetActive(true);
                 }
             }

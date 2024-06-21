@@ -14,10 +14,12 @@ namespace IslandDefender {
         }
 
         private void OnEnable() {
-            PlayerResources.OnResourceChanged += TryUpdateText;
+            PlayerResources.OnResourceAdded += TryUpdateText;
+            PlayerResources.OnResourceRemoved += TryUpdateText;
         }
         private void OnDisable() {
-            PlayerResources.OnResourceChanged -= TryUpdateText;
+            PlayerResources.OnResourceAdded -= TryUpdateText;
+            PlayerResources.OnResourceRemoved -= TryUpdateText;
         }
 
         private void TryUpdateText(ResourceType resourceType, int amount) {

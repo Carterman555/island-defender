@@ -50,7 +50,7 @@ namespace IslandDefender.Environment.Building {
         private void PlayerEnter(GameObject player) {
             playerTouching = true;
 
-            Vector2 offset = new Vector2(0, 3f);
+            Vector2 offset = new Vector2(0, 2.6f);
             string text = "Press R to Upgrade Keep";
             WorldPopupText.Instance.ShowText((Vector2)transform.position + offset, text);
         }
