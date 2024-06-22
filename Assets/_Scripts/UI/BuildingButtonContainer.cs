@@ -45,19 +45,13 @@ namespace IslandDefender.UI {
 
         private void Update() {
 
-            // to face correct direction when player changes facd
-            bool facingRight = PlayerBuild.Instance.transform.eulerAngles.y == 0;
-            float direction = facingRight ? 1 : -1;
-
-            if (showing) {
-                transform.localScale = new Vector3(direction, 1);
-            }
+            Vector3 offset = new Vector3(0, 3.75f);
+            transform.position = PlayerBuild.Instance.transform.position + offset;
 
             // show when press q
             if (Input.GetKeyDown(KeyCode.Q)) {
                 float duration = 0.3f;
-                Vector2 scale = new Vector2(direction, 1);
-                transform.DOScale(scale, duration).SetEase(Ease.OutSine).OnComplete(() => {
+                transform.DOScale(1, duration).SetEase(Ease.OutSine).OnComplete(() => {
                     showing = true;
                 });
             }

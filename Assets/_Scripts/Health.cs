@@ -107,12 +107,11 @@ namespace IslandDefender {
             }
         }
 
+        [ContextMenu("Kill")]
         public virtual void Die() {
             OnDespawn?.Invoke();
             OnAnyDespawn?.Invoke(gameObject);
             ObjectPoolManager.ReturnObjectToPool(gameObject);
         }
-
-        
     }
 }

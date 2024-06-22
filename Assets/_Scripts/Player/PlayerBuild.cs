@@ -31,10 +31,10 @@ namespace IslandDefender {
         }
 
         private void OnEnable() {
-            IDamagable.OnAnyDespawn += TryUpdateTakenList;
+            Health.OnAnyDespawn += TryUpdateTakenList;
         }
         private void OnDisable() {
-            IDamagable.OnAnyDespawn -= TryUpdateTakenList;
+            Health.OnAnyDespawn -= TryUpdateTakenList;
         }
 
         private void TryUpdateTakenList(GameObject objectDestroyed) {
@@ -43,6 +43,7 @@ namespace IslandDefender {
                 int buildingXPos = Mathf.RoundToInt(objectDestroyed.transform.position.x);
                 if (takenXPositions.Contains(buildingXPos)) {
                     takenXPositions.Remove(buildingXPos);
+                    print("removed: " + buildingXPos);
                 }
                 else {
                     Debug.LogWarning("Building X Pos Not Found in List!");
@@ -109,12 +110,16 @@ namespace IslandDefender {
             float directionalXOffset = playerController.IsFacingRight ? buildingXOffset : -buildingXOffset;
             float xPos = directionalXOffset + transform.position.x;
 
-            activePlaceVisual.color = originalPlaceVisualColor;
+            float alpha = activePlaceVisual.color.a;
 
-            if (!IsAvailableGridPos(xPos, out int gridXPos)) {
-                float hueShiftIntensity = 0.5f;
-                activePlaceVisual.ChangeHue(Color.red, hueShiftIntensity);
+            if (IsAvailableGridPos(xPos, out int gridXPos)) {
+                activePlaceVisual.color = Color.white;
             }
+            else {
+                activePlaceVisual.color = Color.red;
+            }
+
+            activePlaceVisual.Fade(alpha);
 
             float buildingYPos = 0.75f;
             activePlaceVisual.transform.position = new Vector3(gridXPos, buildingYPos);
@@ -128,6 +133,10 @@ namespace IslandDefender {
         }
 
         private void StartBuilding() {
+            if (!IsAvailableGridPos(activePlaceVisual.transform.position.x, out int gridXPos)) {
+                return;
+            }
+
             building = true;
             playerController.DisableMovement();
         }

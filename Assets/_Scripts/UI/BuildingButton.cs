@@ -20,7 +20,7 @@ namespace IslandDefender.UI {
 
         public void OnPointerEnter(PointerEventData eventData) {
             RectTransform rectTransform = GetComponent<RectTransform>();
-            Vector2 offset = new Vector2(0, 70f);
+            Vector2 offset = new Vector2(0, 2.5f);
 
             CostText.Instance.Show((Vector2)rectTransform.position + offset,
                 scriptableBuilding.WoodCost,
