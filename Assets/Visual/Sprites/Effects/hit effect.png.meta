@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 499f100327175a74abee5fdd1d37714e
+guid: 6c1eaec4b453f68489fa6ee1f9afe3c3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ranged atk_0
+      name: hit effect_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 75
-        height: 55
+        width: 25
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c7e3465d1a2ab5a4c8ddc88b74f2a8ea
-      internalID: -1071185274
+      spriteID: 4973cf6190a7f4d49b182414d0056ac0
+      internalID: -587906595
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ranged atk_1
+      name: hit effect_1
       rect:
         serializedVersion: 2
-        x: 75
+        x: 25
         y: 0
-        width: 75
-        height: 55
+        width: 25
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 577e1a5f74d6feb43a39eef4d4267d24
-      internalID: 635903412
+      spriteID: 9cb27095e3c8c2945a77721f6f7ecc6d
+      internalID: -1876045612
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ranged atk_2
+      name: hit effect_2
       rect:
         serializedVersion: 2
-        x: 150
+        x: 50
         y: 0
-        width: 75
-        height: 55
+        width: 25
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,134 +166,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 265720b49464ddb459d9ffc4fdd127f4
-      internalID: -270091067
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ranged atk_3
-      rect:
-        serializedVersion: 2
-        x: 225
-        y: 0
-        width: 75
-        height: 55
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ceded6a7e18534841bc361b2c55ddc7f
-      internalID: 1886746515
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ranged atk_4
-      rect:
-        serializedVersion: 2
-        x: 300
-        y: 0
-        width: 75
-        height: 55
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bcad1ffd7e0406b4ca4c1116661bb208
-      internalID: -431147726
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ranged atk_5
-      rect:
-        serializedVersion: 2
-        x: 375
-        y: 0
-        width: 75
-        height: 55
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ca810149d5263164e9205f63a36a7d2f
-      internalID: 456081005
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ranged atk_6
-      rect:
-        serializedVersion: 2
-        x: 450
-        y: 0
-        width: 75
-        height: 55
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 81a7349faf1ce9a4fb78b2772621b647
-      internalID: 2059605955
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ranged atk_7
-      rect:
-        serializedVersion: 2
-        x: 525
-        y: 0
-        width: 75
-        height: 55
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b70ed1d35359ec940858999c3f364333
-      internalID: 369511017
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ranged atk_8
-      rect:
-        serializedVersion: 2
-        x: 600
-        y: 0
-        width: 75
-        height: 55
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 72028b6f7afdfda4d9ccb11536ef6923
-      internalID: -1544192994
+      spriteID: 4165fc540a501d04abbaf433f5b6d0f7
+      internalID: 1994711369
       vertices: []
       indices: 
       edges: []
@@ -309,15 +183,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ranged atk_0: -1071185274
-      ranged atk_1: 635903412
-      ranged atk_2: -270091067
-      ranged atk_3: 1886746515
-      ranged atk_4: -431147726
-      ranged atk_5: 456081005
-      ranged atk_6: 2059605955
-      ranged atk_7: 369511017
-      ranged atk_8: -1544192994
+      hit effect_0: -587906595
+      hit effect_1: -1876045612
+      hit effect_2: 1994711369
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

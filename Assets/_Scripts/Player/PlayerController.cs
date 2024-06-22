@@ -87,6 +87,7 @@ namespace TarodevController {
             HandleJump();
             HandleDirection();
             HandleGravity();
+            HandleOutsideForce();
 
             ApplyMovement();
         }
@@ -203,7 +204,23 @@ namespace TarodevController {
 
         #endregion
 
-        private void ApplyMovement() => _rb.velocity = _frameVelocity;
+        #region Outside Force
+
+        [SerializeField] private float forceDeacceleration;
+
+        private Vector2 outsideForce;
+
+        public void SetForce(Vector2 force) {
+            outsideForce = force;
+        }
+
+        private void HandleOutsideForce() {
+            //outsideForce = Vector2.MoveTowards(outsideForce, Vector2.zero, forceDeacceleration * Time.deltaTime);
+        }
+
+        #endregion
+
+        private void ApplyMovement() => _rb.velocity = _frameVelocity + outsideForce;
 
 #if UNITY_EDITOR
         private void OnValidate() {

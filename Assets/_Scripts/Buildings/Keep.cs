@@ -11,7 +11,7 @@ namespace IslandDefender.Environment.Building {
 
         [SerializeField] private TriggerContactTracker playerContactTracker;
 
-        private int maxLevel = 9;
+        private int maxLevel = 4;
         private int level = 1;
         private bool playerTouching;
 
@@ -31,13 +31,18 @@ namespace IslandDefender.Environment.Building {
         private float shootTimer;
 
         [Header("Visual")]
-        [SerializeField] private SpriteRenderer visual;
-        [SerializeField] private Sprite[] keepSprites;
+        [SerializeField] private Animator animator;
+
+        [SerializeField] private int startingCost = 10;
+        [SerializeField] private int costIncrease = 5;
+        private int currentCost;
 
         protected override void OnEnable() {
             base.OnEnable();
             playerContactTracker.OnEnterContact += PlayerEnter;
             playerContactTracker.OnLeaveContact += PlayerExit;
+
+            currentCost = startingCost;
         }
 
         protected override void OnDisable() {
@@ -48,10 +53,14 @@ namespace IslandDefender.Environment.Building {
         }
 
         private void PlayerEnter(GameObject player) {
+            if (level >= maxLevel) {
+                return;
+            }
+
             playerTouching = true;
 
             Vector2 offset = new Vector2(0, 2.6f);
-            string text = "Press R to Upgrade Keep";
+            string text = "Press R to Upgrade Keep\nCost: " + currentCost + " Gold";
             WorldPopupText.Instance.ShowText((Vector2)transform.position + offset, text);
         }
 
@@ -61,7 +70,8 @@ namespace IslandDefender.Environment.Building {
         }
 
         private void Update() {
-            if (playerTouching && Input.GetKeyDown(KeyCode.R)) {
+            bool canAfford = PlayerResources.Instance.GetResourceAmount(ResourceType.Gold) >= currentCost;
+            if (playerTouching && canAfford && Input.GetKeyDown(KeyCode.R)) {
                 LevelUp();
             }
 
@@ -75,25 +85,36 @@ namespace IslandDefender.Environment.Building {
         }
 
         private void LevelUp() {
-            if (level >= maxLevel) {
-                return;
-            }
 
             level++;
 
-            if (level >= 6) {
+            PlayerResources.Instance.RemoveResource(ResourceType.Gold, currentCost);
+
+            currentCost = startingCost + ((level - 1) * costIncrease);
+
+            if (level >= 3) {
                 currentProjectilePrefab = strongProjectilePrefab;
             }
-            else if (level >= 3) {
+            else if (level >= 2) {
                 currentProjectilePrefab = weakProjectilePrefab;
             }
 
             SetMaxHealth(GetMaxHealth() + levelHealthIncrease);
             health += levelHealthIncrease;
 
-            visual.sprite = keepSprites[level - 1];
+            animator.SetInteger("KeepLevel", level);
 
             OnUpgrade?.Invoke(level);
+
+            if (level >= maxLevel) {
+                playerTouching = false;
+                WorldPopupText.Instance.HideText();
+                return;
+            }
+
+            Vector2 offset = new Vector2(0, 2.6f);
+            string text = "Press R to Upgrade Keep\nCost: " + currentCost + " Gold";
+            WorldPopupText.Instance.ShowText((Vector2)transform.position + offset, text);
         }
 
         private void Shoot(Vector3 closestEnemyPos) {

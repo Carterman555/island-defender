@@ -43,7 +43,6 @@ namespace IslandDefender {
                 int buildingXPos = Mathf.RoundToInt(objectDestroyed.transform.position.x);
                 if (takenXPositions.Contains(buildingXPos)) {
                     takenXPositions.Remove(buildingXPos);
-                    print("removed: " + buildingXPos);
                 }
                 else {
                     Debug.LogWarning("Building X Pos Not Found in List!");
@@ -69,9 +68,13 @@ namespace IslandDefender {
 
             if (building) {
                 buildTimer += Time.deltaTime;
+                BuildingProgressBar.Instance.UpdateBar(Mathf.InverseLerp(0, buildDuration, buildTimer));
+
                 if (buildTimer > buildDuration) {
                     buildTimer = 0;
                     building = false;
+
+                    BuildingProgressBar.Instance.Hide();
 
                     CreateBuilding();
 
@@ -139,6 +142,8 @@ namespace IslandDefender {
 
             building = true;
             playerController.DisableMovement();
+
+            BuildingProgressBar.Instance.Show();
         }
 
         private void CreateBuilding() {

@@ -17,7 +17,7 @@ MonoBehaviour:
     Health: 6
     Damage: 1
     AttackCooldown: 1.5
-    MoveSpeed: 2
+    MoveSpeed: 4
     KnockBackable: 10
   Prefab: {fileID: 5208110304488620226, guid: ca38367c92a0ec741810167b68414d05, type: 3}
   Description: 

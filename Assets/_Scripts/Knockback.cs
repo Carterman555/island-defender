@@ -1,3 +1,4 @@
+using TarodevController;
 using UnityEngine;
 
 namespace IslandDefender {
@@ -29,11 +30,15 @@ namespace IslandDefender {
         }
 
         private void ApplyKnockback(Vector3 attackerPos) {
-
             int direction = attackerPos.x > transform.position.x ? -1 : 1;
             Vector3 upSideDirection = new Vector3(direction, 1f, 0);
 
-            rb.AddForce(knockbackable * upSideDirection, ForceMode2D.Impulse);
+            if (TryGetComponent(out PlayerController playerController)) {
+                playerController.enabled = false;
+            }
+
+            rb.velocity = knockbackable * upSideDirection;
+
 
             beingKnockedBack = true;
         }
@@ -41,6 +46,10 @@ namespace IslandDefender {
         private void OnCollisionEnter2D(Collision2D collision) {
             if (collision.gameObject.layer == GameLayers.GroundLayer) {
                 beingKnockedBack = false;
+
+                if (TryGetComponent(out PlayerController playerController)) {
+                    playerController.enabled = true;
+                }
             }
         }
     }

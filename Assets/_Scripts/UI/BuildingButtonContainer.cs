@@ -31,6 +31,7 @@ namespace IslandDefender.UI {
         }
 
         private void TryUnlock(int keepLevel) {
+            buildingButtons = GetComponentsInChildren<BuildingButton>(true);
             foreach (var button in buildingButtons) {
                 if (keepLevel >= button.GetLevelToUnlock()) {
 
