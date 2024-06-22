@@ -68,7 +68,7 @@ namespace IslandDefender {
         }
 
 
-        public void Damage(float damage) {
+        public virtual void Damage(float damage) {
 
             if (dead) {
                 return;
@@ -76,7 +76,7 @@ namespace IslandDefender {
 
             health -= damage;
 
-            //spriteRenderer.Fade(Mathf.InverseLerp(0, _maxHealth, health));
+            HitEffect.Create(transform.position);
 
             OnDamaged?.Invoke(health);
 

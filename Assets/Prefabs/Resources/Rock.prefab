@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8551032051571681437}
   - component: {fileID: 785268685803974449}
   - component: {fileID: 2513212163279225316}
-  - component: {fileID: 4152080821233527655}
+  - component: {fileID: 6761863363212094895}
   m_Layer: 11
   m_Name: Rock
   m_TagString: Untagged
@@ -131,7 +131,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.5, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4152080821233527655
+--- !u!114 &6761863363212094895
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,10 +140,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8255113477439153927}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba357fb0e85cbc94aab650f59e30ceea, type: 3}
+  m_Script: {fileID: 11500000, guid: 3330c25802cfe1e4f809b1e368c75bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 3
+  anim: {fileID: 0}
   resourceType: 2
   resourceDropAmount:
     MinValue: 1
     MaxValue: 2
+  duration: 0.25
+  strength: 10
+  vibrato: 5
+  randomness: 90

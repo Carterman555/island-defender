@@ -3,7 +3,7 @@ using UnityEngine;
 namespace IslandDefender.Systems {
     public class AssetSystem : StaticInstance<AssetSystem> {
 
-        [SerializeField] private PoisonBallProjectile example;
-        public PoisonBallProjectile Example => example;
+        [SerializeField] private HitEffect hitEffect;
+        public HitEffect HitEffect => hitEffect;
     }
 }

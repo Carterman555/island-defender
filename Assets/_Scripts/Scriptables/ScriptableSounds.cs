@@ -5,8 +5,11 @@ namespace IslandDefender {
 	[CreateAssetMenu(fileName = "Sounds", menuName = "Sounds")]
 	public class ScriptableSounds : ScriptableObject {
 
-        [SerializeField] private AudioClip[] music;
-        public AudioClip[] Music => music;
+        [SerializeField] private AudioClip dayMusic;
+        public AudioClip DayMusic => dayMusic;
+
+        [SerializeField] private AudioClip nightMusic;
+        public AudioClip NightMusic => nightMusic;
 
         [SerializeField] private AudioClip[] steps;
 		public AudioClip[] Steps => steps;

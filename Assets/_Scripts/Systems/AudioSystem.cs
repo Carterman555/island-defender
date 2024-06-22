@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,14 +13,13 @@ namespace IslandDefender.Audio {
         public static ScriptableSounds SoundClips => Instance.soundClips;
 
         private float musicVolume = 0.5f;
-        private float musicVolumeMult = 0.15f; // cause music too loud
 
         private float sfxVolume = 0.5f;
 
         #region Get Methods
 
         public float GetMusicVolume() {
-            return musicVolume / musicVolumeMult;
+            return musicVolume;
         }
 
         public float GetSFXVolume() {
@@ -31,7 +31,7 @@ namespace IslandDefender.Audio {
         #region Set Methods
 
         public void SetMusicVolume(float volume) {
-            musicVolume = volume * musicVolumeMult;
+            musicVolume = volume;
             musicSource.volume = musicVolume;
         }
 
@@ -45,6 +45,11 @@ namespace IslandDefender.Audio {
         }
 
         #endregion
+
+        private void Start() {
+            musicSource.clip = SoundClips.DayMusic;
+            musicSource.Play();
+        }
 
         private void OnEnable() {
             SceneManager.sceneLoaded += StopWalkingSound;
@@ -60,12 +65,6 @@ namespace IslandDefender.Audio {
 
         private void Update() {
             HandleStepAudio();
-            HandleMusic();
-        }
-
-        public void PlayMusic(AudioClip clip) {
-            musicSource.clip = clip;
-            musicSource.Play();
         }
 
         public void PlaySound(AudioClip clip, float vol = 1, float pitchRandomize = 0) {
@@ -74,11 +73,23 @@ namespace IslandDefender.Audio {
             sfxSource.PlayOneShot(clip, sfxVolume * vol);
         }
 
-        private void HandleMusic() {
-            if (!musicSource.isPlaying) {
-                musicSource.PlayOneShot(SoundClips.Music.RandomItem());
-            }
+        public void TransitionToDayMusic() {
+            float duration = 8f;
+            musicSource.DOFade(0, duration).OnComplete(() => {
+                musicSource.clip = SoundClips.DayMusic;
+                musicSource.DOFade(GetMusicVolume(), duration).SetEase(Ease.Linear);
+            });
         }
+
+        public void TransitionToNightMusic() {
+            float duration = 8f;
+            musicSource.DOFade(0, duration).OnComplete(() => {
+                musicSource.clip = SoundClips.NightMusic;
+                musicSource.Play();
+                musicSource.DOFade(GetMusicVolume(), duration).SetEase(Ease.Linear);
+            });
+        }
+
 
         #region Walking Sound Effect
 

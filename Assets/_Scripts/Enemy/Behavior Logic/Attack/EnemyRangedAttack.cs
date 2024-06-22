@@ -63,7 +63,6 @@ namespace IslandDefender {
             if (timer > enemy.Stats.AttackCooldown) {
                 // play animation which will play Attack()
                 enemy.Anim.SetTrigger("attack");
-                Debug.Log("attack anim: " + enemy.Stats.AttackCooldown);
 
                 timer = 0f;
             }

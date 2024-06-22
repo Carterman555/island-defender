@@ -155,8 +155,6 @@ namespace IslandDefender {
                 difficultyValueRemaining -= strengthOfSpawned;
             }
 
-            print(enemyAmounts[EnemyType.FlyTrap]);
-
             return enemyAmounts;
         }
 

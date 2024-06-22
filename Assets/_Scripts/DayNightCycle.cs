@@ -1,3 +1,4 @@
+using IslandDefender.Audio;
 using System;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -36,6 +37,9 @@ namespace IslandDefender {
                 if (cycleTimer >= dayDuration) {
                     cycleTimer = 0f;
                     currentStage = CycleStage.TurningNight;
+
+                    AudioSystem.Instance.TransitionToNightMusic();
+
                     OnTurningNightTime?.Invoke();
                 }
             }
@@ -74,6 +78,8 @@ namespace IslandDefender {
 
             cycleTimer = 0f;
             currentStage = CycleStage.TurningDay;
+
+            AudioSystem.Instance.TransitionToDayMusic();
         }
     }
 

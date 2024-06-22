@@ -121,7 +121,7 @@ namespace IslandDefender {
 
             // move text off screen
             float moveDuration = 0.5f;
-            tutorialText.transform.DOMove(exitPos, moveDuration).SetEase(Ease.OutSine).OnComplete(() => {
+            tutorialText.GetComponent<RectTransform>().DOAnchorPos(exitPos, moveDuration).SetEase(Ease.OutSine).OnComplete(() => {
                 if (tutorialOver) {
                     EndTutorial();
                 }
@@ -152,8 +152,9 @@ namespace IslandDefender {
                 tutorialText.text = currentStep.GetText();
 
                 float moveDuration = 0.5f;
-                tutorialText.transform.position = startPos;
-                tutorialText.transform.DOMove(showPos, moveDuration).SetEase(Ease.OutSine);
+                tutorialText.GetComponent<RectTransform>().anchoredPosition = startPos;
+                tutorialText.GetComponent<RectTransform>().DOAnchorPos(showPos, moveDuration).SetEase(Ease.OutSine);
+                //tutorialText.transform.DOMove(showPos, moveDuration).SetEase(Ease.OutSine);
             }
         }
 

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 990660aad43c96642b99d91d0cd8f3c7, type: 3}
   m_Name: Sounds
   m_EditorClassIdentifier: 
-  music: []
+  dayMusic: {fileID: 8300000, guid: f3f23cc86890182408d796fcc51420e4, type: 3}
+  nightMusic: {fileID: 8300000, guid: 3dd37857bc51e614dac925bea90e5c5c, type: 3}
   steps: []
+  uiSlide: {fileID: 0}
   test: {fileID: 0}
