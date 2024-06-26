@@ -48,11 +48,6 @@ namespace IslandDefender {
             }
         }
 
-        public void SpawnFlyTrapInWave() {
-            float flyTrapY = -2.5f;
-            SpawnEnemy(flyTrapY, false);
-        }
-
         private void SpawnEnemy(float yPos, bool awayFromKeep = true) {
 
             float spawnXPos;
@@ -71,7 +66,8 @@ namespace IslandDefender {
                 spawnXPos = UnityEngine.Random.Range(roamBorderPoint2.position.x, roamBorderPoint3.position.x);
             }
 
-            GameObject enemy = ObjectPoolManager.SpawnObject(flyTrapPrefab, new Vector3(spawnXPos, yPos), Quaternion.identity, Containers.Instance.Enemies);
+            Transform parent = awayFromKeep ? Containers.Instance.EnvironmentEnemies : Containers.Instance.WaveEnemies;
+            ObjectPoolManager.SpawnObject(flyTrapPrefab, new Vector3(spawnXPos, yPos), Quaternion.identity, parent);
         }
     }
 }

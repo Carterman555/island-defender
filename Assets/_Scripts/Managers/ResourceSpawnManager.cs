@@ -32,7 +32,7 @@ namespace IslandDefender {
             gardenAmount--;
         }
 
-        private float treeY = 2.77f;
+        private float treeY = 1.75f;
         private float plantY = -1.5f;
         private float rockY = -1.45f;
 

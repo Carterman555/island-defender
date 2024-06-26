@@ -77,7 +77,7 @@ namespace IslandDefender.Environment.Building {
 
             shootTimer += Time.deltaTime;
 
-            bool highEnoughLevel = level >= 3;
+            bool highEnoughLevel = level >= 2;
             if (highEnoughLevel && shootTimer > shootCooldown && EnemyInRange(out Vector3 closestEnemyPos)) {
                 shootTimer = 0;
                 Shoot(closestEnemyPos);

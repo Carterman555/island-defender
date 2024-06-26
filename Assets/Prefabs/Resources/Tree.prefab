@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 8206115059866976067}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.72, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 564687239
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ad2340972b0a912499d77fb3556273ee, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 05fe8cd78882dda4285a23483c4491e9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -122,7 +122,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 9.246667, y: 10.62096}
+    oldSize: {x: 8.75, y: 8.75}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -143,9 +143,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3330c25802cfe1e4f809b1e368c75bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 5
   anim: {fileID: 0}
+  hitEffectOffset: {x: 0, y: -2}
   resourceType: 0
   resourceDropAmount:
     MinValue: 2
     MaxValue: 3
-  maxHealth: 5

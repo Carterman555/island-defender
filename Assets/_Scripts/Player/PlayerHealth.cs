@@ -1,8 +1,11 @@
 using IslandDefender.Management;
+using System;
 using UnityEngine;
 
 namespace IslandDefender.Units.Player {
 	public class PlayerHealth : Health {
+
+        public event Action<float> OnHeal;
 
         [SerializeField] private float invincibleDuration;
         private float invincibleTimer;
@@ -47,6 +50,7 @@ namespace IslandDefender.Units.Player {
 
         private void Heal(int n) {
             health = GetMaxHealth();
+            OnHeal?.Invoke(health);
         }
 
         public override void Die() {

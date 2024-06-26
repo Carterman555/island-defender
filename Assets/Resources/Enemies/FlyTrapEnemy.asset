@@ -23,5 +23,6 @@ MonoBehaviour:
   Description: 
   MenuSprite: {fileID: 0}
   enemyType: 4
+  spawnInWave: 0
   startingWave: 4
   strength: 8

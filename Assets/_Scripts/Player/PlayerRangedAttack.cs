@@ -1,3 +1,4 @@
+using IslandDefender.Audio;
 using IslandDefender.Environment;
 using IslandDefender.Management;
 using TarodevController;
@@ -45,6 +46,7 @@ namespace IslandDefender.Units.Player {
         private void TryAttack(AnimationTriggerType animationTriggerType) {
             if (animationTriggerType == AnimationTriggerType.RangedAttack) {
                 Attack();
+                AudioManager.Instance.PlaySound(AudioManager.Instance.SoundClips.RangedAttacks.RandomItem(), 0.5f, 0.25f);
             }
         }
 

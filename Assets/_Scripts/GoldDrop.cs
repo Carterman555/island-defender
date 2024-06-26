@@ -16,6 +16,7 @@ namespace IslandDefender {
             if (collision.gameObject.layer == GameLayers.PlayerLayer) {
                 PlayerResources.Instance.AddResource(Environment.ResourceType.Gold, 1);
                 ObjectPoolManager.ReturnObjectToPool(gameObject);
+                AudioManager.Instance.PlaySound(AudioManager.Instance.SoundClips.GrabGold, 0.3f, 0.25f);
             }
         }
     }

@@ -23,6 +23,7 @@ namespace IslandDefender {
                 Close();
 
                 if (collision.TryGetComponent(out BearTrapBreaker bearTrapBreaker)) {
+                    PlayerBuild.Instance.TryUpdateTakenList(gameObject);
                     ObjectPoolManager.ReturnObjectToPool(gameObject);
                 }
 

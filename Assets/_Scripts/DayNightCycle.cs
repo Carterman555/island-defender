@@ -11,9 +11,6 @@ namespace IslandDefender {
         public static event Action OnDayTime;
         public static event Action OnTurningNightTime;
 
-        [SerializeField] private Volume dayVolume;
-        [SerializeField] private Volume nightVolume;
-
         [SerializeField] private float dayDuration = 80f;
         [SerializeField] private float transitionDuration = 20f;
 
@@ -27,8 +24,6 @@ namespace IslandDefender {
 
         void Start() {
             cycleTimer = 0f;
-            dayVolume.weight = 1f;
-            nightVolume.weight = 0f;
 
             currentStage = CycleStage.Day;
 
@@ -48,7 +43,7 @@ namespace IslandDefender {
                     ChangeSpriteOrdering(nightSpriteRenderers, daySpriteRenderers);
                     SetRenderersFade(nightSpriteRenderers, 1);
 
-                    AudioSystem.Instance.TransitionToNightMusic();
+                    AudioManager.Instance.TransitionToNightMusic();
 
                     OnTurningNightTime?.Invoke();
                 }
@@ -93,7 +88,7 @@ namespace IslandDefender {
             ChangeSpriteOrdering(daySpriteRenderers, nightSpriteRenderers);
             SetRenderersFade(daySpriteRenderers, 1);
 
-            AudioSystem.Instance.TransitionToDayMusic();
+            AudioManager.Instance.TransitionToDayMusic();
         }
 
         private void SetRenderersFade(SpriteRenderer[] spriteRenderers, float fade) {

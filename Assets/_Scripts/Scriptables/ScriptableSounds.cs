@@ -11,14 +11,16 @@ namespace IslandDefender {
         [SerializeField] private AudioClip nightMusic;
         public AudioClip NightMusic => nightMusic;
 
-        [SerializeField] private AudioClip[] steps;
-		public AudioClip[] Steps => steps;
+        [SerializeField] private AudioClip grabGold;
+        public AudioClip GrabGold => grabGold;
 
-        [SerializeField] private AudioClip uiSlide;
-        public AudioClip UISlide => uiSlide;
+        [SerializeField] private AudioClip hitDamage;
+        public AudioClip HitDamage => hitDamage;
 
-        [SerializeField] private AudioClip test;
-        public AudioClip Test => test;
+        [SerializeField] private AudioClip meleeAttack;
+        public AudioClip MeleeAttack => meleeAttack;
 
+        [SerializeField] private AudioClip[] rangedAttacks;
+        public AudioClip[] RangedAttacks => rangedAttacks;
     }
 }

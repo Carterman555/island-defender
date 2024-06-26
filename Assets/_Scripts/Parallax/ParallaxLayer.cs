@@ -5,11 +5,17 @@ public class ParallaxLayer : MonoBehaviour {
 
     private float textureUnitSizeX;
 
+    Vector3 targetPos;
+
     private void Start() {
         Sprite sprite = GetComponentInChildren<SpriteRenderer>().sprite;
         Texture2D texture = sprite.texture;
         textureUnitSizeX = texture.width * transform.lossyScale.x / sprite.pixelsPerUnit;
+
+        targetPos = transform.localPosition;
     }
+
+    [SerializeField] private float speed = 25f;
 
     private void LateUpdate() {
         float cameraXPos = Camera.main.transform.position.x;
@@ -19,10 +25,9 @@ public class ParallaxLayer : MonoBehaviour {
         }
     }
 
-    public void Move(Vector3 delta) {
-        Vector3 newPos = transform.localPosition;
-        newPos -= new Vector3(delta.x * parallaxFactor.x, delta.y * parallaxFactor.y);
 
-        transform.localPosition = newPos;
+    public void Move(Vector3 delta) {
+        targetPos -= new Vector3(delta.x * parallaxFactor.x, delta.y * parallaxFactor.y);
+        transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPos, speed * Time.deltaTime);
     }
 }

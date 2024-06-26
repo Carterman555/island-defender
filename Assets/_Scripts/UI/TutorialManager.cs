@@ -15,6 +15,8 @@ namespace IslandDefender {
 
         private void Start() {
             if (GameManager.Instance.PlayIntroAndTutorial()) {
+                GameManager.Instance.SetPlayIntroAndTutorial(false);
+
                 StartCoroutine(ShowStoryTextThenTutorial());
                 MovePlayerToBeach();
             }
@@ -154,7 +156,6 @@ namespace IslandDefender {
                 float moveDuration = 0.5f;
                 tutorialText.GetComponent<RectTransform>().anchoredPosition = startPos;
                 tutorialText.GetComponent<RectTransform>().DOAnchorPos(showPos, moveDuration).SetEase(Ease.OutSine);
-                //tutorialText.transform.DOMove(showPos, moveDuration).SetEase(Ease.OutSine);
             }
         }
 
@@ -256,13 +257,13 @@ namespace IslandDefender {
         }
 
         private void CheckIfPickedUp(ResourceType type, int amount) {
-            if (type == ResourceType.Stone || type == ResourceType.Fiber) {
+            if (type == ResourceType.Fiber) {
                 pickedUpResource = true;
             }
         }
 
         public override string GetText() {
-            return "Find a plant or\nrock and press <color=yellow>e</color>.";
+            return "Find a plant\nand press <color=yellow>e</color>.";
         }
 
         public override bool IsReady() {
@@ -292,13 +293,13 @@ namespace IslandDefender {
         }
 
         private void CheckIfGatheredWood(ResourceType type, int amount) {
-            if (type == ResourceType.Wood) {
+            if (type == ResourceType.Wood || type == ResourceType.Stone) {
                 gatheredWood = true;
             }
         }
 
         public override string GetText() {
-            return "<color=yellow>Left click</color> to melee attack.\nFind a tree to harvest\nby attacking";
+            return "<color=yellow>Left click</color> to melee attack.\nFind a tree or rock to\nharvest by attacking";
         }
 
         public override bool IsReady() {
@@ -398,7 +399,7 @@ namespace IslandDefender {
         }
 
         public override string GetText() {
-            return "Click the build buttons\nand <color=yellow>Right click</color> to build";
+            return "Hold <color=yellow>Q</color>, then click\r\na build button.\r\n<color=yellow>Right click</color> to build";
         }
 
         public override bool IsReady() {

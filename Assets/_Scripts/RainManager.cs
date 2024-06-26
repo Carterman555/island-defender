@@ -1,3 +1,4 @@
+using IslandDefender.Audio;
 using IslandDefender.Utilities;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace IslandDefender {
             rainDuration.Randomize();
 
             var emission = rainParticles.emission;
-            emission.rateOverDistance = 0;
+            emission.rateOverTime = 0;
         }
 
         private void Update() {
@@ -33,6 +34,8 @@ namespace IslandDefender {
 
 					var emission = rainParticles.emission;
 					emission.rateOverTime = 0;
+
+                    AudioManager.Instance.StopRain();
                 }
 			}
 			else {
@@ -43,8 +46,10 @@ namespace IslandDefender {
 
                     var emission = rainParticles.emission;
                     emission.rateOverTime = rate;
+
+                    AudioManager.Instance.PlayRain();
                 }
-			}
+            }
         }
     }
 }

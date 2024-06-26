@@ -18,25 +18,17 @@ namespace IslandDefender {
         [SerializeField] private Transform leftSpawnPoint;
         [SerializeField] private Transform rightSpawnPoint;
 
-        [SerializeField] private GameObject previewContainer;
-        [SerializeField] private EnemyPreview[] leftSideEnemyPreviews;
-        [SerializeField] private EnemyPreview[] rightSideEnemyPreviews;
-
         private WaveSpawner leftWaveSpawner;
         private WaveSpawner rightWaveSpawner;
 
         [SerializeField] private float[] spawnIntervals;
-        private float currentDifficulty;
+
+        [Range(1f, 2f)]
+        [SerializeField] private float difficultyCurve = 1.6f;
 		private int currentWave = 1;
 
         public int GetCurrentWave() {
             return currentWave;
-        }
-
-        protected override void Awake() {
-            base.Awake();
-			float startingDifficulty = 10;
-            currentDifficulty = startingDifficulty;
         }
 
         private void OnEnable() {
@@ -47,10 +39,6 @@ namespace IslandDefender {
         }
 
         private void Start() {
-
-            //for (int i = 0; i < 6; i++) {
-            //    ContinueNextWave();
-            //}
             SetupCurrentWave();
         }
 
@@ -74,31 +62,27 @@ namespace IslandDefender {
         private void ContinueNextWave() {
             currentWave++;
 
-            float difficultyIncrease = 5;
-            currentDifficulty += difficultyIncrease;
-
             leftWaveSpawner = null;
             rightWaveSpawner = null;
 
             OnNextWave?.Invoke(currentWave);
         }
 
+        private float GetCurrentDifficulty() {
+            float difficulty = Mathf.Pow(currentWave, difficultyCurve) + 4;
+            return difficulty;
+        }
+
         private void SetupCurrentWave() {
-            
-            ShowPreviews();
 
             // setup left side
             leftSideEnemyAmounts = CalculateEnemyAmounts(ChooseEnemyWeights());
-            UpdatePreviews(leftSideEnemyPreviews, leftSideEnemyAmounts);
 
             // setup right side
             rightSideEnemyAmounts = CalculateEnemyAmounts(ChooseEnemyWeights());
-            UpdatePreviews(rightSideEnemyPreviews, rightSideEnemyAmounts);
         }
 
         public void PlayCurrentWave() {
-            HidePreviews();
-
             float currentInterval = spawnIntervals[currentWave - 1];
             leftWaveSpawner = new WaveSpawner(this, leftSideEnemyAmounts, currentInterval, leftSpawnPoint.position, false);
             rightWaveSpawner = new WaveSpawner(this, rightSideEnemyAmounts, currentInterval, rightSpawnPoint.position, true);
@@ -111,7 +95,14 @@ namespace IslandDefender {
 
             Dictionary<EnemyType, float> enemyWeights = new();
             foreach (EnemyType enemyType in Enum.GetValues(typeof(EnemyType))) {
-                int startingWave = ResourceSystem.Instance.GetEnemy(enemyType).StartingWave;
+
+                ScriptableEnemy scriptableEnemy = ResourceSystem.Instance.GetEnemy(enemyType);
+
+                if (!scriptableEnemy.SpawnInWave) {
+                    continue;
+                }
+
+                int startingWave = scriptableEnemy.StartingWave;
                 if (currentWave >= startingWave) {
 
                     int randomWeight = 1;
@@ -124,20 +115,6 @@ namespace IslandDefender {
             return enemyWeights;
         }
 
-        private void UpdatePreviews(EnemyPreview[] enemyPreviews, Dictionary<EnemyType, int> enemyAmounts) {
-            foreach (EnemyPreview preview in enemyPreviews) {
-                preview.UpdateText(enemyAmounts);
-            }
-        }
-
-        private void HidePreviews() {
-            previewContainer.SetActive(false);
-        }
-
-        private void ShowPreviews() {
-            previewContainer.SetActive(true);
-        }
-
         private Dictionary<EnemyType, int> CalculateEnemyAmounts(Dictionary<EnemyType, float> enemyWeights) {
 
             Dictionary<EnemyType, int> enemyAmounts = new();
@@ -145,7 +122,7 @@ namespace IslandDefender {
                 enemyAmounts.Add(enemyType, 0);
             }
 
-            float difficultyValueRemaining = currentDifficulty;
+            float difficultyValueRemaining = GetCurrentDifficulty();
 
             while (difficultyValueRemaining > 0) {
                 EnemyType enemyToSpawn = ChoseRandomEnemy(enemyWeights);
@@ -182,7 +159,7 @@ namespace IslandDefender {
         }
 
         private bool AnyEnemiesAlive() {
-            foreach(Transform enemy in Containers.Instance.Enemies) {
+            foreach(Transform enemy in Containers.Instance.WaveEnemies) {
                 if (enemy.gameObject.activeSelf) {
                     return true;
                 }

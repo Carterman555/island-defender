@@ -27,7 +27,8 @@ namespace IslandDefender {
             float velocityY = initialVelocity * Mathf.Sin(45 * Mathf.Deg2Rad);
 
             // Apply the force to the projectile
-            Vector2 force = new Vector2(velocityX, velocityY) * rb.mass;
+            int direction = transform.position.x > targetPos.x ? -1 : 1;
+            Vector2 force = new Vector2(velocityX * direction, velocityY) * rb.mass;
             rb.AddForce(force, ForceMode2D.Impulse);
         }
 
@@ -43,6 +44,9 @@ namespace IslandDefender {
                     Debug.LogWarning("Could not find damagable component!");
                 }
 
+                ObjectPoolManager.ReturnObjectToPool(gameObject);
+            }
+            if (collision.gameObject.layer == GameLayers.GroundLayer) {
                 ObjectPoolManager.ReturnObjectToPool(gameObject);
             }
         }

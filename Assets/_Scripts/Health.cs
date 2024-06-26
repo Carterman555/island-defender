@@ -1,3 +1,4 @@
+using IslandDefender.Audio;
 using IslandDefender.Management;
 using System;
 using UnityEngine;
@@ -67,16 +68,19 @@ namespace IslandDefender {
             OnKnockbackDamaged?.Invoke(attackerPosition);
         }
 
+        //[SerializeField] private Vector2 hitEffectOffset;
 
         public virtual void Damage(float damage) {
 
             if (dead) {
                 return;
             }
-
+            
             health -= damage;
 
-            HitEffect.Create(transform.position);
+            //HitEffect.Create(transform.position + (Vector3)hitEffectOffset);
+
+            AudioManager.Instance.PlaySound(AudioManager.Instance.SoundClips.HitDamage, 0.2f, 0.25f);
 
             OnDamaged?.Invoke(health);
 

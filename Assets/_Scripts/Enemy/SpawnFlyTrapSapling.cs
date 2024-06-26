@@ -42,7 +42,7 @@ namespace IslandDefender {
 
         private void SpawnSapling(int direction) {
             Vector3 spawnPos = new Vector3(transform.position.x + (spawnDistance.Randomize() * direction), transform.position.y + ySpawnOffset);
-            ObjectPoolManager.SpawnObject(flyTrapSaplingPrefab, spawnPos, Quaternion.identity, Containers.Instance.Enemies);
+            ObjectPoolManager.SpawnObject(flyTrapSaplingPrefab, spawnPos, Quaternion.identity, Containers.Instance.EnvironmentEnemies);
         }
 
         private bool IsSpawnClear(out int direction) {
@@ -56,12 +56,6 @@ namespace IslandDefender {
 
             bool leftClear = leftHit.collider == null;
             bool rightClear = rightHit.collider == null;
-
-            print("Tried spawn: " + leftClear + ", " + rightClear);
-
-            if (!leftClear) {
-                print(leftHit.collider.name);
-            }
 
             if (leftClear && rightClear) {
                 direction = Random.value > 0.5f ? 1 : -1;

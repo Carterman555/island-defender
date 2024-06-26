@@ -31,6 +31,22 @@ namespace IslandDefender {
                 collision.GetComponent<IDamagable>().KnockbackDamage(damage, transform.position);
                 Die();
             }
+            if (collision.gameObject.layer == GameLayers.GroundLayer) {
+                Die();
+            }
+        }
+
+        Vector3 previousPos;
+
+        private void Update() {
+
+            Vector3 delta = transform.position - previousPos;
+
+            float rotateSpeed = 5f;
+            transform.right = Vector3.MoveTowards(transform.right, delta, rotateSpeed * Time.deltaTime);
+
+
+            previousPos = transform.position;
         }
 
         private void Die() {

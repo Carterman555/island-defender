@@ -1,14 +1,16 @@
 using IslandDefender.Environment;
+using IslandDefender.Units.Player;
 using System;
 using TarodevController;
 using UnityEngine;
 
 namespace IslandDefender {
-	public class PlayerPickup : MonoBehaviour {
+	public class PlayerPickup : MonoBehaviour  {
 
 		public static event Action OnPickup;
 
         private PlayerController playerController;
+
         [SerializeField] private PlayerAnimator playerAnimator;
         [SerializeField] private Animator anim;
 
@@ -31,11 +33,14 @@ namespace IslandDefender {
                 IPickupable pickupable = resourceContactTracker.GetContacts()[0].GetComponent<IPickupable>();
                 pickupable.Pickup();
                 OnPickup?.Invoke();
-
-                playerController.EnableMovement();
             }
         }
 
+        // this acts as a safety so the player doesn't stay stuck forever if
+        // somehow the resource cannot be picked up
+        public void StopPickingUp() {
+            playerController.EnableMovement();
+        }
 
         private void Update() {
             if (resourceContactTracker.GetContacts().Count > 0 && Input.GetKeyDown(KeyCode.E)) {

@@ -22,6 +22,7 @@ namespace IslandDefender {
 
         // destroy when hit ground, damage and destroy when hit enemy
         private void OnTriggerEnter2D(Collider2D collision) {
+
             if (allyLayerMask.ContainsLayer(collision.gameObject.layer)) {
                 if (collision.TryGetComponent(out ProjectileImmunity projectileImmunity)) {
                     return;

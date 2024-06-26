@@ -9,12 +9,11 @@ namespace IslandDefender.UI {
 
         public static event Action OnNewBuildingUnlocked;
 
-        [SerializeField] private BuildingButton[] buildingButtons;
+        [SerializeField] private BuildingButton[] buildingButtons = new BuildingButton[6];
 
         private bool showing;
 
         private void Awake() {
-            Keep.OnUpgrade += TryUnlock;
             Keep.OnUpgrade += TryUnlock;
         }
 
@@ -31,7 +30,6 @@ namespace IslandDefender.UI {
         }
 
         private void TryUnlock(int keepLevel) {
-            buildingButtons = GetComponentsInChildren<BuildingButton>(true);
             foreach (var button in buildingButtons) {
                 if (keepLevel >= button.GetLevelToUnlock()) {
 

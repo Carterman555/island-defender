@@ -1,3 +1,4 @@
+using IslandDefender.Audio;
 using System;
 using TarodevController;
 using UnityEngine;
@@ -41,6 +42,7 @@ namespace IslandDefender.Units.Player {
             bool canAttack = attackTimer > playerStats.AttackCooldown && !Helpers.IsMouseOverUI();
             if (canAttack && Input.GetMouseButtonDown(0)) {
                 anim.SetTrigger("meleeAttack");
+                AudioManager.Instance.PlaySound(AudioManager.Instance.SoundClips.MeleeAttack, 0.2f, 0.25f);
                 attackTimer = 0;
             }
         }

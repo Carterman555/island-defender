@@ -1,3 +1,4 @@
+using IslandDefender.Units.Player;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,10 +20,18 @@ namespace IslandDefender {
         private void OnEnable() {
             healthComponent.OnDamaged += UpdateHealth;
             healthComponent.OnDeath += Hide;
+
+            if (healthComponent is PlayerHealth playerHealth) {
+                playerHealth.OnHeal += UpdateHealth;
+            }
         }
         private void OnDisable() {
             healthComponent.OnDamaged -= UpdateHealth;
             healthComponent.OnDeath -= Hide;
+
+            if (healthComponent is PlayerHealth playerHealth) {
+                playerHealth.OnHeal -= UpdateHealth;
+            }
         }
 
         private void Hide() {

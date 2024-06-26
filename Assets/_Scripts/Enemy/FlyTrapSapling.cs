@@ -25,7 +25,7 @@ namespace IslandDefender {
 
                 GameObject flyTrapPrefab = ResourceSystem.Instance.GetEnemy(EnemyType.FlyTrap).Prefab;
                 Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y + ySpawnOffset);
-                ObjectPoolManager.SpawnObject(flyTrapPrefab, spawnPos, Quaternion.identity, Containers.Instance.Enemies);
+                ObjectPoolManager.SpawnObject(flyTrapPrefab, spawnPos, Quaternion.identity, Containers.Instance.EnvironmentEnemies);
 
                 Die();
             }

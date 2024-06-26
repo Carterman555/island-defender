@@ -1,7 +1,5 @@
 using DG.Tweening;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace IslandDefender.Audio {
     public class AudioSystem : Singleton<AudioSystem> {
@@ -12,9 +10,8 @@ namespace IslandDefender.Audio {
         [SerializeField] private ScriptableSounds soundClips;
         public static ScriptableSounds SoundClips => Instance.soundClips;
 
-        private float musicVolume = 0.5f;
-
-        private float sfxVolume = 0.5f;
+        private float musicVolume = 0.1f;
+        private float sfxVolume = 0.3f;
 
         #region Get Methods
 
@@ -39,11 +36,6 @@ namespace IslandDefender.Audio {
             sfxVolume = volume;
         }
 
-        public void SetWalking(bool walking) {
-            this.walking = walking;
-            stepTimer = float.MaxValue; // to play walk sound right when start walking
-        }
-
         #endregion
 
         private void Start() {
@@ -51,26 +43,31 @@ namespace IslandDefender.Audio {
             musicSource.Play();
         }
 
-        private void OnEnable() {
-            SceneManager.sceneLoaded += StopWalkingSound;
-        }
-
-        private void OnDisable() {
-            SceneManager.sceneLoaded -= StopWalkingSound;
-        }
-
-        private void StopWalkingSound(Scene arg0, LoadSceneMode arg1) {
-            SetWalking(false);
-        }
-
-        private void Update() {
-            HandleStepAudio();
-        }
-
         public void PlaySound(AudioClip clip, float vol = 1, float pitchRandomize = 0) {
             sfxSource.pitch = Random.Range(1f - pitchRandomize, 1f + pitchRandomize);
 
             sfxSource.PlayOneShot(clip, sfxVolume * vol);
+        }
+
+        [SerializeField] private AudioSource rainSource;
+        private float rainVolume = 0.2f;
+
+        public void PlayRain() {
+            rainSource.Play();
+            rainSource.volume = 0;
+
+            float duration = 2f;
+            rainSource.DOFade(rainVolume, duration);
+        }
+
+        public void StopRain() {
+
+            rainSource.volume = rainVolume;
+
+            float duration = 2f;
+            rainSource.DOFade(0, duration).OnComplete(() => {
+                rainSource.Stop();
+            });
         }
 
         public void TransitionToDayMusic() {
@@ -89,24 +86,5 @@ namespace IslandDefender.Audio {
                 musicSource.DOFade(GetMusicVolume(), duration).SetEase(Ease.Linear);
             });
         }
-
-
-        #region Walking Sound Effect
-
-        private bool walking;
-        private float stepTimer;
-
-        private void HandleStepAudio() {
-            if (walking) {
-                float stepFrequency = 0.15f;
-                stepTimer += Time.deltaTime;
-                if (stepTimer > stepFrequency) {
-                    stepTimer = 0;
-                    PlaySound(soundClips.Steps.RandomItem(), 0);
-                }
-            }
-        }
-
-        #endregion
     }
 }

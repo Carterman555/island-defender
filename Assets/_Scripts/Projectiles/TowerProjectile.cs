@@ -10,6 +10,7 @@ namespace IslandDefender {
         private Vector2 directionToEnemy;
 
         public void Shoot(Vector2 targetPos, float damage) {
+            this.damage = damage;
             directionToEnemy = (targetPos - (Vector2)transform.position).normalized;
             transform.right = directionToEnemy;
         }

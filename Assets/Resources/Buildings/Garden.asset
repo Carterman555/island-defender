@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Garden
   m_EditorClassIdentifier: 
   buildingType: 5
-  keepLevelToUnlock: 7
+  keepLevelToUnlock: 4
   prefab: {fileID: 6296064580323104915, guid: 776f89dbc94be1d4c852e581a08bb48a, type: 3}
   placeVisualPrefab: {fileID: 6296064580323104915, guid: 099c87a107a977c47985227b57ba8cab, type: 3}
   woodCost: 5

@@ -10,12 +10,12 @@ namespace IslandDefender {
 	public class EffectsManager : StaticInstance<EffectsManager> {
 
 		[Header("Resource Effect")]
-		[SerializeField] private SpriteRenderer effectResourcePrefab;
+		[SerializeField] private Animator effectResourcePrefab;
 
-		[SerializeField] private Sprite woodSprite;
-		[SerializeField] private Sprite fiberSprite;
-		[SerializeField] private Sprite stoneSprite;
-		[SerializeField] private Sprite coinSprite;
+		[SerializeField] private AnimatorOverrideController woodOverride;
+		[SerializeField] private AnimatorOverrideController fiberOverride;
+		[SerializeField] private AnimatorOverrideController stoneOverride;
+		[SerializeField] private AnimatorOverrideController coinOverride;
 
 		[Header("Keep Effect")]
 		[SerializeField] private TextMeshPro textEffect;
@@ -41,23 +41,20 @@ namespace IslandDefender {
 
         public void CreateResourceEffect(ResourceType resourceType, Vector2 position) {
 
-			Sprite sprite = woodSprite;
-			if (resourceType == ResourceType.Wood) sprite = woodSprite;
-			if (resourceType == ResourceType.Fiber) sprite = fiberSprite;
-			if (resourceType == ResourceType.Stone) sprite = stoneSprite;
-			if (resourceType == ResourceType.Gold) sprite = coinSprite;
+            AnimatorOverrideController controller = woodOverride;
+			if (resourceType == ResourceType.Wood) controller = woodOverride;
+			if (resourceType == ResourceType.Fiber) controller = fiberOverride;
+			if (resourceType == ResourceType.Stone) controller = stoneOverride;
+			if (resourceType == ResourceType.Gold) controller = coinOverride;
 
-			SpriteRenderer newEffect = ObjectPoolManager.SpawnObject(effectResourcePrefab, position, Quaternion.identity, PlayerResources.Instance.transform);
-            newEffect.sprite = sprite;
-			newEffect.Fade(1);
+			Animator newEffect = ObjectPoolManager.SpawnObject(effectResourcePrefab, position, Quaternion.identity, PlayerResources.Instance.transform);
+            newEffect.runtimeAnimatorController = controller;
 
             float moveDistance = 2f;
-			float duration = 1f;
-			newEffect.transform.DOBlendableLocalMoveBy(new Vector3(0, moveDistance), duration);
-
-			newEffect.DOFade(0, duration).SetEase(Ease.InSine).OnComplete(() => {
-				ObjectPoolManager.ReturnObjectToPool(newEffect.gameObject);
-			});
+			float duration = 0.5f;
+			newEffect.transform.DOBlendableLocalMoveBy(new Vector3(0, moveDistance), duration).SetEase(Ease.InSine).OnComplete(() => {
+                ObjectPoolManager.ReturnObjectToPool(newEffect.gameObject);
+            });
         }
 
         #endregion
@@ -81,7 +78,7 @@ namespace IslandDefender {
         }
 
         private void NewBuildingEffect() {
-            Vector3 offset = new Vector3(0, 3f);
+            Vector3 offset = new Vector3(0, 2.7f);
             Vector3 position = FindObjectOfType<Keep>().transform.position + offset;
             TextMeshPro newEffect = ObjectPoolManager.SpawnObject(textEffect, position, Quaternion.identity, Containers.Instance.Effects);
 

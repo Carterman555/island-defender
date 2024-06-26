@@ -106,17 +106,11 @@ namespace IslandDefender {
         }
 
         private void SpawnEnemy(EnemyType enemyType) {
-
-            if (enemyType == EnemyType.FlyTrap) {
-                RoamingEnemyManager.Instance.SpawnFlyTrapInWave();
-                return;
-            }
-
             GameObject prefab = ResourceSystem.Instance.GetEnemy(enemyType).Prefab;
 
             float posVariance = 20f;
             Vector2 newSpawnPos = new Vector2(spawnPos.x + UnityEngine.Random.Range(-posVariance, posVariance), spawnPos.y);
-            ObjectPoolManager.SpawnObject(prefab, newSpawnPos, Quaternion.identity, Containers.Instance.Enemies);
+            ObjectPoolManager.SpawnObject(prefab, newSpawnPos, Quaternion.identity, Containers.Instance.WaveEnemies);
         }
 
         private float GetSpawnInterval() {

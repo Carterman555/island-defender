@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dayMusic: {fileID: 8300000, guid: f3f23cc86890182408d796fcc51420e4, type: 3}
   nightMusic: {fileID: 8300000, guid: 3dd37857bc51e614dac925bea90e5c5c, type: 3}
-  steps: []
-  uiSlide: {fileID: 0}
-  test: {fileID: 0}
+  grabGold: {fileID: 8300000, guid: aa244e72286f9034c821141fc4afe739, type: 3}
+  hitDamage: {fileID: 8300000, guid: fc3740f51fec3e145bbaab0d11d96041, type: 3}
+  meleeAttack: {fileID: 8300000, guid: e1b3766c4e4a20b43a38a0d951b76fdb, type: 3}
+  rangedAttacks:
+  - {fileID: 8300000, guid: 6a9a86c2348705a408ed9a60da9becad, type: 3}
+  - {fileID: 8300000, guid: 75c7bdecf808421458260d1468494828, type: 3}

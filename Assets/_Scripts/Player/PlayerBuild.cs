@@ -28,6 +28,9 @@ namespace IslandDefender {
         protected override void Awake() {
             base.Awake();
             playerController = GetComponent<PlayerController>();
+
+            // because keep is on 0
+            takenXPositions.Add(0);
         }
 
         private void OnEnable() {
@@ -37,8 +40,8 @@ namespace IslandDefender {
             Health.OnAnyDespawn -= TryUpdateTakenList;
         }
 
-        private void TryUpdateTakenList(GameObject objectDestroyed) {
-            if (objectDestroyed.layer == GameLayers.BuildingLayer) {
+        public void TryUpdateTakenList(GameObject objectDestroyed) {
+            if (objectDestroyed.tag.Equals("Building")) {
 
                 int buildingXPos = Mathf.RoundToInt(objectDestroyed.transform.position.x);
                 if (takenXPositions.Contains(buildingXPos)) {
@@ -51,12 +54,6 @@ namespace IslandDefender {
         }
 
         private void Update() {
-            if (Input.GetKeyDown(KeyCode.Q)) {
-                if (BuildingVisualActive) {
-                    HidePlaceVisual();
-                }
-            }
-
             if (BuildingVisualActive && CanAffordBuilding(buildingPlacing.BuildingType)) {
 
                 UpdateVisualPosition();
@@ -87,6 +84,10 @@ namespace IslandDefender {
         }
 
         public void ShowPlaceVisual(BuildingType buildingType) {
+
+            if (building) {
+                return;
+            }
 
             // hide previous visual if placing
             if (BuildingVisualActive) {
@@ -183,7 +184,7 @@ namespace IslandDefender {
             PlayerResources.Instance.RemoveResource(ResourceType.Wood, scriptableBuilding.WoodCost);
             PlayerResources.Instance.RemoveResource(ResourceType.Fiber, scriptableBuilding.FiberCost);
             PlayerResources.Instance.RemoveResource(ResourceType.Stone, scriptableBuilding.StoneCost);
-            PlayerResources.Instance.RemoveResource(ResourceType.Gold, scriptableBuilding.StoneCost);
+            PlayerResources.Instance.RemoveResource(ResourceType.Gold, scriptableBuilding.GoldCost);
         }
     }
 }
